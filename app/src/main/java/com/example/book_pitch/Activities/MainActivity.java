@@ -1,8 +1,10 @@
-package com.example.book_pitch;
+package com.example.book_pitch.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.book_pitch.R;
 
 public class MainActivity extends AppCompatActivity {
 
