@@ -7,7 +7,14 @@
   4. Connect DB - 1-2 tuần
   5. Kiểm tra và sửa đổi
 
-# Mọi create branch và mọi commit phải gán mã ticket Jira vào đầu. Cách đơn giản nhất là vào trang jira của nhóm, chọn task nào làm thì bấm vào nó sẽ hiện ra 1 dialog bên phải có phần create branch, rồi bấm vào thì chọn phần base from là từ thằng cha nó là nhánh dev với feature chọn từ epic
+# Color chủ đạo
+- darkGreen: #198754;
+- lightGreen: #85C240;
+- yellow: #F0803C;
+- white: white;
+- black: black;
+ 
+### Mọi create branch và mọi commit phải gán mã ticket Jira vào đầu. Cách đơn giản nhất là vào trang jira của nhóm, chọn task nào làm thì bấm vào nó sẽ hiện ra 1 dialog bên phải có phần create branch, rồi bấm vào thì chọn phần base from là từ thằng cha nó là nhánh dev với feature chọn từ epic
 
 
 ## Design tham khảo
