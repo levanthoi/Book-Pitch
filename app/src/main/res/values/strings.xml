@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Book-Pitch</string>
+    <string name="popular_stadium">Sân bóng nổi bật</string>
+    <string name="near_stadium">Sân bóng gần bạn</string>
+    <string name="see_all">Xem tất cả</string>
+    <string name="see_more">Xem thêm</string>
 </resources>
