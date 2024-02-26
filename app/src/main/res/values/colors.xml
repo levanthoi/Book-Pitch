@@ -7,4 +7,7 @@
     <color name="yellow">#F0803C</color>
     <color name="green">#6D7D77</color>
     <color name="gray">#F1F3F4</color>
+    <color name="green100">#C9E8CB</color>
+    <color name="bg_green_text">#EEF9F5</color>
+    <color name="greenText">#6FA798</color>
 </resources>
