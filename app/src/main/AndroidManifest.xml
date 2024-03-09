@@ -56,6 +56,13 @@
         <activity
             android:name=".Activities.MessageItemActivity"
             android:exported="false" />
+            <!-- Đặt sân -->
+        <activity
+            android:name=".Activities.PaymentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.PaymentSuccessActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
