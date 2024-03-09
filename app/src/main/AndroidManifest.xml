@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,11 +17,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BookPitch"
         tools:targetApi="31">
+        <activity
+            android:name=".Activities.NotificationActivity"
+            android:exported="false" />
         <!-- Intro -->
         <activity
             android:name=".Activities.SplashScreenActivity"
-            android:theme="@style/Theme.App.Starting"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,18 +54,16 @@
             android:exported="false" />
         <activity
             android:name=".Activities.LoginPhoneNumberActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".Activities.MainActivity"
-            android:exported="false" />
-            <!-- Message -->
+            android:exported="false" /> <!-- Message -->
         <activity
             android:name=".Activities.GroupMessageActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.MessageItemActivity"
-            android:exported="false" />
-            <!-- Đặt sân -->
+            android:exported="false" /> <!-- Đặt sân -->
         <activity
             android:name=".Activities.DetailPitchActivity"
             android:exported="false" />
