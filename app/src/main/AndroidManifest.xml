@@ -13,6 +13,12 @@
         android:theme="@style/Theme.BookPitch"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.PaymentSuccessActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.PaymentActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.BookedAndHistoryActivity"
             android:exported="false" />
         <activity
