@@ -49,6 +49,13 @@
         <activity
             android:name=".Activities.MainActivity"
             android:exported="false" />
+            <!-- Message -->
+        <activity
+            android:name=".Activities.GroupMessageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.MessageItemActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
