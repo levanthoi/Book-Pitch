@@ -79,7 +79,7 @@
                         android:background="@color/white">
                         <TextView
                             android:layout_width="16dp"
-                            android:layout_height="16dp"
+                            android:layout_height="match_parent"
                             android:text=" $"
                             android:textColor="@color/darkGreen"
                             android:textStyle="bold"/>
