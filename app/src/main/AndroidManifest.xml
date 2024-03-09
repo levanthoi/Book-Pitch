@@ -23,6 +23,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".Activities.WelcomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.BookedAndHistoryActivity"
             android:exported="false" />
         <activity

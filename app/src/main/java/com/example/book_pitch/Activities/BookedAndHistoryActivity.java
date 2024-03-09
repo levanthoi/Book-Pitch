@@ -1,14 +1,11 @@
 package com.example.book_pitch.Activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager2.widget.ViewPager2;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import android.os.Bundle;
 
-import com.example.book_pitch.Adapters.ViewPagerAdapter;
+import com.example.book_pitch.Adapters.TabViewBookedAdapter;
 import com.example.book_pitch.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -16,7 +13,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 public class BookedAndHistoryActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private ViewPager2 mViewPager;
-    private ViewPagerAdapter viewPagerAdapter;
+    private TabViewBookedAdapter tabViewBookedAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,9 +21,9 @@ public class BookedAndHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_booked_and_history);
         mTabLayout = findViewById(R.id.tab_layout);
         mViewPager = findViewById(R.id.view_pager);
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this);
+        TabViewBookedAdapter tabViewBookedAdapter = new TabViewBookedAdapter(this);
 
-        mViewPager.setAdapter(viewPagerAdapter);
+        mViewPager.setAdapter(tabViewBookedAdapter);
         new TabLayoutMediator(mTabLayout, mViewPager, (tab, position) -> {
             switch(position){
                 case 0:

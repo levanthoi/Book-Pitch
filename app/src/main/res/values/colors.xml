@@ -11,4 +11,9 @@
     <color name="green100">#C9E8CB</color>
     <color name="bg_green_text">#EEF9F5</color>
     <color name="greenText">#6FA798</color>
+    <color name="transparent">#00FFFFFF</color>
+
+    <!-- dots colors -->
+    <color name="dot_active">#198754</color>
+    <color name="dot_inactive">#494949</color>
 </resources>
