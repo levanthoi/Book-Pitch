@@ -8,4 +8,20 @@
     <string name="near_stadium">Sân bóng gần bạn</string>
     <string name="see_all">Xem tất cả</string>
     <string name="see_more">Xem thêm</string>
+
+    <string name="next">Tiếp theo</string>
+    <string name="skip">Bỏ qua</string>
+    <string name="start">Bắt đầu</string>
+
+    <string name="slide_1_title">Dễ dàng đặt sân</string>
+    <string name="slide_1_desc">Ứng dụng mang đến cho người dùng trải nghiệm dễ dàng nhất khi đặt sân !</string>
+
+    <string name="slide_2_title">Dễ dàng tìm kiếm</string>
+    <string name="slide_2_desc">Ứng dụng cho phép người dùng tìm kiếm các sân bóng gần nhất !</string>
+
+    <string name="slide_3_title">Lựa chọn tốt nhất</string>
+    <string name="slide_3_desc">Ứng dụng là lựa chọn tốt nhất mang đến cho người dùng trải nghiệm tốt nhất !</string>
+    <string name="time">Từ 17h-19h ạ</string>
+    <string name="stk">100k STK : 666666666 MB Bank</string>
+    <string name="time1">12:03</string>
 </resources>
