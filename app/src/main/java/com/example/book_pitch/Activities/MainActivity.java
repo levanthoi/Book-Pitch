@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         recyclerPopular = findViewById(R.id.rclPopular);
-//        rclNearMe = findViewById(R.id.rclNearMe);
+        rclNearMe = findViewById(R.id.rclNearMe);
         stadiums = new ArrayList<>();
         for(int i=1;i<10;i++){
             stadiums.add(new Stadium(i, "San bong "+i, "06:00", "18:00", "4,5", "0339083266", new Location(i,"Ha Noi "+ i)));

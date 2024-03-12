@@ -2,16 +2,32 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BookPitch"
         tools:targetApi="31">
+        <!-- Intro -->
+        <activity
+            android:name=".Activities.SplashScreenActivity"
+            android:theme="@style/Theme.App.Starting"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activities.WelcomeActivity"
+            android:exported="false" />
         <activity
             android:name=".Activities.BookedAndHistoryActivity"
             android:exported="false" />
@@ -32,15 +48,26 @@
             android:exported="false" />
         <activity
             android:name=".Activities.LoginPhoneNumberActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false"/>
         <activity
             android:name=".Activities.MainActivity"
+            android:exported="false" />
+            <!-- Message -->
+        <activity
+            android:name=".Activities.GroupMessageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.MessageItemActivity"
+            android:exported="false" />
+            <!-- Đặt sân -->
+        <activity
+            android:name=".Activities.DetailPitchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.PaymentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.PaymentSuccessActivity"
             android:exported="false" />
     </application>
 

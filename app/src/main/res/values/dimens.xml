@@ -8,4 +8,13 @@
     <dimen name="text_sm">14sp</dimen>
     <dimen name="text_xs">12sp</dimen>
     <dimen name="text_tiny">10sp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="dots_height">30dp</dimen>
+    <dimen name="dots_margin_bottom">20dp</dimen>
+    <dimen name="slide_title">30dp</dimen>
+    <dimen name="slide_desc">18dp</dimen>
+    <dimen name="desc_padding">40dp</dimen>
+    <dimen name="img_height">400dp</dimen>
 </resources>

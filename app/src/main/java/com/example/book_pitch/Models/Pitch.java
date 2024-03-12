@@ -18,6 +18,12 @@ public class Pitch {
 //    private Upfront upfront;
     private List<Price> prices;
 
+    public Pitch(int id, String label, int pitch_size) {
+        this.id = id;
+        this.label = label;
+        this.pitch_size = pitch_size;
+    }
+
     public int getId() {
         return id;
     }
