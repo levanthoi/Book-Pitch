@@ -29,7 +29,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="220dp">
+                android:layout_height="wrap_content"
+                android:paddingBottom="30dp">
 
                 <!-- RelativeLayout chứa ảnh -->
                 <RelativeLayout
@@ -75,13 +76,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
-
-                        <TextView
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Nguyễn Hoài Nam"
-                            android:textSize="20dp"
-                            android:textStyle="bold" />
+                            android:orientation="horizontal"
+                            android:gravity="center">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Nguyễn Hoài Nam"
+                                android:textSize="20dp"
+                                android:textStyle="bold" />
+                            <TextView
+                                android:id="@+id/editProfileBtn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/baseline_navigate_next"
+                                android:gravity="right"
+                                android:layout_marginRight="10dp"/>
+                        </LinearLayout>
+
 
                         <View
                             android:layout_width="match_parent"
@@ -106,14 +121,6 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="5dp" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="70dp"
-                            android:backgroundTint="@color/darkGreen"
-                            android:text="Chỉnh sửa trang cá nhân"
-                            android:textSize="20dp"
-                            app:cornerRadius="10dp" />
 
                     </LinearLayout>
                 </RelativeLayout>

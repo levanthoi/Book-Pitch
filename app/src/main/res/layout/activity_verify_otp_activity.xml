@@ -58,14 +58,34 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp" />
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:alpha="0.7"
-                android:gravity="center"
-                android:text="Nhập mã OTP gửi tới "
-                android:textSize="16dp"/>
+                android:orientation="horizontal"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.7"
+                    android:text="Nhập mã OTP gửi tới "
+                    android:textSize="16dp"/>
+                <TextView
+                    android:id="@+id/tvPhoneNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.7"
+                    android:textSize="16dp"/>
+            </LinearLayout>
 
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="20dp" />
+
+            <ProgressBar
+                android:id="@+id/progressbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true" />
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="20dp" />
@@ -78,8 +98,8 @@
 
                 <EditText
                     android:id="@+id/inputCode1"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginRight="10dp"
                     android:alpha="0.4"
                     android:background="@drawable/border_edittext"
@@ -93,8 +113,8 @@
 
                 <EditText
                     android:id="@+id/inputCode2"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginRight="10dp"
                     android:alpha="0.4"
                     android:background="@drawable/border_edittext"
@@ -108,8 +128,8 @@
 
                 <EditText
                     android:id="@+id/inputCode3"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginRight="10dp"
                     android:alpha="0.4"
                     android:background="@drawable/border_edittext"
@@ -123,8 +143,8 @@
 
                 <EditText
                     android:id="@+id/inputCode4"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginRight="10dp"
                     android:alpha="0.4"
                     android:background="@drawable/border_edittext"
@@ -138,8 +158,8 @@
 
                 <EditText
                     android:id="@+id/inputCode5"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginRight="10dp"
                     android:alpha="0.4"
                     android:background="@drawable/border_edittext"
@@ -152,8 +172,8 @@
 
                 <EditText
                     android:id="@+id/inputCode6"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:alpha="0.4"
                     android:background="@drawable/border_edittext"
                     android:gravity="center"
@@ -171,6 +191,7 @@
                 android:layout_height="20dp" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/sendOtpBtn"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:backgroundTint="@color/darkGreen"
@@ -198,7 +219,7 @@
                     android:textSize="16dp"/>
 
                 <TextView
-                    android:id="@+id/register"
+                    android:id="@+id/reSendOtpBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=" Gửi lại"
