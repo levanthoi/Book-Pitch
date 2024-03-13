@@ -1,7 +1,7 @@
 package com.example.book_pitch.Activities;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -21,7 +21,7 @@ import com.example.book_pitch.Adapters.IntroViewAdapter;
 import com.example.book_pitch.R;
 import com.example.book_pitch.Utils.PrefManager;
 
-public class WelcomeActivity extends AppCompatActivity {
+public class  WelcomeActivity extends Activity {
 
     private ViewPager2 mViewPager;
     private IntroViewAdapter mPagerAdapter;
@@ -33,7 +33,7 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_welcome);
 //        if (!PrefManager.getInstance(this).isFirstTimeLaunch()) {
 //            launchHomeScreen();
 //        }
@@ -43,8 +43,6 @@ public class WelcomeActivity extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
 
-        setContentView(R.layout.activity_welcome);
-
         mViewPager = findViewById(R.id.view_pager);
         mDotsLayout = findViewById(R.id.layoutDots);
         mBtnSkip = findViewById(R.id.btn_skip);
@@ -53,7 +51,6 @@ public class WelcomeActivity extends AppCompatActivity {
         // Layouts of all welcome slides
         mLayouts = new int[]{R.layout.activity_welcome_slide1, R.layout.activity_welcome_slide2, R.layout.activity_welcome_slide3};
         addBottomDots(0);
-        changeStatusBarColor();
 
         mPagerAdapter = new IntroViewAdapter(mLayouts);
         mViewPager.setAdapter(mPagerAdapter);
@@ -109,15 +106,6 @@ public class WelcomeActivity extends AppCompatActivity {
             dot.setTextSize(35);
             dot.setTextColor(i == currentPage ? colorActive : colorInactive);
             mDotsLayout.addView(dot);
-        }
-    }
-
-
-    private void changeStatusBarColor() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.TRANSPARENT);
         }
     }
 

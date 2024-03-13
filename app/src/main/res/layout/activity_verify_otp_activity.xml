@@ -98,8 +98,8 @@
 
                 <EditText
                     android:id="@+id/inputCode1"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginRight="10dp"
                     android:alpha="0.4"
                     android:background="@drawable/border_edittext"
@@ -113,8 +113,8 @@
 
                 <EditText
                     android:id="@+id/inputCode2"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginRight="10dp"
                     android:alpha="0.4"
                     android:background="@drawable/border_edittext"
@@ -128,8 +128,8 @@
 
                 <EditText
                     android:id="@+id/inputCode3"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginRight="10dp"
                     android:alpha="0.4"
                     android:background="@drawable/border_edittext"
@@ -143,8 +143,8 @@
 
                 <EditText
                     android:id="@+id/inputCode4"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginRight="10dp"
                     android:alpha="0.4"
                     android:background="@drawable/border_edittext"
@@ -158,8 +158,8 @@
 
                 <EditText
                     android:id="@+id/inputCode5"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginRight="10dp"
                     android:alpha="0.4"
                     android:background="@drawable/border_edittext"
@@ -172,8 +172,8 @@
 
                 <EditText
                     android:id="@+id/inputCode6"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:alpha="0.4"
                     android:background="@drawable/border_edittext"
                     android:gravity="center"
