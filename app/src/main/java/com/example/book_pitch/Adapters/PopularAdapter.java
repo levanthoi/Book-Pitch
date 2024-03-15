@@ -17,6 +17,8 @@ import com.example.book_pitch.databinding.PopularViewBinding;
 import java.util.ArrayList;
 
 public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHolder> {
+
+
     private ArrayList<Stadium> stadiums;
     private Context ctx;
     public PopularAdapter(ArrayList<Stadium> stadiums) {
