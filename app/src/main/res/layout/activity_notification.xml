@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:fontFamily="sans-serif-medium"
         android:text="Thông báo"
         android:textColor="@color/black"
@@ -21,37 +21,430 @@
 
     <View
         android:id="@+id/view"
-        android:layout_width="40dp"
-        android:layout_height="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
         android:layout_below="@id/textView9"
         android:layout_alignStart="@+id/textView9"
         android:background="@color/gray"
         android:backgroundTint="@color/gray" />
 
-    <androidx.appcompat.widget.SearchView
-        android:layout_width="match_parent"
+
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
         android:layout_below="@id/view"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="-45dp"
+        android:backgroundTint="@color/black"
+        android:text="Tất cả"
+        android:textColor="@color/white" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="-47dp"
+        android:layout_marginEnd="138dp"
+        android:backgroundTint="@color/white"
+        android:text="Dành cho bạn"
+        android:textColor="@color/black" />
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchview1"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="15dp"
         android:background="@color/gray"
         android:backgroundTint="@color/white"
         app:iconifiedByDefault="false"
-        app:queryHint="Search"
         app:queryBackground="@android:color/transparent"
-        android:id="@+id/searchview1">
+        app:queryHint="Search">
+
     </androidx.appcompat.widget.SearchView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_blogs"
-        android:layout_width="374dp"
-        android:layout_height="636dp"
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="1dp"
         android:layout_below="@id/searchview1"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="-4dp"
-        android:layout_marginEnd="14dp"
-        android:layout_marginBottom="14dp"
-        tools:listitem="@layout/row1" />
+        android:fontFamily="sans-serif-medium"
+        android:text="Mới"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/card"
+        android:layout_below="@id/textView2"
+        android:layout_margin="15dp"
+        app:cardCornerRadius="10dp">
+
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="130dp"
+            android:layout_height="70dp"
+            android:scaleType="centerCrop"
+            tools:srcCompat="@drawable/anhtt" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <LinearLayout
+        android:id="@+id/layout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/card"
+        android:layout_alignBottom="@+id/card"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toEndOf="@+id/card"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:layout_marginBottom="0dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Các sân còn trống! Bạn có thể tham khảo?"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="15 phút trước"
+            android:textColor="@color/red"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="..."
+        android:layout_alignTop="@+id/layout1"
+        android:layout_alignBottom="@+id/layout1"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        android:textSize="18dp"
+        android:textColor="@color/black"
+        android:fontFamily="sans-serif-medium"
+    />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/card"
+        android:id="@+id/card1"
+        android:layout_margin="15dp"
+        app:cardCornerRadius="15dp">
+
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="130dp"
+            android:layout_height="70dp"
+            android:scaleType="centerCrop"
+            tools:srcCompat="@drawable/anhsv" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout2"
+        android:layout_alignTop="@+id/card1"
+        android:layout_alignBottom="@+id/card1"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toEndOf="@+id/card"
+        android:orientation="vertical">
+
+
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Giải bóng đá phong trào sinh viên toàn quốc"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="1 giờ trước"
+            android:textColor="@color/red"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="..."
+        android:layout_alignTop="@+id/layout2"
+        android:layout_alignBottom="@+id/layout2"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        android:textSize="18dp"
+        android:textColor="@color/black"
+        android:fontFamily="sans-serif-medium"
+        />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="1dp"
+        android:layout_below="@id/card1"
+        android:fontFamily="sans-serif-medium"
+        android:text="Trước đó"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView3"
+        android:id="@+id/card2"
+        android:layout_margin="15dp"
+        app:cardCornerRadius="15dp">
+
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="130dp"
+            android:layout_height="70dp"
+            android:scaleType="centerCrop"
+            tools:srcCompat="@drawable/anhtruong" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout3"
+        android:layout_alignTop="@+id/card2"
+        android:layout_alignBottom="@+id/card2"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toEndOf="@+id/card"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Những thông tin bên lề sân cỏ có thể bạn quan tâm?"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="2 giờ trước"
+            android:textColor="@color/red"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="..."
+        android:layout_alignTop="@+id/layout3"
+        android:layout_alignBottom="@+id/layout3"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        android:textSize="18dp"
+        android:textColor="@color/black"
+        android:fontFamily="sans-serif-medium"
+        />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/card2"
+        android:id="@+id/card3"
+        android:layout_margin="15dp"
+        app:cardCornerRadius="15dp">
+
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="130dp"
+            android:layout_height="70dp"
+            android:scaleType="centerCrop"
+            tools:srcCompat="@drawable/anhbd" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout4"
+        android:layout_alignTop="@+id/card3"
+        android:layout_alignBottom="@+id/card3"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toEndOf="@+id/card"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Những điều sẽ giúp bạn đặt sân dễ dàng hơn"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="3 giờ trước"
+            android:textColor="@color/red"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="..."
+        android:layout_alignTop="@+id/layout4"
+        android:layout_alignBottom="@+id/layout4"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        android:textSize="18dp"
+        android:textColor="@color/black"
+        android:fontFamily="sans-serif-medium"
+        />
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/card3"
+        android:id="@+id/card4"
+        android:layout_margin="15dp"
+        app:cardCornerRadius="15dp">
+
+
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="130dp"
+            android:layout_height="70dp"
+            android:scaleType="centerCrop"
+            tools:srcCompat="@drawable/anhtrecon" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout5"
+        android:layout_alignTop="@+id/card4"
+        android:layout_alignBottom="@+id/card4"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toEndOf="@+id/card"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Tiếp sức cùng con trong ngày hội bóng đá"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="7 giờ trước"
+            android:textColor="@color/red"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="..."
+        android:layout_alignTop="@+id/layout5"
+        android:layout_alignBottom="@+id/layout5"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        android:textSize="18dp"
+        android:textColor="@color/black"
+        android:fontFamily="sans-serif-medium"
+        />
 </RelativeLayout>
