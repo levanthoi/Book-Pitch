@@ -35,17 +35,19 @@ public class LabelPitchAdapter extends RecyclerView.Adapter<LabelPitchAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Pitch pitch = pitches.get(position);
         holder.textView.setText(pitch.getLabel());
-
+        holder.itemView.setSelected(selectedItem == position);
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectedItem = holder.getAdapterPosition();
                 notifyDataSetChanged();
+//                holder.cardView.setBackgroundResource(R.drawable.border_cardview);
             }
         });
 
         if(selectedItem == position){
             holder.cardView.setBackgroundColor(Color.parseColor("#85C240"));
+            holder.cardView.setBackgroundResource(R.drawable.border_cardview);
             holder.textView.setTextColor(Color.WHITE);
         }else{
             holder.cardView.setBackgroundColor(Color.WHITE);
@@ -66,6 +68,12 @@ public class LabelPitchAdapter extends RecyclerView.Adapter<LabelPitchAdapter.Vi
 
             textView = itemView.findViewById(R.id.position_pitch);
             cardView = itemView.findViewById(R.id.card_label_pitch);
+
+            cardView.setOnClickListener(v -> {
+                notifyItemChanged(selectedItem);
+                selectedItem = getAdapterPosition();
+                notifyItemChanged(selectedItem);
+            });
         }
     }
 }

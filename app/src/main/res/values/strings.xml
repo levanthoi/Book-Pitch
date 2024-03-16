@@ -31,4 +31,8 @@
     <string name="account">Tài khoản</string>
     <string name="news">Tin tức</string>
     <string name="pitch">Đặt sân</string>
+
+    <!-- Actionbar   -->
+    <string name="payment_info">Thông tin thanh toán</string>
+    <string name="edit_profile">Chỉnh sửa thông tin</string>
 </resources>

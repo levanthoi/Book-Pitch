@@ -8,31 +8,30 @@
     tools:context=".Activities.PaymentActivity">
 
     <!--    Toolbar-->
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+<!--    <com.google.android.material.appbar.AppBarLayout-->
+<!--        android:id="@+id/appBarLayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
 
-        <androidx.appcompat.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            app:title="Thông tin thanh toán" />
-    </com.google.android.material.appbar.AppBarLayout>
+<!--        <androidx.appcompat.widget.Toolbar-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@color/white"-->
+<!--            app:title="Thông tin thanh toán" />-->
+<!--    </com.google.android.material.appbar.AppBarLayout>-->
 
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:orientation="vertical"
         android:padding="9dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+        app:layout_constraintTop_toTopOf="parent">
 
         <!--        Thông tin người đặt-->
         <TextView
@@ -66,6 +65,7 @@
                         android:text="Nguyen Van A" />
 
                     <ImageView
+                        android:id="@+id/ìnfo_user"
                         android:layout_width="14dp"
                         android:layout_height="14dp"
                         android:layout_alignParentEnd="true"
@@ -101,9 +101,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@drawable/background_border_linear"
                 android:orientation="horizontal"
-                android:padding="8dp"
-                android:background="@drawable/background_border_linear">
+                android:padding="8dp">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:layout_width="140dp"

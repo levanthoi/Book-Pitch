@@ -50,11 +50,15 @@
             android:exported="false"/>
         <activity
             android:name=".Activities.MainActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar"/>
 <!--        Pitch-->
         <activity
             android:name=".Activities.DetailPitchActivity"
-            android:exported="false"/>
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
 <!--        Message -->
         <activity
             android:name=".Activities.GroupMessageActivity"
@@ -65,9 +69,11 @@
 <!--        Payment -->
         <activity
             android:name=".Activities.PaymentActivity"
+            android:parentActivityName=".Activities.DetailPitchActivity"
             android:exported="false"/>
         <activity
             android:name=".Activities.PaymentSuccessActivity"
+            android:parentActivityName=".Activities.PaymentActivity"
             android:exported="false"/>
     </application>
 
