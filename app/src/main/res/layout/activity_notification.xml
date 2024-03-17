@@ -321,7 +321,7 @@
             android:layout_width="130dp"
             android:layout_height="70dp"
             android:scaleType="centerCrop"
-            tools:srcCompat="@drawable/anhbd" />
+            tools:srcCompat="@drawable/anhdb" />
 
     </androidx.cardview.widget.CardView>
 
