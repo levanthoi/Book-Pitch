@@ -3,16 +3,21 @@ package com.example.book_pitch.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.book_pitch.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
@@ -22,7 +27,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -33,6 +42,10 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText addressText;
     private Button signUpBtn;
     private String phoneNumber;
+    private TextView signInBtn;
+    private ProgressBar progressBar;
+    private CheckBox checkBox;
+    private FirebaseFirestore fireStore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,17 +54,32 @@ public class RegisterActivity extends AppCompatActivity {
         nameText = findViewById(R.id.editTextName);
         addressText = findViewById(R.id.editTextAddress);
         signUpBtn = findViewById(R.id.signUpBtn);
+        signInBtn = findViewById(R.id.signInBtn);
+        progressBar = findViewById(R.id.progressbar);
+        checkBox = findViewById(R.id.checkBox);
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                phoneNumber = "+84999999999";
-                phoneNumber = phoneNumberText.getText().toString().trim();
-                if(phoneNumber.isEmpty() || phoneNumber.length() < 10){
+                phoneNumber = "+84" + phoneNumberText.getText().toString().trim();
+                if(phoneNumber.isEmpty() || phoneNumber.length() < 9){
                     phoneNumberText.setError("Vui lòng nhập đúng số điện thoại !");
+                    progressBar.setVisibility(View.GONE);
                     phoneNumberText.requestFocus();
                     return;
                 }
+                if(!checkBox.isChecked()) {
+                    Toast.makeText(RegisterActivity.this, "Vui lòng đồng ý với chính sách & điều khoản trước khi đăng ký!", Toast.LENGTH_SHORT).show();
+                }
+                progressBar.setVisibility(View.VISIBLE);
                 onClickSendOtpCode(phoneNumber);
+            }
+        });
+        signInBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RegisterActivity.this, LoginPhoneNumberActivity.class);
+                startActivity(intent);
             }
         });
         mAuth = FirebaseAuth.getInstance();
@@ -60,7 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void onClickSendOtpCode(String phoneNumber) {
         PhoneAuthOptions options =
                 PhoneAuthOptions.newBuilder(mAuth)
-                        .setPhoneNumber("+84" + phoneNumber.substring(1))       // Số điện thoại cần xác thực
+                        .setPhoneNumber(phoneNumber)       // Số điện thoại cần xác thực
                         .setTimeout(60L, TimeUnit.SECONDS) // Thời gian chờ để xác thực (tùy chọn)
                         .setActivity(this)                 // Activity hiện tại
                         .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -74,8 +102,9 @@ public class RegisterActivity extends AppCompatActivity {
                             @Override
                             public void onVerificationFailed(@NonNull FirebaseException e) {
                                 Log.w(TAG, "onVerificationFailed", e);
+                                progressBar.setVisibility(View.GONE);
                                 Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-
+                                System.out.println(e.getMessage());
                                 // Show a message and update the UI
                             }
 
@@ -100,25 +129,46 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-
-                            FirebaseUser user = task.getResult().getUser();
                             // Update UI
-                            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                            startActivity(intent);
+                            String displayName = nameText.getText().toString();
+                            String address = addressText.getText().toString();
+                            FirebaseUser fuser = mAuth.getCurrentUser();
+                            String userId = fuser.getUid();
+                            DocumentReference documentReference = fireStore.collection("users").document(userId);
+                            Map<String, String> user = new HashMap<>();
+                            user.put("displayName", displayName);
+                            user.put("address", address);
+                            user.put("phoneNumber", phoneNumber);
+                            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    gotoMainActivity(phoneNumber, displayName, address);
+                                }
+                            }).addOnFailureListener( e-> {
+                                Toast.makeText(RegisterActivity.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                            });
                         } else {
                             // Sign in failed, display a message and update the UI
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 // The verification code entered was invalid
-                                Toast.makeText(RegisterActivity.this, "Mã OTP nhập vào không chính xác", Toast.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.GONE);
+                                Toast.makeText(RegisterActivity.this, "Đăng ký tài khoản thất bại!", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
                 });
     }
+    private void gotoMainActivity(String phoneNumber, String displayName, String address) {
+        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+        intent.putExtra("mPhoneNumber", phoneNumber);
+        intent.putExtra("mDisplayName", displayName);
+        intent.putExtra("mAddress", address);
+        startActivity(intent);
+    }
 
     private void gotoVerifyOTPActivity(String phoneNumber, String verificationId) {
-        Intent intent = new Intent(this, VerifyOTPActivity.class);
+        Intent intent = new Intent(RegisterActivity.this, VerifyOTPActivity.class);
         intent.putExtra("mPhoneNumber", phoneNumber);
         intent.putExtra("mVerificationId", verificationId);
         startActivity(intent);

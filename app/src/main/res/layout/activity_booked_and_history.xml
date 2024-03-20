@@ -14,18 +14,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:gravity="center">
+                    android:gravity="left">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/previous"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Sân đang đặt &amp; Lịch sử đặt sân"
-                        android:textSize="25dp"
-                        android:textStyle="bold"
-                        android:gravity="center"/>
+                        android:background="@drawable/previous" />
                 </LinearLayout>
 
                 <com.google.android.material.tabs.TabLayout

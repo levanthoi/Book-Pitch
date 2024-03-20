@@ -22,6 +22,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="305dp"
+            android:layout_marginBottom="-105dp"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="28dp">
@@ -56,7 +57,12 @@
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="20dp" />
-
+            <ProgressBar
+                android:id="@+id/progressbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -106,9 +112,10 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:background="@drawable/border_edittext"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -120,7 +127,7 @@
                     android:id="@+id/editTextPhoneNumber"
                     style="@style/Widget.AppCompat.AutoCompleteTextView"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="50dp"
                     android:background="@color/white"
                     android:drawableEnd="@drawable/phone_icon"
                     android:inputType="phone"
@@ -176,7 +183,7 @@
                     android:textSize="16dp" />
 
                 <TextView
-                    android:id="@+id/register"
+                    android:id="@+id/signInBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=" Đăng nhập"
