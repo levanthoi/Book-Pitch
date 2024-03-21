@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.example.book_pitch.Activities.DetailPitchActivity;
+import com.example.book_pitch.Activities.MessageItemActivity;
 import com.example.book_pitch.Adapters.PopularAdapter;
 import com.example.book_pitch.Models.Location;
 import com.example.book_pitch.Models.Stadium;
@@ -59,7 +60,7 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
 
     @Override
     public void onClick(Stadium stadium) {
-        Intent intent = new Intent(getActivity(), DetailPitchActivity.class);
+        Intent intent = new Intent(getActivity(), MessageItemActivity.class);
         startActivity(intent);
         getActivity().finish();
     }
