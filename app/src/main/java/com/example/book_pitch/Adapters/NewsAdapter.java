@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.book_pitch.Models.News;
-import com.example.book_pitch.databinding.RowBinding;
+import com.example.book_pitch.databinding.ItemNewBinding;
 
 import java.util.List;
 
@@ -21,9 +21,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     @NonNull
     @Override
     public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        RowBinding rowBinding = RowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        ItemNewBinding itemNewBinding = ItemNewBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
 
-        return new NewsViewHolder(rowBinding);
+        return new NewsViewHolder(itemNewBinding);
     }
 
     @Override
@@ -45,11 +45,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     public static class NewsViewHolder extends RecyclerView.ViewHolder {
 
-        private final RowBinding rowBinding;
+        private final ItemNewBinding itemNewBinding;
 
-        public NewsViewHolder(@NonNull RowBinding rowBinding) {
-            super(rowBinding.getRoot());
-            this.rowBinding = rowBinding;
+        public NewsViewHolder(@NonNull ItemNewBinding itemNewBinding) {
+            super(itemNewBinding.getRoot());
+            this.itemNewBinding = itemNewBinding;
         }
     }
 
