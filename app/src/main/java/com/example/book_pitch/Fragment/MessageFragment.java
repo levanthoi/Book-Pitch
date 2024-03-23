@@ -34,7 +34,7 @@ public class MessageFragment extends Fragment implements MessageGroupAdapter.Mes
 
         messages = new ArrayList<>();
         for(int i=1;i<10;i++){
-            messages.add(new MessageGroup("nam","0965446137","abcacb",01));
+            messages.add(new MessageGroup("Lê Như Nam","0965446137","Làm bài đê anh em",1));
         }
         messageRecyclerView.setAdapter(new MessageGroupAdapter(messages, this));
         messageRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));

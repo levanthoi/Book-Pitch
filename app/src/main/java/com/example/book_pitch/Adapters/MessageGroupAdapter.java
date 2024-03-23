@@ -36,7 +36,9 @@ public class MessageGroupAdapter extends RecyclerView.Adapter<MessageGroupAdapte
     public void onBindViewHolder(@NonNull MessageGroupAdapter.MyViewHolder holder, int position) {
         holder.name.setText(messagesLists.get(position).getName());
         holder.lastMessage.setText(messagesLists.get(position).getLastMessages());
-        holder.unseenMessages.setText(messagesLists.get(position).getUnseenMessages());
+//        holder.unseenMessages.setText(messagesLists.get(position).getUnseenMessages());
+        holder.unseenMessages.setText(String.valueOf(messagesLists.get(position).getUnseenMessages()));
+
 //        holder.openTime.setText(messagesLists.get(position).getPhone());
     }
 

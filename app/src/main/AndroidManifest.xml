@@ -12,16 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BookPitch"
         tools:targetApi="31">
-        <activity
-            android:name=".Activities.SplashScreenActivity"
-            android:theme="@style/Theme.App.Starting"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+<!--        <activity-->
+<!--            android:name=".Activities.SplashScreenActivity"-->
+<!--            android:theme="@style/Theme.App.Starting"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
         <activity
             android:name=".Activities.WelcomeActivity"
             android:exported="false"/>
@@ -50,8 +49,13 @@
             android:exported="false"/>
         <activity
             android:name=".Activities.MainActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 <!--        Pitch-->
         <activity
             android:name=".Activities.DetailPitchActivity"
@@ -60,12 +64,12 @@
 
         </activity>
 <!--        Message -->
-        <activity
-            android:name=".Activities.GroupMessageActivity"
-            android:exported="false"/>
+
         <activity
             android:name=".Activities.MessageItemActivity"
-            android:exported="false"/>
+            android:exported="false"
+            />
+
 <!--        Payment -->
         <activity
             android:name=".Activities.PaymentActivity"
