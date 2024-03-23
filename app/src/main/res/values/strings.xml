@@ -40,4 +40,6 @@
     <!-- Home   -->
     <string name="placeholder_search">Tìm sân bóng</string>
     <string name="tin_t_c">Tin Tức</string>
+    <string name="th_ng_b_o">Thông báo</string>
+    <string name="_2h_tr_c">2h trước</string>
 </resources>

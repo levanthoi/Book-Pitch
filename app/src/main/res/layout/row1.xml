@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/card"
+        android:layout_margin="15dp"
+        app:cardCornerRadius="15dp">
+
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="170dp"
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"
+            tools:srcCompat="@drawable/anhtt" />
+
+        <TextView
+            android:layout_width="65dp"
+            android:layout_height="25dp"
+            android:layout_margin="10dp"
+            android:background="@color/white"
+            android:backgroundTint="@color/white"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="New"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <LinearLayout
+        android:id="@+id/layout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/card"
+        android:layout_alignBottom="@+id/card"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toEndOf="@+id/card"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Các sân còn trống! Bạn có thể tham khảo?"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:maxLines="3"
+            android:fontFamily="sans-serif-medium"
+            android:text="1.Sân trường Đại học Thủy Lợi khung giờ [...]"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="0dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="15 phút trước"
+            android:textColor="@color/red"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/card"
+        android:id="@+id/card1"
+        android:layout_margin="15dp"
+        app:cardCornerRadius="15dp">
+
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="170dp"
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"
+            tools:srcCompat="@drawable/anhsv" />
+
+        <TextView
+            android:layout_width="65dp"
+            android:layout_height="25dp"
+            android:layout_margin="10dp"
+            android:background="@color/white"
+            android:backgroundTint="@color/white"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="New"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+    </androidx.cardview.widget.CardView>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/card1"
+        android:layout_alignBottom="@+id/card1"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toEndOf="@+id/card"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Giải bóng đá phong trào sinh viên toàn quốc"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:maxLines="3"
+            android:fontFamily="sans-serif-medium"
+            android:text="1.Các đội có thể đăng kí tham gia từ ngày [...]"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="0dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="1 giờ trước"
+            android:textColor="@color/red"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/card1"
+        android:id="@+id/card2"
+        android:layout_margin="15dp"
+        app:cardCornerRadius="15dp">
+
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="170dp"
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"
+            tools:srcCompat="@drawable/anhtruong" />
+
+        <TextView
+            android:layout_width="65dp"
+            android:layout_height="25dp"
+            android:layout_margin="10dp"
+            android:background="@color/white"
+            android:backgroundTint="@color/white"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="New"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+    </androidx.cardview.widget.CardView>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/card2"
+        android:layout_alignBottom="@+id/card2"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toEndOf="@+id/card"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Những thông tin bên lề sân cỏ"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:maxLines="3"
+            android:fontFamily="sans-serif-medium"
+            android:text="1.Dự báo thời tiết hôm nay trời [...]"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="2 giờ trước"
+            android:textColor="@color/red"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/card2"
+        android:id="@+id/card3"
+        android:layout_margin="15dp"
+        app:cardCornerRadius="15dp">
+
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="170dp"
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"
+            tools:srcCompat="@drawable/anhbd" />
+
+        <TextView
+            android:layout_width="58dp"
+            android:layout_height="25dp"
+            android:layout_margin="10dp"
+            android:background="@color/white"
+            android:backgroundTint="@color/white"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="New"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+    </androidx.cardview.widget.CardView>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/card3"
+        android:layout_alignBottom="@+id/card3"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toEndOf="@+id/card"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Những điều sẽ giúp bạn đặt sân dễ dàng hơn"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:maxLines="3"
+            android:fontFamily="sans-serif-medium"
+            android:text="1.Tìm chọn sân mà bạn muốn bằng cách [...]"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="3 giờ trước"
+            android:textColor="@color/red"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>
