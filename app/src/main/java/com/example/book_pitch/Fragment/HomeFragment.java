@@ -55,6 +55,7 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
         rclNearMe.setAdapter(new PopularAdapter(stadiums, this));
         rclNearMe.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         rclNearMe.setHasFixedSize(true);
+        rclNearMe.setNestedScrollingEnabled(false);
     }
 
     @Override

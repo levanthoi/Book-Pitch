@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -15,12 +20,8 @@
         <activity
             android:name=".Activities.SplashScreenActivity"
             android:theme="@style/Theme.App.Starting"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="false">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".Activities.WelcomeActivity"
@@ -42,7 +43,7 @@
             android:exported="false" />
         <activity
             android:name=".Activities.RegisterActivity"
-            android:exported="true">
+            android:exported="false">
 
         </activity>
         <activity
@@ -50,14 +51,24 @@
             android:exported="false"/>
         <activity
             android:name=".Activities.MainActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 <!--        Pitch-->
         <activity
             android:name=".Activities.DetailPitchActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
 <!--        Message -->
         <activity
@@ -74,7 +85,8 @@
         <activity
             android:name=".Activities.PaymentSuccessActivity"
             android:parentActivityName=".Activities.PaymentActivity"
-            android:exported="false"/>
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
