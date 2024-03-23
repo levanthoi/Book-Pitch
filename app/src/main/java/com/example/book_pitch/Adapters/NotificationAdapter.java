@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.book_pitch.Models.Notification;
-import com.example.book_pitch.databinding.NotiBinding;
+import com.example.book_pitch.databinding.ItemNotiBinding;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @NonNull
     @Override
     public NotiViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        NotiBinding notiBinding = NotiBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        ItemNotiBinding notiBinding = ItemNotiBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new NotiViewHolder(notiBinding);
     }
 
@@ -44,9 +44,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     public static  class NotiViewHolder extends RecyclerView.ViewHolder {
 
-        private  NotiBinding notiBinding;
+        private ItemNotiBinding notiBinding;
 
-        public NotiViewHolder(@NonNull NotiBinding notiBinding) {
+        public NotiViewHolder(@NonNull ItemNotiBinding notiBinding) {
             super(notiBinding.getRoot());
             this.notiBinding = notiBinding;
         }

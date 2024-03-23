@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import com.example.book_pitch.Adapters.NotificationAdapter;
 import com.example.book_pitch.Models.Notification;
 import com.example.book_pitch.R;
-import com.example.book_pitch.databinding.FragmentNotificationBinding;
+import com.example.book_pitch.databinding.ActivityNotificationBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ import java.util.List;
 
 public class NotificationFragment extends Fragment {
 
-    private FragmentNotificationBinding mFragmentNotificationBinding;
+    private ActivityNotificationBinding mActivityNotificationBinding;
 
     private View mView;
 
@@ -32,11 +32,11 @@ public class NotificationFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mFragmentNotificationBinding = FragmentNotificationBinding.inflate(inflater, container, false);
-        mFragmentNotificationBinding.textView9.setText("Thông báo");
-        mView = mFragmentNotificationBinding.getRoot();
+        mActivityNotificationBinding = ActivityNotificationBinding.inflate(inflater, container, false);
+        mActivityNotificationBinding.textView9.setText("Thông báo");
+        mView = mActivityNotificationBinding.getRoot();
 
-        RecyclerView rcvNoti = mFragmentNotificationBinding.rvNoti;
+        RecyclerView rcvNoti = mActivityNotificationBinding.rvNoti;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mView.getContext());
         rcvNoti.setLayoutManager(linearLayoutManager);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mView.getContext(), DividerItemDecoration.VERTICAL);

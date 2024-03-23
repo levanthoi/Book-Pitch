@@ -71,7 +71,7 @@
     </androidx.appcompat.widget.SearchView>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_blogs"
+        android:id="@+id/rv_noti"
         android:layout_width="396dp"
         android:layout_height="586dp"
         android:layout_below="@id/searchview1"
@@ -79,6 +79,6 @@
         android:layout_marginTop="0dp"
         android:layout_marginEnd="14dp"
         android:layout_marginBottom="14dp"
-        tools:listitem="@layout/noti" />
+        tools:listitem="@layout/item_noti" />
 
 </RelativeLayout>
