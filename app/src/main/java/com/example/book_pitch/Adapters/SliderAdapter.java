@@ -22,6 +22,7 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.ViewHolder
     private List<String> sliders;
     private ViewPager2 viewPager2;
     private Context ctx;
+    private int currentPosition = 0;
 
     public SliderAdapter(List<String> sliders, ViewPager2 viewPager2) {
         this.sliders = sliders;
@@ -41,7 +42,7 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 //        holder.imageView.setImageURI(sliders.get(position));
         holder.setImage(sliders.get(position));
-        if(position == sliders.size() - 2){
+        if(position == sliders.size() - 1){
             viewPager2.post(runnable);
         }
     }
@@ -72,8 +73,7 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.ViewHolder
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            sliders.addAll(sliders);
-            notifyDataSetChanged();
+            viewPager2.setCurrentItem(0);
         }
     };
 }

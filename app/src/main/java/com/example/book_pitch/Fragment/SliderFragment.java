@@ -22,7 +22,7 @@ import java.util.List;
 
 public class SliderFragment extends Fragment {
     private ViewPager2 slider_banner;
-    List<String> sliders;
+    List<String> sliders = new ArrayList<>();
 
     private Handler slideHandler = new Handler();
     @Override
@@ -43,17 +43,16 @@ public class SliderFragment extends Fragment {
     }
 
     private void initData() {
-        sliders = new ArrayList<>();
-        sliders.add("https://www.google.com/url?sa=i&url=https%3A%2F%2Fthanhnien.vn%2Fra-mat-chuyen-trang-giai-bong-da-thanh-nien-sinh-vien-viet-nam-185231231222618865.htm&psig=AOvVaw28_-LtYKRRWOkH3fvaYPc4&ust=1711253432565000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCIDD7PrBiYUDFQAAAAAdAAAAABAE");
-        sliders.add("https://www.google.com/url?sa=i&url=https%3A%2F%2Fm.youtube.com%2Fwatch%3Fv%3DPOncvElqs2g&psig=AOvVaw28_-LtYKRRWOkH3fvaYPc4&ust=1711253432565000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPitg5vCiYUDFQAAAAAdAAAAABAJ");
-        sliders.add("https://www.google.com/url?sa=i&url=https%3A%2F%2Fthanhnien.vn%2Fra-mat-chuyen-trang-giai-bong-da-thanh-nien-sinh-vien-viet-nam-185231231222618865.htm&psig=AOvVaw28_-LtYKRRWOkH3fvaYPc4&ust=1711253432565000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCIDD7PrBiYUDFQAAAAAdAAAAABAE");
+        sliders.add("https://images2.thanhnien.vn/thumb_w/640/528068263637045248/2023/12/31/anhrao1-ol-17040354163761882197397.jpg");
+        sliders.add("https://caodang.fpt.edu.vn/wp-content/uploads/2024/02/1-2-1024x683.png");
+        sliders.add("https://image.sggp.org.vn/Uploaded/2024/noktju/2023_10_30/mobile-800-400-6274.jpg");
     }
 
     private void render(){
         slider_banner.setAdapter(new SliderAdapter(sliders, slider_banner));
         slider_banner.setClipToPadding(false);
         slider_banner.setClipChildren(false);
-        slider_banner.setOffscreenPageLimit(4);
+        slider_banner.setOffscreenPageLimit(3);
         slider_banner.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_IF_CONTENT_SCROLLS);
 
         CompositePageTransformer cpt = new CompositePageTransformer();
@@ -67,19 +66,23 @@ public class SliderFragment extends Fragment {
         });
 
         slider_banner.setPageTransformer(cpt);
-        slider_banner.setCurrentItem(1);
-        slider_banner.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback(){
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                slideHandler.removeCallbacks(sliderRunnable);
-            }
-        });
+//        slider_banner.setCurrentItem(1);
+//        slider_banner.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback(){
+//            @Override
+//            public void onPageSelected(int position) {
+//                super.onPageSelected(position);
+//                slideHandler.removeCallbacks(sliderRunnable);
+//            }
+//        });
     }
     private Runnable sliderRunnable = new Runnable() {
         @Override
         public void run() {
-            slider_banner.setCurrentItem(slider_banner.getCurrentItem() + 1);
+            int current = slider_banner.getCurrentItem();
+            if(current < sliders.size() - 1)
+                slider_banner.setCurrentItem(current + 1);
+            else slider_banner.setCurrentItem(0);
+            slideHandler.postDelayed(this, 2000);
         }
     };
 
@@ -93,5 +96,6 @@ public class SliderFragment extends Fragment {
     public void onResume() {
         super.onResume();
         slideHandler.postDelayed(sliderRunnable, 2000);
+        slider_banner.setCurrentItem(0);
     }
 }

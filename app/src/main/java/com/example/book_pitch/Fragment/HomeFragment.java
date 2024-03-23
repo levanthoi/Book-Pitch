@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,9 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.book_pitch.Activities.DetailPitchActivity;
+import com.example.book_pitch.Activities.NotificationActivity;
 import com.example.book_pitch.Adapters.PopularAdapter;
 import com.example.book_pitch.Models.Location;
 import com.example.book_pitch.Models.Stadium;
@@ -27,6 +30,8 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
     private ListView lvNearMe;
     private ArrayList<Stadium> stadiums;
 
+    ImageView btn_noti;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -37,6 +42,13 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        Fragment sliderFragment1 = new SliderFragment();
+//        Fragment sliderFragment2 = new SliderFragment();
+
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.replace(R.id.sliderFragmentLayout, sliderFragment1).commit();
+//        transaction.replace(R.id.sliderFragmentLayout2, sliderFragment2).commit();
+
         init(view);
         return view;
     }
@@ -44,6 +56,8 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
     private void init(View view) {
         recyclerPopular = view.findViewById(R.id.rclPopular);
         rclNearMe = view.findViewById(R.id.rclNearMe);
+        btn_noti = view.findViewById(R.id.btn_noti);
+
         stadiums = new ArrayList<>();
         for(int i=1;i<10;i++){
             stadiums.add(new Stadium(i, "San bong "+i, "06:00", "18:00", "4,5", "0339083266", new Location(i,"Ha Noi "+ i)));
@@ -56,12 +70,19 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
         rclNearMe.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         rclNearMe.setHasFixedSize(true);
         rclNearMe.setNestedScrollingEnabled(false);
+
+        btn_noti.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent intent = new Intent(getActivity(), NotificationFragment.class);
+//                startActivity(intent);
+            }
+        });
     }
 
     @Override
     public void onClick(Stadium stadium) {
         Intent intent = new Intent(getActivity(), DetailPitchActivity.class);
         startActivity(intent);
-        getActivity().finish();
     }
 }
