@@ -2,6 +2,12 @@ package com.example.book_pitch.Models;
 
 import java.util.List;
 
+/**
+ * @author Le Van Thoi
+ * @serial title: Tên sân
+ * @serial title: Tên sân
+ *  */
+
 public class Stadium {
     private int id;
     private String title;
