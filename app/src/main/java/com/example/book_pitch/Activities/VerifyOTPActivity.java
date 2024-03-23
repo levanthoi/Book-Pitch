@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import com.example.book_pitch.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.FirebaseException;
@@ -34,6 +36,7 @@ import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firestore.v1.WriteResult;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,11 +49,14 @@ public class VerifyOTPActivity extends AppCompatActivity {
     private TextView tvPhoneNumber;
     private String mPhoneNumber;
     private String mVerificationId;
+    private String mDisplayName;
+    private String mAddress;
     private Button sendOtpBtn;
     private TextView reSendOtpBtn;
     private EditText otp1, otp2, otp3 ,otp4, otp5, otp6;
     private PhoneAuthProvider.ForceResendingToken mToken;
     private int selectedETPosition = 0;
+    private FirebaseFirestore fireStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +72,7 @@ public class VerifyOTPActivity extends AppCompatActivity {
         otp4 = findViewById(R.id.inputCode4);
         otp5 = findViewById(R.id.inputCode5);
         otp6 = findViewById(R.id.inputCode6);
+        fireStore = FirebaseFirestore.getInstance();
 
         sendOtpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,6 +180,8 @@ public class VerifyOTPActivity extends AppCompatActivity {
     private void getDataIntent() {
         mPhoneNumber = getIntent().getStringExtra("mPhoneNumber");
         mVerificationId = getIntent().getStringExtra("mVerificationId");
+        mDisplayName = getIntent().getStringExtra("mDisplayName");
+        mAddress = getIntent().getStringExtra("mAddress");
     }
     private void onClickSendOTPCode(String strOtp) {
             PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, strOtp);
@@ -227,14 +236,33 @@ public class VerifyOTPActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             // Update UI
-                            Intent intent = new Intent(VerifyOTPActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                            Map<String, Object> user = new HashMap<>();
+                            user.put("displayName", mDisplayName);
+                            user.put("address", mAddress);
+                            user.put("phoneNumber", mPhoneNumber);
+                            user.put("avatar", "");
+                            user.put("gender", "");
+                            fireStore.collection("users").document(mPhoneNumber)
+                                    .set(user)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Intent intent = new Intent(VerifyOTPActivity.this, MainActivity.class);
+                                            startActivity(intent);
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w(TAG, "Error adding document", e);
+                                        }
+                                    });
                         } else {
                             // Sign in failed, display a message and update the UI
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 // The verification code entered was invalid
+
                                 Toast.makeText(VerifyOTPActivity.this, "Mã OTP nhập vào không chính xác", Toast.LENGTH_SHORT).show();
                             }
                         }

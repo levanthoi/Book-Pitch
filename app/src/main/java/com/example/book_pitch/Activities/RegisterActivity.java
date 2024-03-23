@@ -57,11 +57,13 @@ public class RegisterActivity extends AppCompatActivity {
         signInBtn = findViewById(R.id.signInBtn);
         progressBar = findViewById(R.id.progressbar);
         checkBox = findViewById(R.id.checkBox);
+
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                phoneNumber = "+84999999999";
                 phoneNumber = "+84" + phoneNumberText.getText().toString().trim();
+
                 if(phoneNumber.isEmpty() || phoneNumber.length() < 9){
                     phoneNumberText.setError("Vui lòng nhập đúng số điện thoại !");
                     progressBar.setVisibility(View.GONE);
@@ -115,7 +117,9 @@ public class RegisterActivity extends AppCompatActivity {
 
                                 // Save verification ID and resending token so we can use them later
                                 super.onCodeSent(verificationId, token);
-                                gotoVerifyOTPActivity(phoneNumber, verificationId);
+                                String displayName = nameText.getText().toString();
+                                String address = addressText.getText().toString();
+                                gotoVerifyOTPActivity(phoneNumber, verificationId, displayName, address);
                             }
                         })           // Callbacks để xử lý kết quả xác thực
                         .build();
@@ -130,23 +134,8 @@ public class RegisterActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             // Update UI
-                            String displayName = nameText.getText().toString();
-                            String address = addressText.getText().toString();
-                            FirebaseUser fuser = mAuth.getCurrentUser();
-                            String userId = fuser.getUid();
-                            DocumentReference documentReference = fireStore.collection("users").document(userId);
-                            Map<String, String> user = new HashMap<>();
-                            user.put("displayName", displayName);
-                            user.put("address", address);
-                            user.put("phoneNumber", phoneNumber);
-                            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    gotoMainActivity(phoneNumber, displayName, address);
-                                }
-                            }).addOnFailureListener( e-> {
-                                Toast.makeText(RegisterActivity.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                            });
+                            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                            startActivity(intent);
                         } else {
                             // Sign in failed, display a message and update the UI
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -159,18 +148,13 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 });
     }
-    private void gotoMainActivity(String phoneNumber, String displayName, String address) {
-        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-        intent.putExtra("mPhoneNumber", phoneNumber);
-        intent.putExtra("mDisplayName", displayName);
-        intent.putExtra("mAddress", address);
-        startActivity(intent);
-    }
 
-    private void gotoVerifyOTPActivity(String phoneNumber, String verificationId) {
+    private void gotoVerifyOTPActivity(String phoneNumber, String verificationId, String displayName, String address) {
         Intent intent = new Intent(RegisterActivity.this, VerifyOTPActivity.class);
         intent.putExtra("mPhoneNumber", phoneNumber);
         intent.putExtra("mVerificationId", verificationId);
+        intent.putExtra("mDisplayName", displayName);
+        intent.putExtra("mAddress", address);
         startActivity(intent);
     }
 }

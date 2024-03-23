@@ -23,6 +23,12 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.concurrent.TimeUnit;
 
 public class LoginPhoneNumberActivity extends AppCompatActivity {
@@ -33,6 +39,7 @@ public class LoginPhoneNumberActivity extends AppCompatActivity {
     private TextView registerBtn;
     private FirebaseAuth mAuth;
     private String phoneNumber;
+    private FirebaseFirestore fireStore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +48,7 @@ public class LoginPhoneNumberActivity extends AppCompatActivity {
         phoneNumberText = findViewById(R.id.editTextPhoneNumber);
         loginBtn = findViewById(R.id.loginBtn);
         registerBtn = findViewById(R.id.register);
+        fireStore = FirebaseFirestore.getInstance();
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,8 +60,29 @@ public class LoginPhoneNumberActivity extends AppCompatActivity {
                     phoneNumberText.requestFocus();
                     return;
                 }
+                fireStore.collection("users")
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    boolean phoneNumberExists = false;
+                                    for (DocumentSnapshot document : task.getResult()) {
+                                        if (document.getId().equals(phoneNumber)) {
+                                            phoneNumberExists = true;
+                                            onClickSendOtpCode(phoneNumber);
+                                        }
+                                    }
+                                    if (!phoneNumberExists) {
+                                        Toast.makeText(LoginPhoneNumberActivity.this, "Số điện thoại chưa được đăng ký", Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    Log.w(TAG, "Error getting documents.", task.getException());
+                                }
+                            }
+                        });
                 progressBar.setVisibility(View.VISIBLE);
-                onClickSendOtpCode(phoneNumber);
+
             }
         });
         registerBtn.setOnClickListener(new View.OnClickListener() {
