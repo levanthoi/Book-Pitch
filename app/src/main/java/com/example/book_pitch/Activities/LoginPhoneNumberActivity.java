@@ -58,31 +58,32 @@ public class LoginPhoneNumberActivity extends AppCompatActivity {
                     phoneNumberText.setError("Vui lòng nhập đúng số điện thoại !");
                     progressBar.setVisibility(View.GONE);
                     phoneNumberText.requestFocus();
-                    return;
-                }
-                fireStore.collection("users")
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    boolean phoneNumberExists = false;
-                                    for (DocumentSnapshot document : task.getResult()) {
-                                        if (document.getId().equals(phoneNumber)) {
-                                            phoneNumberExists = true;
-                                            onClickSendOtpCode(phoneNumber);
+                } else{
+                    Toast.makeText(LoginPhoneNumberActivity.this, "Đang chạy", Toast.LENGTH_SHORT).show();
+                    fireStore.collection("users")
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        boolean phoneNumberExists = false;
+                                        for (DocumentSnapshot document : task.getResult()) {
+                                            if (document.getId().equals(phoneNumber)) {
+                                                phoneNumberExists = true;
+                                                onClickSendOtpCode(phoneNumber);
+                                            }
                                         }
+                                        if (!phoneNumberExists) {
+                                            progressBar.setVisibility(View.GONE);
+                                            Toast.makeText(LoginPhoneNumberActivity.this, "Số điện thoại chưa được đăng ký", Toast.LENGTH_SHORT).show();
+                                        }
+                                    } else {
+                                        Log.w(TAG, "Error getting documents.", task.getException());
                                     }
-                                    if (!phoneNumberExists) {
-                                        Toast.makeText(LoginPhoneNumberActivity.this, "Số điện thoại chưa được đăng ký", Toast.LENGTH_SHORT).show();
-                                    }
-                                } else {
-                                    Log.w(TAG, "Error getting documents.", task.getException());
                                 }
-                            }
-                        });
-                progressBar.setVisibility(View.VISIBLE);
-
+                            });
+                    progressBar.setVisibility(View.VISIBLE);
+                }
             }
         });
         registerBtn.setOnClickListener(new View.OnClickListener() {

@@ -35,7 +35,9 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firestore.v1.WriteResult;
 
 import java.util.HashMap;
@@ -236,33 +238,54 @@ public class VerifyOTPActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             // Update UI
-                            Map<String, Object> user = new HashMap<>();
-                            user.put("displayName", mDisplayName);
-                            user.put("address", mAddress);
-                            user.put("phoneNumber", mPhoneNumber);
-                            user.put("avatar", "");
-                            user.put("gender", "");
-                            fireStore.collection("users").document(mPhoneNumber)
-                                    .set(user)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Intent intent = new Intent(VerifyOTPActivity.this, MainActivity.class);
-                                            startActivity(intent);
+                            fireStore.collection("users")
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            boolean phoneNumberExists = false;
+                                            for (DocumentSnapshot document : task.getResult()) {
+                                                if (document.getId().equals(mPhoneNumber)) {
+                                                    phoneNumberExists = true;
+                                                }
+                                            }
+                                            if (!phoneNumberExists) {
+                                                Map<String, Object> user = new HashMap<>();
+                                                user.put("displayName", mDisplayName);
+                                                user.put("address", mAddress);
+                                                user.put("phoneNumber", mPhoneNumber);
+                                                user.put("avatar", "");
+                                                user.put("gender", "");
+                                                fireStore.collection("users").document(mPhoneNumber)
+                                                        .set(user)
+                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void aVoid) {
+                                                                Intent intent = new Intent(VerifyOTPActivity.this, MainActivity.class);
+                                                                startActivity(intent);
+                                                            }
+                                                        })
+                                                        .addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                Log.w(TAG, "Error adding document", e);
+                                                                progressBar.setVisibility(View.GONE);
+                                                            }
+                                                        });
+                                            }
+                                        } else {
+                                            progressBar.setVisibility(View.GONE);
+                                            Log.w(TAG, "Error getting documents.", task.getException());
                                         }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.w(TAG, "Error adding document", e);
-                                        }
-                                    });
+                                    }
+                                });
                         } else {
                             // Sign in failed, display a message and update the UI
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 // The verification code entered was invalid
-
+                                progressBar.setVisibility(View.GONE);
                                 Toast.makeText(VerifyOTPActivity.this, "Mã OTP nhập vào không chính xác", Toast.LENGTH_SHORT).show();
                             }
                         }
