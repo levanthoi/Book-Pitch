@@ -34,10 +34,18 @@ public class  WelcomeActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-//        if (!PrefManager.getInstance(this).isFirstTimeLaunch()) {
-//            launchHomeScreen();
-//        }
+        // Kiểm tra nếu người dùng đã đăng nhập
+        if (PrefManager.getInstance(this).isLogin()) {
+            // Người dùng đã đăng nhập, thực hiện các hành động phù hợp
+            if (!PrefManager.getInstance(this).isFirstTimeLaunch()) {
+                launchHomeScreen();
+            }
+            PrefManager.getInstance(this).setFirstimeLaunch(false);
+            PrefManager.getInstance(this).setLogin(true);
+        } else {
+            // Người dùng chưa đăng nhập, thực hiện các hành động phù hợp (ví dụ: hiển thị màn hình đăng nhập)
 
+        }
         //Making notification bar transparent
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);

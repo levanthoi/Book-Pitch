@@ -5,10 +5,9 @@
     <uses-feature
         android:name="android.hardware.telephony"
         android:required="false" />
+
     <uses-permission android:name="android.permission.CALL_PHONE" />
-
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-
 
     <application
         android:allowBackup="true"
@@ -21,27 +20,36 @@
         android:theme="@style/Theme.BookPitch"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.SettingActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.NewsActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.NotificationActivity"
-            android:exported="false" />
-        <!-- Intro -->
+            android:exported="false" /> <!-- Intro -->
         <activity
             android:name=".Activities.SplashScreenActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/Theme.App.Starting">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity
             android:name=".Activities.WelcomeActivity"
-            android:exported="false"/>
+            android:exported="false" /> <!-- Profile -->
         <activity
             android:name=".Activities.BookedAndHistoryActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".Activities.ProfileActivity" />
         <activity
             android:name=".Activities.FavouriteActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".Activities.ProfileActivity" />
         <activity
             android:name=".Activities.EditProfileActivity"
             android:exported="false" />
@@ -53,50 +61,42 @@
             android:exported="false" />
         <activity
             android:name=".Activities.RegisterActivity"
-            android:exported="false">
-
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".Activities.LoginPhoneNumberActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.MainActivity"
-            android:exported="true"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-<!--        Pitch-->
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar" /> <!-- Pitch -->
         <activity
             android:name=".Activities.DetailPitchActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
-<!--        Message -->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity> <!-- Message -->
         <activity
             android:name=".Activities.GroupMessageActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".Activities.MessageItemActivity"
-            android:exported="false"/>
-<!--        Payment -->
+            android:exported="false" /> <!-- Payment -->
         <activity
             android:name=".Activities.PaymentActivity"
-            android:parentActivityName=".Activities.DetailPitchActivity"
-            android:exported="false"/>
+            android:exported="false"
+            android:parentActivityName=".Activities.DetailPitchActivity" />
         <activity
             android:name=".Activities.PaymentSuccessActivity"
-            android:parentActivityName=".Activities.PaymentActivity"
             android:exported="false"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:parentActivityName=".Activities.PaymentActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
