@@ -65,9 +65,9 @@ public class DetailPitchActivity extends AppCompatActivity {
 
     public void openBottomSheet(){
         List<Pitch> list = new ArrayList<>();
-        for(int i=0; i<3;i++){
-            list.add(new Pitch(i, "San "+ i, 7));
-        }
+//        for(int i=0; i<3;i++){
+//            list.add(new Pitch(i, "San "+ i, 7));
+//        }
         BottomSheetFragment bottomSheetFragment = new BottomSheetFragment(this, list);
         bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
