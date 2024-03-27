@@ -1,5 +1,6 @@
 package com.example.book_pitch.Activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -21,7 +22,7 @@ import com.example.book_pitch.Adapters.IntroViewAdapter;
 import com.example.book_pitch.R;
 import com.example.book_pitch.Utils.PrefManager;
 
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends Activity {
 
     private ViewPager2 mViewPager;
     private IntroViewAdapter mPagerAdapter;
