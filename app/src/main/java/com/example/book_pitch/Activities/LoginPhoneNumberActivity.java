@@ -3,6 +3,7 @@ package com.example.book_pitch.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +28,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.concurrent.TimeUnit;
@@ -67,7 +69,7 @@ public class LoginPhoneNumberActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                     if (task.isSuccessful()) {
                                         boolean phoneNumberExists = false;
-                                        for (DocumentSnapshot document : task.getResult()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
                                             if (document.getId().equals(phoneNumber)) {
                                                 phoneNumberExists = true;
                                                 onClickSendOtpCode(phoneNumber);
@@ -78,7 +80,7 @@ public class LoginPhoneNumberActivity extends AppCompatActivity {
                                             Toast.makeText(LoginPhoneNumberActivity.this, "Số điện thoại chưa được đăng ký", Toast.LENGTH_SHORT).show();
                                         }
                                     } else {
-                                        Log.w(TAG, "Error getting documents.", task.getException());
+                                        Log.d(TAG, "Error getting documents: ", task.getException());
                                     }
                                 }
                             });
@@ -161,5 +163,6 @@ public class LoginPhoneNumberActivity extends AppCompatActivity {
         intent.putExtra("mPhoneNumber", phoneNumber);
         intent.putExtra("mVerificationId", verificationId);
         startActivity(intent);
+        finish();
     }
 }

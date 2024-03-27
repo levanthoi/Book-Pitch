@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -45,14 +46,12 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-public class VerifyOTPActivity extends AppCompatActivity {
+public class VerifyOTPActivity extends Activity {
     private FirebaseAuth mAuth;
     private ProgressBar progressBar;
     private TextView tvPhoneNumber;
     private String mPhoneNumber;
     private String mVerificationId;
-    private String mDisplayName;
-    private String mAddress;
     private Button sendOtpBtn;
     private TextView reSendOtpBtn;
     private EditText otp1, otp2, otp3 ,otp4, otp5, otp6;
@@ -182,8 +181,6 @@ public class VerifyOTPActivity extends AppCompatActivity {
     private void getDataIntent() {
         mPhoneNumber = getIntent().getStringExtra("mPhoneNumber");
         mVerificationId = getIntent().getStringExtra("mVerificationId");
-        mDisplayName = getIntent().getStringExtra("mDisplayName");
-        mAddress = getIntent().getStringExtra("mAddress");
     }
     private void onClickSendOTPCode(String strOtp) {
             PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, strOtp);
@@ -238,48 +235,9 @@ public class VerifyOTPActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             // Update UI
-                            fireStore.collection("users")
-                                .get()
-                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            boolean phoneNumberExists = false;
-                                            for (DocumentSnapshot document : task.getResult()) {
-                                                if (document.getId().equals(mPhoneNumber)) {
-                                                    phoneNumberExists = true;
-                                                }
-                                            }
-                                            if (!phoneNumberExists) {
-                                                Map<String, Object> user = new HashMap<>();
-                                                user.put("displayName", mDisplayName);
-                                                user.put("address", mAddress);
-                                                user.put("phoneNumber", mPhoneNumber);
-                                                user.put("avatar", "");
-                                                user.put("gender", "");
-                                                fireStore.collection("users").document(mPhoneNumber)
-                                                        .set(user)
-                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                            @Override
-                                                            public void onSuccess(Void aVoid) {
-                                                                Intent intent = new Intent(VerifyOTPActivity.this, MainActivity.class);
-                                                                startActivity(intent);
-                                                            }
-                                                        })
-                                                        .addOnFailureListener(new OnFailureListener() {
-                                                            @Override
-                                                            public void onFailure(@NonNull Exception e) {
-                                                                Log.w(TAG, "Error adding document", e);
-                                                                progressBar.setVisibility(View.GONE);
-                                                            }
-                                                        });
-                                            }
-                                        } else {
-                                            progressBar.setVisibility(View.GONE);
-                                            Log.w(TAG, "Error getting documents.", task.getException());
-                                        }
-                                    }
-                                });
+                            Intent intent = new Intent(VerifyOTPActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
                         } else {
                             // Sign in failed, display a message and update the UI
                             Log.w(TAG, "signInWithCredential:failure", task.getException());

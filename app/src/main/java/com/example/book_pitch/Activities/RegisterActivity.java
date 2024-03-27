@@ -1,11 +1,15 @@
 package com.example.book_pitch.Activities;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.book_pitch.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -28,13 +33,15 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends Activity {
     private FirebaseAuth mAuth;
     private static final String TAG = RegisterActivity.class.getName();
     private EditText phoneNumberText;
@@ -46,6 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private CheckBox checkBox;
     private FirebaseFirestore fireStore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,12 +65,15 @@ public class RegisterActivity extends AppCompatActivity {
         signInBtn = findViewById(R.id.signInBtn);
         progressBar = findViewById(R.id.progressbar);
         checkBox = findViewById(R.id.checkBox);
+        fireStore = FirebaseFirestore.getInstance();
 
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                phoneNumber = "+84999999999";
                 phoneNumber = "+84" + phoneNumberText.getText().toString().trim();
+                String displayName = nameText.getText().toString();
+                String address = addressText.getText().toString();
 
                 if(phoneNumber.isEmpty() || phoneNumber.length() < 9){
                     phoneNumberText.setError("Vui lòng nhập đúng số điện thoại !");
@@ -70,11 +81,47 @@ public class RegisterActivity extends AppCompatActivity {
                     phoneNumberText.requestFocus();
                     return;
                 }
+                if(displayName.isEmpty()){
+                    nameText.setError("Vui lòng nhập tên!");
+                    progressBar.setVisibility(View.GONE);
+                    nameText.requestFocus();
+                    return;
+                }
+                if(address.isEmpty()){
+                    addressText.setError("Vui lòng nhập địa chỉ !");
+                    progressBar.setVisibility(View.GONE);
+                    addressText.requestFocus();
+                    return;
+                }
                 if(!checkBox.isChecked()) {
                     Toast.makeText(RegisterActivity.this, "Vui lòng đồng ý với chính sách & điều khoản trước khi đăng ký!", Toast.LENGTH_SHORT).show();
                 }
                 progressBar.setVisibility(View.VISIBLE);
-                onClickSendOtpCode(phoneNumber);
+                fireStore.collection("users")
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    boolean phoneNumberExists = false;
+                                    for (DocumentSnapshot document : task.getResult()) {
+                                        if (document.getId().equals(phoneNumber)) {
+                                            progressBar.setVisibility(View.GONE);
+                                            Toast.makeText(RegisterActivity.this, "Số điện thoại đã được đăng ký", Toast.LENGTH_LONG).show();
+                                            phoneNumberExists = true;
+                                            return;
+                                        }
+                                    }
+                                    if (!phoneNumberExists) {
+                                        onClickSendOtpCode(phoneNumber, displayName, address);
+                                    }
+                                } else {
+                                    progressBar.setVisibility(View.GONE);
+                                    Log.w(TAG, "Error getting documents.", task.getException());
+                                }
+                            }
+                        });
+
             }
         });
         signInBtn.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +134,7 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
     }
-    private void onClickSendOtpCode(String phoneNumber) {
+    private void onClickSendOtpCode(String phoneNumber, String displayName, String address) {
         PhoneAuthOptions options =
                 PhoneAuthOptions.newBuilder(mAuth)
                         .setPhoneNumber(phoneNumber)       // Số điện thoại cần xác thực
@@ -99,7 +146,7 @@ public class RegisterActivity extends AppCompatActivity {
                             public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
                                 Log.d(TAG, "onVerificationCompleted:" + credential);
 
-                                signInWithPhoneAuthCredential(credential);
+                                signInWithPhoneAuthCredential(credential, phoneNumber, displayName, address);
                             }
                             @Override
                             public void onVerificationFailed(@NonNull FirebaseException e) {
@@ -119,13 +166,13 @@ public class RegisterActivity extends AppCompatActivity {
                                 super.onCodeSent(verificationId, token);
                                 String displayName = nameText.getText().toString();
                                 String address = addressText.getText().toString();
-                                gotoVerifyOTPActivity(phoneNumber, verificationId, displayName, address);
+                                gotoVerifyOTPActivity(phoneNumber, verificationId);
                             }
                         })           // Callbacks để xử lý kết quả xác thực
                         .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
-    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
+    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential,String phoneNumber, String displayName, String address) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -134,8 +181,30 @@ public class RegisterActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             // Update UI
-                            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                            startActivity(intent);
+                            Map<String, Object> user = new HashMap<>();
+                            user.put("displayName", displayName);
+                            user.put("address", address);
+                            user.put("phoneNumber", phoneNumber);
+                            user.put("avatar", "");
+                            user.put("gender", "");
+                            user.put("email" , "");
+                            fireStore.collection("users").document(phoneNumber)
+                                    .set(user)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Intent intent = new Intent(RegisterActivity.this, VerifyOTPActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w(TAG, "Error adding document", e);
+                                            progressBar.setVisibility(View.GONE);
+                                        }
+                                    });
                         } else {
                             // Sign in failed, display a message and update the UI
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -149,12 +218,12 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
-    private void gotoVerifyOTPActivity(String phoneNumber, String verificationId, String displayName, String address) {
+    private void gotoVerifyOTPActivity(String phoneNumber, String verificationId) {
         Intent intent = new Intent(RegisterActivity.this, VerifyOTPActivity.class);
         intent.putExtra("mPhoneNumber", phoneNumber);
         intent.putExtra("mVerificationId", verificationId);
-        intent.putExtra("mDisplayName", displayName);
-        intent.putExtra("mAddress", address);
         startActivity(intent);
+        finish();
     }
+
 }

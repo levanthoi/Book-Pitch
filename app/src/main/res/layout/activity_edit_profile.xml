@@ -55,6 +55,7 @@
                     android:background="@drawable/camera" />
 
                 <ImageView
+                    android:id="@+id/userAvatar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -72,10 +73,11 @@
             android:textSize="16dp"/>
 
         <EditText
+            android:id="@+id/userDisplayName"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:inputType="textPersonName"
-            android:text="Nguyễn Hoài Nam"
+            android:text=""
             android:background="@drawable/border_edittext" />
 
         <TextView
@@ -89,10 +91,11 @@
             android:textSize="16dp"/>
 
         <EditText
+            android:id="@+id/userAddress"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:inputType="text"
-            android:text="Tây Hồ, Hà Nội"
+            android:text=""
             android:background="@drawable/border_edittext"/>
         <TextView
             android:layout_width="wrap_content"
@@ -105,10 +108,11 @@
             android:textSize="16dp"/>
 
         <EditText
+            android:id="@+id/userPhoneNumber"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:inputType="phone"
-            android:text="+84 855185913"
+            android:text=""
             android:background="@drawable/border_edittext"/>
         <TextView
             android:layout_width="wrap_content"
@@ -121,10 +125,11 @@
             android:textSize="16dp"/>
 
         <EditText
+            android:id="@+id/userEmail"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:inputType="textEmailAddress"
-            android:text="namnguyen14103@gmail.com"
+            android:text=""
             android:background="@drawable/border_edittext"/>
         <TextView
             android:layout_width="wrap_content"
@@ -137,7 +142,7 @@
             android:textSize="16dp"/>
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/userGender"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@drawable/border_edittext"/>
@@ -146,6 +151,7 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp" />
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/saveBtn"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_marginLeft="20dp"

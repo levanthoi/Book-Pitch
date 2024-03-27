@@ -13,8 +13,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.book_pitch.Activities.BookedAndHistoryActivity;
+import com.example.book_pitch.Activities.EditProfileActivity;
+import com.example.book_pitch.Activities.FavouriteActivity;
 import com.example.book_pitch.Activities.LoginPhoneNumberActivity;
 import com.example.book_pitch.Activities.MainActivity;
+import com.example.book_pitch.Activities.SettingActivity;
 import com.example.book_pitch.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -22,14 +25,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AccountFragment extends Fragment {
     FirebaseAuth mAuth;
-    TextView history_book;
+    LinearLayout history_book;
     TextView displayNameUser;
     TextView phoneNumberUser;
     TextView addressUser;
     TextView editProfileBtn;
     LinearLayout actionUserContainer;
+    LinearLayout favourite;
+    LinearLayout setting;
     Button loginBtn;
-    Button logoutBtn;
     FirebaseFirestore fireStore;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,9 +50,10 @@ public class AccountFragment extends Fragment {
         phoneNumberUser = view.findViewById(R.id.phoneNumberUser);
         addressUser = view.findViewById(R.id.addressUser);
         loginBtn = view.findViewById(R.id.loginBtn);
-        logoutBtn = view.findViewById(R.id.logoutBtn);
         editProfileBtn = view.findViewById(R.id.editProfileBtn);
         actionUserContainer = view.findViewById(R.id.actionUserContainer);
+        favourite = view.findViewById(R.id.favourite);
+        setting = view.findViewById(R.id.setting);
         mAuth = FirebaseAuth.getInstance();
         fireStore = FirebaseFirestore.getInstance();
 
@@ -59,19 +64,8 @@ public class AccountFragment extends Fragment {
                 startActivity(i);
             }
         });
-
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAuth.signOut();
-                Intent i = new Intent(getActivity(), MainActivity.class);
-                startActivity(i);
-            }
-        });
-
         if(mAuth.getCurrentUser() == null) {
             loginBtn.setVisibility(View.VISIBLE);
-            logoutBtn.setVisibility(View.GONE);
             displayNameUser.setVisibility(View.GONE);
             phoneNumberUser.setVisibility(View.GONE);
             addressUser.setVisibility(View.GONE);
@@ -96,7 +90,6 @@ public class AccountFragment extends Fragment {
 
                                 // Hiển thị thông tin người dùng và nút đăng xuất, ẩn nút đăng nhập
                                 loginBtn.setVisibility(View.GONE);
-                                logoutBtn.setVisibility(View.VISIBLE);
                                 displayNameUser.setVisibility(View.VISIBLE);
                                 phoneNumberUser.setVisibility(View.VISIBLE);
                                 addressUser.setVisibility(View.VISIBLE);
@@ -114,6 +107,30 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), BookedAndHistoryActivity.class);
+                startActivity(i);
+            }
+        });
+
+        editProfileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), EditProfileActivity.class);
+                startActivity(i);
+            }
+        });
+
+        favourite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), FavouriteActivity.class);
+                startActivity(i);
+            }
+        });
+
+        setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), SettingActivity.class);
                 startActivity(i);
             }
         });
