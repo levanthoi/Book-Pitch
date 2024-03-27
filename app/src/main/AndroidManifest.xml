@@ -2,35 +2,37 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
 
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/logo"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BookPitch"
         tools:targetApi="31">
         <activity
-            android:name=".Activities.NewsActivity"
+            android:name=".Activities.NotificationActivity"
             android:exported="false" />
         <!-- Intro -->
         <activity
             android:name=".Activities.SplashScreenActivity"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/Theme.App.Starting">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
+
         <activity
             android:name=".Activities.WelcomeActivity"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".Activities.BookedAndHistoryActivity"
             android:exported="false" />
@@ -48,28 +50,50 @@
             android:exported="false" />
         <activity
             android:name=".Activities.RegisterActivity"
-            android:exported="false" />
+            android:exported="false">
+
+        </activity>
         <activity
             android:name=".Activities.LoginPhoneNumberActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.MainActivity"
-            android:exported="false" /> <!-- Message -->
-        <activity
-            android:name=".Activities.GroupMessageActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.MessageItemActivity"
-            android:exported="false" /> <!-- Đặt sân -->
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+<!--        Pitch-->
         <activity
             android:name=".Activities.DetailPitchActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+<!--        Message -->
+        <activity
+            android:name=".Activities.GroupMessageActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".Activities.MessageItemActivity"
+            android:exported="false"/>
+<!--        Payment -->
         <activity
             android:name=".Activities.PaymentActivity"
-            android:exported="false" />
+            android:parentActivityName=".Activities.DetailPitchActivity"
+            android:exported="false"/>
         <activity
             android:name=".Activities.PaymentSuccessActivity"
-            android:exported="false" />
+            android:parentActivityName=".Activities.PaymentActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

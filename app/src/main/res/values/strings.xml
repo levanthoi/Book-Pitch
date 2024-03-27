@@ -24,5 +24,22 @@
     <string name="time">Từ 17h-19h ạ</string>
     <string name="stk">100k STK : 666666666 MB Bank</string>
     <string name="time1">12:03</string>
+
+    <!--    Menu -->
+    <string name="home">Trang chủ</string>
+    <string name="message">Tin nhắn</string>
+    <string name="account">Tài khoản</string>
+    <string name="news">Tin tức</string>
+    <string name="pitch">Đặt sân</string>
+
+    <!-- Actionbar   -->
+    <string name="payment_info">Thông tin thanh toán</string>
+    <string name="edit_profile">Chỉnh sửa thông tin</string>
+    <string name="contact_info">Thông tin liên hệ</string>
+
+    <!-- Home   -->
+    <string name="placeholder_search">Tìm sân bóng</string>
     <string name="tin_t_c">Tin Tức</string>
+    <string name="th_ng_b_o">Thông báo</string>
+    <string name="_2h_tr_c">2h trước</string>
 </resources>

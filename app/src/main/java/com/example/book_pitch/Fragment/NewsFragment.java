@@ -21,29 +21,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewsFragment extends Fragment {
-
-    private FragmentNewsBinding mFragmentNewsBinding;
-    private View mView;
+    RecyclerView rcvNews;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mFragmentNewsBinding = FragmentNewsBinding.inflate(inflater, container, false);
-        mFragmentNewsBinding.textView.setText("Tin tức");
+        View view = inflater.inflate(R.layout.fragment_news, container, false);
 
-        mView = mFragmentNewsBinding.getRoot();
 
-        RecyclerView rcvNews = mFragmentNewsBinding.rvBlogs;
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mView.getContext());
+        rcvNews = view.findViewById(R.id.rv_blogs);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL, false);
         rcvNews.setLayoutManager(linearLayoutManager);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mView.getContext(), DividerItemDecoration.VERTICAL);
-        rcvNews.addItemDecoration(dividerItemDecoration);
+//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+//        rcvNews.addItemDecoration(dividerItemDecoration);
 
         NewsAdapter newsAdapter = new NewsAdapter(getNewsList());
         rcvNews.setAdapter(newsAdapter);
 
         // Inflate the layout for this fragment
-        return mView;
+        return view;
     }
     private List<News> getNewsList(){
         List<News> list = new ArrayList<>();

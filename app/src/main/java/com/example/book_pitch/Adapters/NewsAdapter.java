@@ -48,7 +48,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         holder.txtDate_new.setText("Tháng " + news.getDate() );
         holder.txtTitle_new.setText(news.getTitle());
         holder.txtDescription_new.setText(news.getDescription());
-        /*holder.txtShare_new.setText("162 Shared");*/
         Glide.with(ctx)
                 .load(news.getImage())
                 .into(holder.img_new);

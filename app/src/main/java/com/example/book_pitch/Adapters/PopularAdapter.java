@@ -21,8 +21,14 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
 
     private ArrayList<Stadium> stadiums;
     private Context ctx;
-    public PopularAdapter(ArrayList<Stadium> stadiums) {
+    private final PopularAdapterOnClickHandler clickHandler;
+
+    public interface PopularAdapterOnClickHandler{
+        void onClick(Stadium stadium);
+    }
+    public PopularAdapter(ArrayList<Stadium> stadiums, PopularAdapterOnClickHandler clickHandler) {
         this.stadiums = stadiums;
+        this.clickHandler = clickHandler;
     }
 
     @NonNull
@@ -56,6 +62,14 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
             txtLocation = itemView.findViewById(R.id.txtLocation);
             txtPhone = itemView.findViewById(R.id.txtPhone);
             openTime = itemView.findViewById(R.id.openTime);
+
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    Stadium s = stadiums.get(position);
+                    clickHandler.onClick(s);
+                }
+            });
         }
     }
 }

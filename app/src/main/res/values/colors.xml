@@ -12,6 +12,8 @@
     <color name="bg_green_text">#EEF9F5</color>
     <color name="greenText">#6FA798</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="gray50">#70777C</color>
+
 
     <!-- dots colors -->
     <color name="dot_active">#198754</color>

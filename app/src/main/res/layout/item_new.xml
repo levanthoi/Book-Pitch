@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/img_new"
-            android:layout_width="170dp"
-            android:layout_height="120dp"
+            android:layout_width="130dp"
+            android:layout_height="90dp"
             android:scaleType="centerCrop"
             tools:srcCompat="@drawable/vna_potal_euro_2020_le_be_mac_an_tuong_voi_cong_nghe_hinh_anh_thuc_te_ao_stand" />
 
@@ -52,12 +52,12 @@
         <TextView
             android:id="@+id/txtTitle_new"
             android:layout_width="wrap_content"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"
             android:fontFamily="sans-serif-medium"
             android:text="Top 5 lịch sử thú vị về Euro"
             android:textColor="@color/black"
-            android:textSize="17sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/txtDescription_new"
@@ -77,9 +77,9 @@
             android:layout_marginTop="7dp"
             android:layout_marginBottom="0dp"
             android:fontFamily="sans-serif-medium"
-            android:text="162 Shared"
-            android:textColor="@color/red"
-            android:textSize="12sp" />
+            android:text="Thể thao"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
 
     </LinearLayout>
 

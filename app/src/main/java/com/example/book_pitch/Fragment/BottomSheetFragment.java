@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.book_pitch.Activities.PaymentActivity;
 import com.example.book_pitch.Adapters.LabelPitchAdapter;
 import com.example.book_pitch.Models.Pitch;
 import com.example.book_pitch.R;
@@ -29,7 +31,7 @@ import java.util.List;
 
 public class BottomSheetFragment extends BottomSheetDialogFragment {
     private List<Pitch> pitches;
-    private Button btnDate;
+    private Button btnDate, btnBooking;
     private DatePickerDialog datePickerDialog;
     private Context ctx;
 
@@ -59,6 +61,16 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 datePickerDialog.show();
+            }
+        });
+
+        btnBooking = view.findViewById(R.id.buyButton);
+        btnBooking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), PaymentActivity.class);
+                startActivity(intent);
+                dismiss();
             }
         });
         return bottomSheetDialog;
