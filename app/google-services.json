@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "919174305763",
+    "project_id": "book-pitch",
+    "storage_bucket": "book-pitch.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:919174305763:android:8934642508bf6cd99d32d6",
+        "android_client_info": {
+          "package_name": "com.example.book_pitch"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDI2GIS6ccur5zLtaNO19T2JDQILTWVx8Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

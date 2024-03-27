@@ -42,7 +42,7 @@ public class IntroViewAdapter extends RecyclerView.Adapter<IntroViewAdapter.Intr
 
         public IntroViewHolder(@NonNull View itemView) {
             super(itemView);
-//            imageView = itemView.findViewById(R.id.imageView);
+            imageView = itemView.findViewById(R.id.imageView);
         }
         public void bindLayout(int layoutResId) {
             ViewGroup itemViewGroup = (ViewGroup) itemView;
