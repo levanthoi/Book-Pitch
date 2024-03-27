@@ -104,8 +104,10 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
         btn_noti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(getActivity(), NotificationFragment.class);
-//                startActivity(intent);
+                Intent intent = new Intent(getActivity(), NotificationActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+
             }
         });
     }

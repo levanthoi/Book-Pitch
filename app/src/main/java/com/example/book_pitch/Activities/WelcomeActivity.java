@@ -21,7 +21,7 @@ import com.example.book_pitch.Adapters.IntroViewAdapter;
 import com.example.book_pitch.R;
 import com.example.book_pitch.Utils.PrefManager;
 
-public class  WelcomeActivity extends Activity {
+public class WelcomeActivity extends Activity {
 
     private ViewPager2 mViewPager;
     private IntroViewAdapter mPagerAdapter;

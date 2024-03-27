@@ -10,48 +10,27 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/textView"
+
+        <ImageView
+            android:id="@+id/image_news"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
-            android:text="Tin Tức"
-            android:textColor="@color/black"
-            android:textSize="27sp" />
-        <View
-            android:id="@+id/view"
-            android:layout_width="40dp"
-            android:layout_height="5dp"
-            android:layout_below="@id/textView"
-            android:layout_alignStart="@+id/textView"
-            android:backgroundTint="@color/black" />
-
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/searchview"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_below="@id/view"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="19dp"
-            android:layout_marginBottom="15dp"
-            android:backgroundTint="@color/white"
-            app:iconifiedByDefault="false"
-            app:queryBackground="@android:color/transparent"
-            app:queryHint="Search">
-
-        </androidx.appcompat.widget.SearchView>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_blogs"
-            android:layout_width="396dp"
-            android:layout_height="586dp"
-            android:layout_below="@id/searchview"
+            android:layout_height="150dp"
             android:layout_marginStart="14dp"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="14dp"
-            android:layout_marginBottom="14dp"
-            tools:listitem="@layout/row" />
+            android:scaleType="centerCrop"
+            tools:srcCompat="@drawable/vna_potal_euro_2020_le_be_mac_an_tuong_voi_cong_nghe_hinh_anh_thuc_te_ao_stand" >
+        </ImageView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_blogs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image_news"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="14dp"
+            android:layout_marginBottom="40dp" />
 
     </RelativeLayout>
 
