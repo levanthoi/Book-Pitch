@@ -75,19 +75,16 @@
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
+        </activity>
+<!--        Message -->
 
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity> <!-- Message -->
-        <activity
-            android:name=".Activities.GroupMessageActivity"
-            android:exported="false" />
         <activity
             android:name=".Activities.MessageItemActivity"
-            android:exported="false" /> <!-- Payment -->
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
+
+<!--        Payment -->
         <activity
             android:name=".Activities.PaymentActivity"
             android:exported="false"
