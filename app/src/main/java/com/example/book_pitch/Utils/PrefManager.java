@@ -10,6 +10,8 @@ public class PrefManager {
     int PRIVATE_MODE = 0;
     private static final String PREF_NAME = "welcome";
     private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
+    private static final String IS_LOGIN = "IsLoggedIn";
+
     private static PrefManager mInstance;
 
     public static PrefManager getInstance(Context context) {
@@ -34,6 +36,11 @@ public class PrefManager {
         return mPref.getBoolean(IS_FIRST_TIME_LAUNCH, true);
     }
     public boolean isLogin() {
-        return false;
+        return mPref.getBoolean(IS_LOGIN, false);
+    }
+
+    public void setLogin(boolean isLoggedIn) {
+        mEditor.putBoolean(IS_LOGIN, isLoggedIn);
+        mEditor.apply();
     }
 }

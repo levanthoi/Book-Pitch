@@ -1,0 +1,44 @@
+{
+    "id": 1,
+    "title": "Sân Đại học Y",
+    "slug": "",
+    "about-us": "San dai hoc Y",
+    "images": [
+        ""
+    ],
+    "opening_time": "7:00",
+    "closing_time": "21:00",
+    "phone": "033902323",
+    "address": "Dong da, Ha Noi",
+    "location": {
+        "leo": 32.3232,
+        "log": 43.2323
+    },
+    "pitches": [
+        {
+            "id": 11,
+            "pitch_size": 7,
+            "pitch_quantity": 3,
+            "status": 0,
+            "prices": [
+                {
+                    "duration": 60,
+                    "date": "2/2/2023",
+                    "from_time": "7:00",
+                    "from_to": "12:00",
+                    "price": "200000",
+                    "pitch_id": 11
+                },
+                {
+                    "duration": 60,
+                    "date": "2/2/2023",
+                    "from_time": "12:00",
+                    "from_to": "18:00",
+                    "price": "300000",
+                    "pitch_id": 11
+                }
+            ] 
+        }
+    ],
+    "deleted": 0
+}

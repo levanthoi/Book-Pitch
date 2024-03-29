@@ -5,9 +5,13 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +21,8 @@ import android.widget.Toast;
 
 import com.example.book_pitch.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.FirebaseException;
@@ -29,38 +35,51 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firestore.v1.WriteResult;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-public class VerifyOTPActivity extends AppCompatActivity {
+public class VerifyOTPActivity extends Activity {
     private FirebaseAuth mAuth;
     private ProgressBar progressBar;
     private TextView tvPhoneNumber;
     private String mPhoneNumber;
     private String mVerificationId;
     private Button sendOtpBtn;
-    private Button reSendOtpBtn;
-    private EditText otp1;
-    private EditText otp2;
-    private EditText otp3;
-    private EditText otp4;
-    private EditText otp5;
-    private EditText otp6;
+    private TextView reSendOtpBtn;
+    private EditText otp1, otp2, otp3 ,otp4, otp5, otp6;
     private PhoneAuthProvider.ForceResendingToken mToken;
+    private int selectedETPosition = 0;
+    private FirebaseFirestore fireStore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify_otp_activity);
-        progressBar.findViewById(R.id.progressbar);
-        tvPhoneNumber.findViewById(R.id.tvPhoneNumber);
-        sendOtpBtn.findViewById(R.id.sendOtpBtn);
-        reSendOtpBtn.findViewById(R.id.reSendOtpBtn);
-        progressBar.setVisibility(View.GONE);
+        progressBar = findViewById(R.id.progressbar);
+        tvPhoneNumber = findViewById(R.id.tvPhoneNumber);
+        sendOtpBtn = findViewById(R.id.sendOtpBtn);
+        reSendOtpBtn = findViewById(R.id.reSendOtpBtn);
+        otp1 = findViewById(R.id.inputCode1);
+        otp2 = findViewById(R.id.inputCode2);
+        otp3 = findViewById(R.id.inputCode3);
+        otp4 = findViewById(R.id.inputCode4);
+        otp5 = findViewById(R.id.inputCode5);
+        otp6 = findViewById(R.id.inputCode6);
+        fireStore = FirebaseFirestore.getInstance();
+
         sendOtpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
                 String strOtp = otp1.getText().toString() + otp2.getText().toString() + otp3.getText().toString() + otp4.getText().toString()+ otp5.getText().toString() + otp6.getText().toString();
+                progressBar.setVisibility(View.VISIBLE);
                 onClickSendOTPCode(strOtp);
             }
         });
@@ -70,19 +89,102 @@ public class VerifyOTPActivity extends AppCompatActivity {
                 onClickReSendOtp();
             }
         });
+        otp1.addTextChangedListener(textWatcher);
+        otp2.addTextChangedListener(textWatcher);
+        otp3.addTextChangedListener(textWatcher);
+        otp4.addTextChangedListener(textWatcher);
+        otp5.addTextChangedListener(textWatcher);
+        otp6.addTextChangedListener(textWatcher);
+
         getDataIntent();
+
         tvPhoneNumber.setText(mPhoneNumber);
 
         mAuth = FirebaseAuth.getInstance();
 
     }
+    private final TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if(s.length() > 0) {
+                if (selectedETPosition < 6) {
+                    selectedETPosition++;
+                }
+                switch (selectedETPosition) {
+                    case 1:
+                        otp2.requestFocus();
+                        break;
+                    case 2:
+                        otp3.requestFocus();
+                        break;
+                    case 3:
+                        otp4.requestFocus();
+                        break;
+                    case 4:
+                        otp5.requestFocus();
+                        break;
+                    case 5:
+                        otp6.requestFocus();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    };
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_DEL && selectedETPosition > 0) {
+            switch (selectedETPosition) {
+                case 6:
+                    otp5.requestFocus();
+                    selectedETPosition = 5;
+                    break;
+                case 5:
+                    otp4.requestFocus();
+                    selectedETPosition = 4;
+                    break;
+                case 4:
+                    otp3.requestFocus();
+                    selectedETPosition = 3;
+                    break;
+                case 3:
+                    otp2.requestFocus();
+                    selectedETPosition = 2;
+                    break;
+                case 2:
+                    otp1.requestFocus();
+                    selectedETPosition = 1;
+                    break;
+                case 1:
+                    selectedETPosition = 0;
+                    break;
+                default:
+                    break;
+            }
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+
     private void getDataIntent() {
-        mPhoneNumber = getIntent().getStringExtra("phoneNumber");
-        mVerificationId = getIntent().getStringExtra("verificationId");
+        mPhoneNumber = getIntent().getStringExtra("mPhoneNumber");
+        mVerificationId = getIntent().getStringExtra("mVerificationId");
     }
     private void onClickSendOTPCode(String strOtp) {
-        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, strOtp);
-        signInWithPhoneAuthCredential(credential);
+            PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, strOtp);
+            signInWithPhoneAuthCredential(credential);
     }
     private void onClickReSendOtp() {
         PhoneAuthOptions options =
@@ -132,16 +234,16 @@ public class VerifyOTPActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-
-                            FirebaseUser user = task.getResult().getUser();
                             // Update UI
                             Intent intent = new Intent(VerifyOTPActivity.this, MainActivity.class);
                             startActivity(intent);
+                            finish();
                         } else {
                             // Sign in failed, display a message and update the UI
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 // The verification code entered was invalid
+                                progressBar.setVisibility(View.GONE);
                                 Toast.makeText(VerifyOTPActivity.this, "Mã OTP nhập vào không chính xác", Toast.LENGTH_SHORT).show();
                             }
                         }

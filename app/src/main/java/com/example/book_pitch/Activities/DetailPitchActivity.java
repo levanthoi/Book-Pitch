@@ -7,6 +7,8 @@ import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.book_pitch.Adapters.SliderAdapter;
 import com.example.book_pitch.Fragment.BottomSheetFragment;
+import com.example.book_pitch.Fragment.BottomSheetHotline;
 import com.example.book_pitch.Models.Pitch;
 import com.example.book_pitch.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -24,7 +27,7 @@ import java.util.List;
 
 public class DetailPitchActivity extends AppCompatActivity {
     private ViewPager2 sliderPitch;
-    Button btn_booking;
+    Button btn_booking, btn_contact, btn_direction;
     private Handler slideHandler = new Handler();
     List<String> slider = new ArrayList<>();
     @Override
@@ -33,11 +36,19 @@ public class DetailPitchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_pitch);
 
         btn_booking = findViewById(R.id.btn_booking);
+        btn_contact = findViewById(R.id.btn_contact);
 
         btn_booking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openBottomSheet();
+            }
+        });
+
+        btn_contact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openBottomSheetContact();
             }
         });
 
@@ -47,11 +58,16 @@ public class DetailPitchActivity extends AppCompatActivity {
 
     }
 
+    private void openBottomSheetContact() {
+        BottomSheetHotline bottomSheetHotline = new BottomSheetHotline(this);
+        bottomSheetHotline.show(getSupportFragmentManager(), bottomSheetHotline.getTag());
+    }
+
     public void openBottomSheet(){
         List<Pitch> list = new ArrayList<>();
-        for(int i=0; i<3;i++){
-            list.add(new Pitch(i, "San "+ i, 7));
-        }
+//        for(int i=0; i<3;i++){
+//            list.add(new Pitch(i, "San "+ i, 7));
+//        }
         BottomSheetFragment bottomSheetFragment = new BottomSheetFragment(this, list);
         bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
@@ -64,6 +80,20 @@ public class DetailPitchActivity extends AppCompatActivity {
 
     private void initView(){
         sliderPitch = findViewById(R.id.sliderPitch);
+        btn_direction = findViewById(R.id.btn_direction);
+
+        btn_direction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGoogleMap("32.323", "73.2342");
+            }
+        });
+    }
+
+    private void openGoogleMap(String latitude, String longitude) {
+        Uri mapUri = Uri.parse("https://www.google.com/maps/search/" + latitude + "," + longitude);
+        Intent intent = new Intent(Intent.ACTION_VIEW, mapUri);
+        startActivity(intent);
     }
 
     private void render(){

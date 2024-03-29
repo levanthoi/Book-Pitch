@@ -200,6 +200,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_detail_booking"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Đặt Sân (300.000 VNĐ)"

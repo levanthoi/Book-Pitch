@@ -15,16 +15,19 @@ import com.example.book_pitch.R;
 import com.example.book_pitch.databinding.PopularViewBinding;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHolder> {
-    private ArrayList<Stadium> stadiums;
+
+
+    private List<Stadium> stadiums;
     private Context ctx;
     private final PopularAdapterOnClickHandler clickHandler;
 
     public interface PopularAdapterOnClickHandler{
         void onClick(Stadium stadium);
     }
-    public PopularAdapter(ArrayList<Stadium> stadiums, PopularAdapterOnClickHandler clickHandler) {
+    public PopularAdapter(List<Stadium> stadiums, PopularAdapterOnClickHandler clickHandler) {
         this.stadiums = stadiums;
         this.clickHandler = clickHandler;
     }
@@ -40,10 +43,11 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.txtTitle.setText(stadiums.get(position).getTitle());
-        holder.txtLocation.setText(stadiums.get(position).getLocation().getArea());
-        holder.txtPhone.setText(stadiums.get(position).getPhone());
-        holder.openTime.setText(stadiums.get(position).getPhone());
+        Stadium stadium = stadiums.get(position);
+        holder.txtTitle.setText(stadium.getTitle());
+        holder.txtLocation.setText(stadium.getAddress());
+        holder.txtPhone.setText(stadium.getPhone());
+        holder.openTime.setText(stadium.getOpening_time() + "-" + stadium.getClosing_time());
     }
 
     @Override

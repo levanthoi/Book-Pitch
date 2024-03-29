@@ -15,27 +15,15 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/previous"/>
-                    <TextView
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tab_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Sân đang đặt &amp; Lịch sử đặt sân"
-                        android:textSize="25dp"
-                        android:textStyle="bold"
-                        android:gravity="center"/>
+                        app:tabIndicatorColor="@color/darkGreen"
+                        app:tabSelectedTextColor="@color/darkGreen"
+                        app:tabTextAppearance="@style/text_xl"
+                        tools:ignore="SpeakableTextPresentCheck" />
                 </LinearLayout>
-
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tab_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:tabIndicatorColor="@color/darkGreen"
-                    app:tabSelectedTextColor="@color/darkGreen"
-                    app:tabTextAppearance="@style/text_xl"
-                    tools:ignore="SpeakableTextPresentCheck" />
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/view_pager"
                     android:layout_width="match_parent"
