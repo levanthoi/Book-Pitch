@@ -1,9 +1,10 @@
 package com.example.book_pitch.Adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView; // Add this import statement
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,43 +14,59 @@ import com.example.book_pitch.R;
 
 import java.util.List;
 
-public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.MyViewHolder> {
-    private List<ChatMessage> messagesList;
 
-    public ChatMessageAdapter(List<ChatMessage> messagesList) {
-        this.messagesList = messagesList;
+public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.MessageViewHolder> {
+
+    private List<ChatMessage> messageList;
+    private Context context;
+
+    public ChatMessageAdapter(Context context, List<ChatMessage> messageList) {
+        this.context = context;
+        this.messageList = messageList;
     }
+
+
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message, parent, false);
-        return new MyViewHolder(itemView);
+    public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_messages, parent, false);
+        return new MessageViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        ChatMessage message = messagesList.get(position);
-        holder.senderTextView.setText(message.getSender());
-        holder.messageTextView.setText(message.getMessage());
-        holder.timestampTextView.setText(message.getTimestamp());
+    public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
+        ChatMessage message = messageList.get(position);
+        if (message.isCurrentUser("1")) {
+            holder.leftChatTextView.setVisibility(View.GONE);
+            holder.rightChatTextView.setVisibility(View.VISIBLE);
+            holder.rightChatTextView.setText(message.getMessage());
+        } else {
+            holder.rightChatTextView.setVisibility(View.GONE);
+            holder.leftChatTextView.setVisibility(View.VISIBLE);
+            holder.leftChatTextView.setText(message.getMessage());
+        }
+        long currentTimeMillis = System.currentTimeMillis();
+        long timeInterval = 10 * 60 * 1000; // 10 phút
+        long fakeTimestamp = currentTimeMillis - timeInterval;
+
+        // Gán giá trị fake cho TextView hiển thị timestamp
+        holder.leftChatTextView.setText(String.valueOf(fakeTimestamp));
     }
 
     @Override
     public int getItemCount() {
-        return messagesList.size();
+        return messageList.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView senderTextView;
-        public TextView messageTextView;
-        public TextView timestampTextView;
+    public class MessageViewHolder extends RecyclerView.ViewHolder {
+        TextView leftChatTextView;
+        TextView rightChatTextView;
 
-        public MyViewHolder(View view) {
-            super(view);
-            senderTextView = view.findViewById(R.id.name);
-            messageTextView = view.findViewById(R.id.messageEditTxt);
-            timestampTextView = view.findViewById(R.id.time);
+        public MessageViewHolder(@NonNull View itemView) {
+            super(itemView);
+            leftChatTextView = itemView.findViewById(R.id.left_chat_textview);
+            rightChatTextView = itemView.findViewById(R.id.right_chat_textview);
         }
     }
 }

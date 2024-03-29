@@ -25,37 +25,28 @@ public class MessageGroupAdapter extends RecyclerView.Adapter<MessageGroupAdapte
         this.messagesLists = messagesLists;
         this.clickHandler = clickHandler;
     }
-
     @NonNull
     @Override
     public MessageGroupAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_group_messages,parent,false));
     }
-
     @Override
     public void onBindViewHolder(@NonNull MessageGroupAdapter.MyViewHolder holder, int position) {
         holder.name.setText(messagesLists.get(position).getName());
         holder.lastMessage.setText(messagesLists.get(position).getLastMessages());
-//        holder.unseenMessages.setText(messagesLists.get(position).getUnseenMessages());
         holder.unseenMessages.setText(String.valueOf(messagesLists.get(position).getUnseenMessages()));
-
-//        holder.openTime.setText(messagesLists.get(position).getPhone());
     }
-
     @Override
     public int getItemCount() {
         return messagesLists.size();
     }
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
-
         private ImageView profilePic;
         private TextView name;
         private TextView lastMessage;
         private TextView unseenMessages;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-
             profilePic = itemView.findViewById(R.id.profilePic);
             name = itemView.findViewById(R.id.name);
             lastMessage = itemView.findViewById(R.id.lastMessage);

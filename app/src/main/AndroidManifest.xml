@@ -68,6 +68,7 @@
         <activity
             android:name=".Activities.MessageItemActivity"
             android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar"
             />
 
 <!--        Payment -->

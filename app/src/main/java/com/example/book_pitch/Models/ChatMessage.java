@@ -4,11 +4,11 @@ public class ChatMessage {
 
         private String sender;
         private String message;
-        private String timestamp;
+        private long timestamp;
     public ChatMessage(){
 
     }
-    public ChatMessage(String sender,String message,String timestamp) {
+    public ChatMessage(String sender,String message,long timestamp) {
         this.sender = sender;
         this.message = message;
         this.timestamp = timestamp;
@@ -25,10 +25,13 @@ public class ChatMessage {
 
 
 
-    public String getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
+    public boolean isCurrentUser(String currentUserId) {
+        return sender.equals(currentUserId);
+    }
 
 }
 
