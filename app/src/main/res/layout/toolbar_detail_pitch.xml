@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.appbar.MaterialToolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/lightGreen"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/title_toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="test"
+            android:layout_weight="1.4"
+            android:textSize="@dimen/text_base"
+            android:textColor="@color/white"/>
+
+        <ImageView
+            android:id="@+id/share_toolbar"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_weight="0.2"
+            app:tint="@color/white"
+            app:srcCompat="@drawable/share_icon" />
+
+        <ImageView
+            android:id="@+id/heart_toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            app:tint="@color/white"
+            app:srcCompat="@drawable/heart_outline" />
+
+        <ImageView
+            android:id="@+id/option_toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            app:tint="@color/white"
+            app:srcCompat="@drawable/ba_cham" />
+    </LinearLayout>
+
+</com.google.android.material.appbar.MaterialToolbar>

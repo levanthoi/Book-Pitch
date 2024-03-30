@@ -65,7 +65,7 @@ public class HistoryBookedAdapter extends RecyclerView.Adapter<HistoryBookedAdap
             itemView.setOnClickListener(this);
         }
         public void bind(Bill bill) {
-            tvName.setText(bill.getName());
+            tvName.setText(bill.getTitle());
             location.setText(bill.getAddress());
             tvPhoneNumber.setText(bill.getPhone());
         }

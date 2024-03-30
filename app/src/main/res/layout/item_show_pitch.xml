@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_show_pitch"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:textAlignment="center"
+    app:strokeWidth="1dp"
+    app:strokeColor="@color/lightGreen"
+    app:cardElevation="2dp"
+    app:contentPadding="8dp"
+    android:checkable="true"
+    android:clickable="true"
+    android:focusable="true"
+    android:layout_marginVertical="8dp"
+    android:background="@drawable/border_cardview">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/show_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="test"
+            android:textSize="@dimen/text_base"/>
+        <TextView
+            android:id="@+id/show_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="test"
+            android:textSize="@dimen/text_base"
+            />
+    </LinearLayout>
+
+
+</com.google.android.material.card.MaterialCardView>

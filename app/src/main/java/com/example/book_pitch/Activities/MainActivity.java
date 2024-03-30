@@ -4,19 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.navigation.ui.NavigationUI;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
 import android.os.Bundle;
 import android.widget.ListView;
 
-import com.example.book_pitch.Adapters.NearMeAdapter;
-import com.example.book_pitch.Adapters.PopularAdapter;
-import com.example.book_pitch.Models.Location;
 import com.example.book_pitch.Models.Stadium;
 import com.example.book_pitch.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;

@@ -1,68 +1,55 @@
 package com.example.book_pitch.Models;
 
 public class Bill {
-    private int id;
-    private int pitchId;
-    private String name;
-    private Float price;
-    private String beginTime;
+    private Price price;
+    private String title;
+    private int pitch_size;
+    private String label;
     private String address;
-    private String endTime;
     private String phone;
-    private String status;
+
     public Bill() {
-
     }
-    public Bill(int id, int pitchId, String name, Float price, String beginTime, String address, String endTime, String phone, String status) {
-        this.id = id;
-        this.pitchId = pitchId;
-        this.name = name;
+
+    public Bill(Price price, String title, int pitch_size, String label, String address, String phone) {
         this.price = price;
-        this.beginTime = beginTime;
+        this.title = title;
+        this.pitch_size = pitch_size;
+        this.label = label;
         this.address = address;
-        this.endTime = endTime;
         this.phone = phone;
-        this.status = status;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getPitchId() {
-        return pitchId;
-    }
-
-    public void setPitchId(int pitchId) {
-        this.pitchId = pitchId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Float getPrice() {
+    public Price getPrice() {
         return price;
     }
 
-    public void setPrice(Float price) {
+    public void setPrice(Price price) {
         this.price = price;
     }
 
-    public String getBeginTime() {
-        return beginTime;
+    public String getTitle() {
+        return title;
     }
 
-    public void setBeginTime(String beginTime) {
-        this.beginTime = beginTime;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getPitch_size() {
+        return pitch_size;
+    }
+
+    public void setPitch_size(int pitch_size) {
+        this.pitch_size = pitch_size;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public String getAddress() {
@@ -73,27 +60,11 @@ public class Bill {
         this.address = address;
     }
 
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
-
     public String getPhone() {
         return phone;
     }
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }

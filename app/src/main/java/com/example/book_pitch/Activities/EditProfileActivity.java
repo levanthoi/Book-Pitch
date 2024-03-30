@@ -131,17 +131,11 @@ public class EditProfileActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.accountFragment){
-            Intent intent = new Intent(EditProfileActivity.this, ProfileActivity.class);
-            startActivity(intent);
-            finish();
-            return true;
-        }else {
-            Intent intent = new Intent(EditProfileActivity.this, PaymentActivity.class);
-            startActivity(intent);
+        if(item.getItemId() == android.R.id.home){
             finish();
             return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
 }

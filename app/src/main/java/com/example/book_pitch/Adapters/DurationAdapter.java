@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,17 +15,20 @@ import com.example.book_pitch.R;
 
 import java.util.List;
 
-public class LabelPitchAdapter extends RecyclerView.Adapter<LabelPitchAdapter.ViewHolder> {
-    private List<Pitch> pitches;
-    private int selectedItem = RecyclerView.NO_POSITION;
-    private LabelPitchClickListener listener;
+public class DurationAdapter extends RecyclerView.Adapter<DurationAdapter.ViewHolder> {
 
-    public interface LabelPitchClickListener {
-        void onClick(Pitch pitch);
+    List<Integer> durations;
+    private int selectedItem = RecyclerView.NO_POSITION;
+    private DurationClickListener listener;
+    public interface DurationClickListener{
+        void onClickDuration(int duration);
     }
 
-    public LabelPitchAdapter(List<Pitch> pitches, LabelPitchClickListener listener) {
-        this.pitches = pitches;
+    public DurationAdapter() {
+    }
+
+    public DurationAdapter(List<Integer> durations, DurationClickListener listener) {
+        this.durations = durations;
         this.listener = listener;
     }
 
@@ -34,13 +36,13 @@ public class LabelPitchAdapter extends RecyclerView.Adapter<LabelPitchAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_pitch_select, parent, false);
-        return new ViewHolder(view);
+        return new DurationAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final Pitch pitch = pitches.get(position);
-        holder.textView.setText("Sân " + pitch.getPitch_size()+ " - " + pitch.getLabel());
+        final int duration = durations.get(position);
+        holder.textView.setText(duration + " phút");
 
         holder.itemView.setSelected(selectedItem == position);
 
@@ -56,12 +58,13 @@ public class LabelPitchAdapter extends RecyclerView.Adapter<LabelPitchAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return pitches.size();
+        return durations.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textView;
         public CardView cardView;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -72,7 +75,7 @@ public class LabelPitchAdapter extends RecyclerView.Adapter<LabelPitchAdapter.Vi
                 int position = getBindingAdapterPosition();
                 if(position != RecyclerView.NO_POSITION){
                     selectedItem = position;
-                    listener.onClick(pitches.get(position));
+                    listener.onClickDuration(durations.get(position));
                     // Cập nhật thay đổi
                     notifyDataSetChanged();
                 }

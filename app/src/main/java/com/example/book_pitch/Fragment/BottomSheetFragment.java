@@ -18,26 +18,43 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.book_pitch.Activities.PaymentActivity;
+import com.example.book_pitch.Adapters.DurationAdapter;
 import com.example.book_pitch.Adapters.LabelPitchAdapter;
+import com.example.book_pitch.Adapters.ShowPitchAdapter;
+import com.example.book_pitch.Models.Bill;
 import com.example.book_pitch.Models.Pitch;
+import com.example.book_pitch.Models.Price;
+import com.example.book_pitch.Models.Stadium;
 import com.example.book_pitch.R;
+import com.example.book_pitch.Utils.DateUtil;
 import com.example.book_pitch.Utils.ScreenUtils;
+import com.example.book_pitch.Utils.TimeUtil;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
-public class BottomSheetFragment extends BottomSheetDialogFragment {
+public class BottomSheetFragment extends BottomSheetDialogFragment implements LabelPitchAdapter.LabelPitchClickListener, DurationAdapter.DurationClickListener, ShowPitchAdapter.ShowPitchClickListener {
+    RecyclerView rcl_label_pitch, rcl_durations, rcl_show_pitch;
     private List<Pitch> pitches;
     private Button btnDate, btnBooking;
     private DatePickerDialog datePickerDialog;
     private Context ctx;
+    private Pitch pitch_selected;
+    private String date;
+    private Stadium stadium;
 
-    public BottomSheetFragment(Context context, List<Pitch> pitches) {
+    public BottomSheetFragment(Context context, List<Pitch> pitches, Stadium stadium) {
         this.pitches = pitches;
         this.ctx = context;
+        this.stadium = stadium;
     }
 
     @NonNull
@@ -56,7 +73,8 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         render(view);
         initDatePicker();
         btnDate = view.findViewById(R.id.select_date);
-        btnDate.setText(getTodayDate());
+        date = getTodayDate();
+        btnDate.setText(date);
         btnDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,14 +83,10 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         });
 
         btnBooking = view.findViewById(R.id.buyButton);
-        btnBooking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), PaymentActivity.class);
-                startActivity(intent);
-                dismiss();
-            }
-        });
+        btnBooking.setVisibility(View.GONE);
+
+        rcl_show_pitch = view.findViewById(R.id.rcl_show_pitch);
+        rcl_show_pitch.setLayoutManager(new GridLayoutManager(getContext(), 3));
         return bottomSheetDialog;
     }
 
@@ -80,8 +94,8 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                month +=1;
-                String date = makeDateString(dayOfMonth, month, year);
+                month += 1;
+                date = makeDateString(dayOfMonth, month, year);
                 btnDate.setText(date);
             }
         };
@@ -92,7 +106,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
 //        int style = android.R.style.Theme_Material_Light_Dialog_Alert;
-        datePickerDialog = new DatePickerDialog(ctx, dateSetListener,year, month, day);
+        datePickerDialog = new DatePickerDialog(ctx, dateSetListener, year, month, day);
         datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
     }
 
@@ -100,34 +114,88 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         return dayOfMonth + "/" + month + "/" + year;
     }
 
-    private String getTodayDate(){
+    private String getTodayDate() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
-        month +=1;
+        month += 1;
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        return makeDateString(day, month,year);
+        return makeDateString(day, month, year);
     }
 
 
-//    @Nullable
-//    @Override
-//    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        View view = inflater.inflate(R.layout.bottom_sheet, container, false);
-//
-//        render(view);
-//        return view;
-//    }
-
-    private void render(View view){
-        RecyclerView rcl_label_pitch, rcl_durations;
+    private void render(View view) {
         rcl_label_pitch = view.findViewById(R.id.rcl_label_pitch);
         rcl_label_pitch.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        rcl_label_pitch.setAdapter(new LabelPitchAdapter(pitches));
+        rcl_label_pitch.setAdapter(new LabelPitchAdapter(pitches, this));
 
         rcl_durations = view.findViewById(R.id.rcl_durations);
         rcl_durations.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        rcl_durations.setAdapter(new LabelPitchAdapter(pitches));
 
+    }
+
+    @Override
+    public void onClick(Pitch pitch) {
+        pitch_selected = pitch;
+        rcl_durations.setAdapter(new DurationAdapter(pitch.getDurations(), this::onClickDuration));
+    }
+
+    @Override
+    public void onClickDuration(int duration) {
+        List<Price> results = new ArrayList<>();
+
+
+        if(pitch_selected != null && date != null)
+            for (Price price : pitch_selected.getPrices()) {
+                if ((price.getDuration() == duration) && inDate(price)) {
+                    int limit = TimeUtil.convertTimeToInt(price.getTo_time());
+                    for(int i = TimeUtil.convertTimeToInt(price.getFrom_time()); i<=limit; i+=duration) {
+                        Price newPrice = new Price();
+                        newPrice.setId(price.getId());
+                        newPrice.setDuration(price.getDuration());
+                        newPrice.setFrom_date(date);
+                        newPrice.setTo_date(date);
+                        newPrice.setFrom_time(TimeUtil.convertIntToTime(i));
+                        newPrice.setTo_time(TimeUtil.convertIntToTime(i + duration));
+                        newPrice.setPitch_id(pitch_selected.getId());
+                        newPrice.setPrice(price.getPrice());
+
+                        results.add(newPrice);
+                    }
+                }
+        }
+        rcl_show_pitch.setAdapter(new ShowPitchAdapter(results, this::onClickShowPitch));
+    }
+
+    private boolean inDate(Price price) {
+        if (DateUtil.convertDateToInt(price.getFrom_date()) <= DateUtil.convertDateToInt(date)
+                && DateUtil.convertDateToInt(price.getTo_date()) >= DateUtil.convertDateToInt(date)) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onClickShowPitch(Price price) {
+        btnBooking.setVisibility(View.VISIBLE);
+        btnBooking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), PaymentActivity.class);
+                Bill bill = new Bill();
+                if(pitch_selected != null && stadium != null) {
+                    bill.setPrice(price);
+                    bill.setPitch_size(pitch_selected.getPitch_size());
+                    bill.setLabel(pitch_selected.getLabel());
+                    bill.setTitle(stadium.getTitle());
+                    bill.setAddress(stadium.getAddress());
+                    bill.setPhone(stadium.getPhone());
+                }
+
+                Gson gson = new Gson();
+                intent.putExtra("bill", gson.toJson(bill));
+                startActivity(intent);
+            }
+        });
     }
 }
