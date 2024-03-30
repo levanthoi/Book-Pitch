@@ -158,7 +158,7 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
 
     @Override
     public void onClick(Stadium stadium) {
-        Intent intent = new Intent(getActivity(), DetailPitchActivity.class);
+        Intent intent = new Intent(getActivity(), MessageItemActivity.class);
         startActivity(intent);
     }
 }
