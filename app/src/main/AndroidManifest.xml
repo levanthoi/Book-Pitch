@@ -78,15 +78,16 @@
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <!-- Message -->
-        <activity
-            android:name=".Activities.GroupMessageActivity"
-            android:exported="false" />
+        </activity>
+<!--        Message -->
+
         <activity
             android:name=".Activities.MessageItemActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
 
-        <!-- Payment -->
+<!--        Payment -->
         <activity
             android:name=".Activities.PaymentActivity"
             android:exported="false"
