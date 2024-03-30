@@ -26,33 +26,39 @@
                     android:background="@drawable/background_gradient_green_home"
                     android:paddingBottom="20dp">
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:id="@+id/relativeLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/logo"
+                            android:layout_gravity="center"
+                            android:layout_marginHorizontal="8dp"/>
 
                         <TextView
                             android:layout_width="320dp"
-                            android:layout_height="40dp"
-                            android:text="SPORT ME"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/bungee_inline"
                             android:textColor="@color/white"
+                            android:text="Sport Me"
                             android:textSize="@dimen/text_xl"
-                            android:textStyle="bold"
-                            android:gravity="center|start"
-                            android:drawableStart="@drawable/logo_24"
-                            android:drawablePadding="8dp"/>
+                            android:layout_gravity="center"
+                            />
 
                         <ImageView
                             android:id="@+id/btn_noti"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_alignParentEnd="true"
-                            android:layout_marginTop="6dp"
+                            android:layout_gravity="center"
                             android:src="@drawable/baseline_notifications_24" />
-                    </RelativeLayout>
+                    </LinearLayout>
 
                     <FrameLayout
                         android:id="@+id/sliderFragmentLayout"

@@ -10,10 +10,11 @@ public class Bill {
     private String endTime;
     private String phone;
     private String status;
+    private String date;
     public Bill() {
 
     }
-    public Bill(int id, int pitchId, String name, Float price, String beginTime, String address, String endTime, String phone, String status) {
+    public Bill(int id, int pitchId, String name, Float price, String beginTime, String address, String endTime, String phone, String status, String date) {
         this.id = id;
         this.pitchId = pitchId;
         this.name = name;
@@ -23,6 +24,15 @@ public class Bill {
         this.endTime = endTime;
         this.phone = phone;
         this.status = status;
+        this.date = date;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public int getId() {

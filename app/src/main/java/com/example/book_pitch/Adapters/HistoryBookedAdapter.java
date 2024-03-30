@@ -54,7 +54,7 @@ public class HistoryBookedAdapter extends RecyclerView.Adapter<HistoryBookedAdap
         return bills.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvName, location, tvPhoneNumber;
 
         public ViewHolder(@NonNull View itemView) {
@@ -62,20 +62,19 @@ public class HistoryBookedAdapter extends RecyclerView.Adapter<HistoryBookedAdap
             tvName = itemView.findViewById(R.id.tvName);
             location = itemView.findViewById(R.id.location);
             tvPhoneNumber = itemView.findViewById(R.id.tvPhoneNumber);
-            itemView.setOnClickListener(this);
+
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    Bill bill = bills.get(position);
+                    clickHandler.onClick(bill);
+                }
+            });
         }
         public void bind(Bill bill) {
             tvName.setText(bill.getName());
             location.setText(bill.getAddress());
             tvPhoneNumber.setText(bill.getPhone());
-        }
-        @Override
-        public void onClick(View v) {
-            int position = getAdapterPosition();
-            if (position != RecyclerView.NO_POSITION) {
-                Bill bill = bills.get(position);
-                clickHandler.onClick(bill);
-            }
         }
     }
 }
