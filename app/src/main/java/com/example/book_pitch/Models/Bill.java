@@ -7,7 +7,6 @@ public class Bill {
     private String label;
     private String address;
     private String phone;
-
     public Bill() {
     }
 

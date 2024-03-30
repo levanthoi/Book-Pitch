@@ -1,15 +1,10 @@
 package com.example.book_pitch.Activities;
 
-import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,11 +23,9 @@ import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -113,7 +106,29 @@ public class RegisterActivity extends Activity {
                                         }
                                     }
                                     if (!phoneNumberExists) {
-                                        onClickSendOtpCode(phoneNumber, displayName, address);
+                                        Map<String, Object> user = new HashMap<>();
+                                        user.put("displayName", displayName);
+                                        user.put("address", address);
+                                        user.put("phoneNumber", phoneNumber);
+                                        user.put("avatar", "");
+                                        user.put("gender", "");
+                                        user.put("email" , "");
+                                        fireStore.collection("users").document(phoneNumber)
+                                                .set(user)
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        onClickSendOtpCode(phoneNumber, displayName, address);
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Log.w(TAG, "Error adding document", e);
+                                                        progressBar.setVisibility(View.GONE);
+                                                    }
+                                                });
+
                                     }
                                 } else {
                                     progressBar.setVisibility(View.GONE);
@@ -145,8 +160,7 @@ public class RegisterActivity extends Activity {
                             @Override
                             public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
                                 Log.d(TAG, "onVerificationCompleted:" + credential);
-
-                                signInWithPhoneAuthCredential(credential, phoneNumber, displayName, address);
+                                signInWithPhoneAuthCredential(credential);
                             }
                             @Override
                             public void onVerificationFailed(@NonNull FirebaseException e) {
@@ -157,22 +171,19 @@ public class RegisterActivity extends Activity {
                                 // Show a message and update the UI
                             }
 
-                            @Override
                             public void onCodeSent(@NonNull String verificationId,
                                                    @NonNull PhoneAuthProvider.ForceResendingToken token) {
                                 Log.d(TAG, "onCodeSent:" + verificationId);
 
                                 // Save verification ID and resending token so we can use them later
                                 super.onCodeSent(verificationId, token);
-                                String displayName = nameText.getText().toString();
-                                String address = addressText.getText().toString();
                                 gotoVerifyOTPActivity(phoneNumber, verificationId);
                             }
                         })           // Callbacks để xử lý kết quả xác thực
                         .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
-    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential,String phoneNumber, String displayName, String address) {
+    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -181,30 +192,9 @@ public class RegisterActivity extends Activity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             // Update UI
-                            Map<String, Object> user = new HashMap<>();
-                            user.put("displayName", displayName);
-                            user.put("address", address);
-                            user.put("phoneNumber", phoneNumber);
-                            user.put("avatar", "");
-                            user.put("gender", "");
-                            user.put("email" , "");
-                            fireStore.collection("users").document(phoneNumber)
-                                    .set(user)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Intent intent = new Intent(RegisterActivity.this, VerifyOTPActivity.class);
-                                            startActivity(intent);
-                                            finish();
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.w(TAG, "Error adding document", e);
-                                            progressBar.setVisibility(View.GONE);
-                                        }
-                                    });
+                            Intent intent = new Intent(RegisterActivity.this, VerifyOTPActivity.class);
+                            startActivity(intent);
+                            finish();
                         } else {
                             // Sign in failed, display a message and update the UI
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
