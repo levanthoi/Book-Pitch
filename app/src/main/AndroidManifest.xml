@@ -81,8 +81,6 @@
             android:name=".Activities.DetailPitchActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        </activity>
 <!--        Message -->
 
         <activity

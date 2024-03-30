@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.book_pitch.Activities.LoginPhoneNumberActivity;
 import com.example.book_pitch.Activities.PaymentActivity;
 import com.example.book_pitch.Adapters.DurationAdapter;
 import com.example.book_pitch.Adapters.LabelPitchAdapter;
@@ -27,6 +28,7 @@ import com.example.book_pitch.Models.Price;
 import com.example.book_pitch.Models.Stadium;
 import com.example.book_pitch.R;
 import com.example.book_pitch.Utils.DateUtil;
+import com.example.book_pitch.Utils.FirebaseUtil;
 import com.example.book_pitch.Utils.ScreenUtils;
 import com.example.book_pitch.Utils.TimeUtil;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -50,6 +52,9 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements La
     private Pitch pitch_selected;
     private String date;
     private Stadium stadium;
+
+    public BottomSheetFragment() {
+    }
 
     public BottomSheetFragment(Context context, List<Pitch> pitches, Stadium stadium) {
         this.pitches = pitches;
@@ -81,9 +86,6 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements La
                 datePickerDialog.show();
             }
         });
-
-        btnBooking = view.findViewById(R.id.buyButton);
-        btnBooking.setVisibility(View.GONE);
 
         rcl_show_pitch = view.findViewById(R.id.rcl_show_pitch);
         rcl_show_pitch.setLayoutManager(new GridLayoutManager(getContext(), 3));
@@ -132,6 +134,13 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements La
         rcl_durations = view.findViewById(R.id.rcl_durations);
         rcl_durations.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
+        btnBooking = view.findViewById(R.id.buyButton);
+        btnBooking.setVisibility(View.GONE);
+
+        if(!FirebaseUtil.isLoggedIn()){
+            btnBooking.setText("Đăng nhập để đặt sân");
+        }else btnBooking.setText("Đặt Ngay");
+
     }
 
     @Override
@@ -177,24 +186,32 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements La
 
     @Override
     public void onClickShowPitch(Price price) {
+
         btnBooking.setVisibility(View.VISIBLE);
         btnBooking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), PaymentActivity.class);
-                Bill bill = new Bill();
-                if(pitch_selected != null && stadium != null) {
-                    bill.setPrice(price);
-                    bill.setPitch_size(pitch_selected.getPitch_size());
-                    bill.setLabel(pitch_selected.getLabel());
-                    bill.setTitle(stadium.getTitle());
-                    bill.setAddress(stadium.getAddress());
-                    bill.setPhone(stadium.getPhone());
-                }
+                if(!FirebaseUtil.isLoggedIn()){
+                    Intent intent = new Intent(getActivity(), LoginPhoneNumberActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }else{
+                    Intent intent = new Intent(getActivity(), PaymentActivity.class);
+                    Bill bill = new Bill();
+                    if(pitch_selected != null && stadium != null) {
+                        bill.setPrice(price);
+                        bill.setPitch_size(pitch_selected.getPitch_size());
+                        bill.setLabel(pitch_selected.getLabel());
+                        bill.setTitle(stadium.getTitle());
+                        bill.setAddress(stadium.getAddress());
+                        bill.setPhone(stadium.getPhone());
+                    }
 
-                Gson gson = new Gson();
-                intent.putExtra("bill", gson.toJson(bill));
-                startActivity(intent);
+                    Gson gson = new Gson();
+                    intent.putExtra("bill", gson.toJson(bill));
+                    startActivity(intent);
+                }
+                dismiss();
             }
         });
     }
