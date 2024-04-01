@@ -13,6 +13,7 @@ import android.app.NotificationManager;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.example.book_pitch.Adapters.NewsAdapter;
@@ -20,16 +21,19 @@ import com.example.book_pitch.Adapters.NotificationAdapter;
 import com.example.book_pitch.Models.News;
 import com.example.book_pitch.Models.Notification;
 import com.example.book_pitch.R;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class NotificationActivity extends AppCompatActivity {
+    public static final String CHANNEL_ID = "push_notification_id";
     RecyclerView rcvNoti_new, rcvNoti_old;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+            super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
 
         rcvNoti_new = findViewById(R.id.rv_noti_new);
@@ -42,6 +46,9 @@ public class NotificationActivity extends AppCompatActivity {
         rcvNoti_old.setLayoutManager(new LinearLayoutManager(this));
         NotificationAdapter noti_oldAdapter = new NotificationAdapter(getNotiList1());
         rcvNoti_old.setAdapter(noti_oldAdapter);
+        createNotification();
+
+//        getNotification();
 
     }
 
@@ -65,4 +72,21 @@ public class NotificationActivity extends AppCompatActivity {
         }
         return list1;
     }
+
+    public void createNotification(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S){
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "PushNotification", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+    }
+//    void getNotification(){
+//        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+//            if(task.isSuccessful()){
+//                String token = task.getResult();
+//                Log.i("My token", token);
+//            }
+//        });
+//    }
+
 }
