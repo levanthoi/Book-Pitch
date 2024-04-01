@@ -1,22 +1,24 @@
 package com.example.book_pitch.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.navigation.ui.NavigationUI;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
+import android.app.Activity;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 
-import com.example.book_pitch.Adapters.NearMeAdapter;
-import com.example.book_pitch.Adapters.PopularAdapter;
-import com.example.book_pitch.Models.Location;
 import com.example.book_pitch.Models.Stadium;
 import com.example.book_pitch.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -35,6 +37,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+//        Window window = getWindow();
+//        window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
 
         NavController navController = Navigation.findNavController(this, R.id.fragmentContainerView);
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);

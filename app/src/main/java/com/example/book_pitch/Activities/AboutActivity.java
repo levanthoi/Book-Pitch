@@ -6,11 +6,14 @@ import android.os.Bundle;
 
 import com.example.book_pitch.R;
 
-public class GroupMessageActivity extends AppCompatActivity {
+public class AboutActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_group_message);
+        setContentView(R.layout.activity_about);
+
+        getSupportActionBar().setTitle(R.string.setting);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }

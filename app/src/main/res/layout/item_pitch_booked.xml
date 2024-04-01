@@ -38,6 +38,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/tvTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Sân Đại học Thủy Lợi"
@@ -53,6 +54,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
+                        android:id="@+id/tvNamePitch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Sân 7 - Số 1"
@@ -70,6 +72,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/tvAddress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableStart="@drawable/address"
@@ -95,12 +98,20 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/tvBeginTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:drawableStart="@drawable/time"
                         android:drawablePadding="8dp"
-                        android:text="19:00 - 21:00" />
+                        android:text="19:00 -" />
+                    <TextView
+                        android:id="@+id/tvEndTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:drawablePadding="8dp"
+                        android:text="20:00" />
                 </LinearLayout>
 
                 <View
@@ -113,6 +124,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/tvDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
