@@ -6,6 +6,7 @@ public class Pitch {
     private String id;
     private String label;
     private int pitch_size;
+    private List<Integer> durations;
     private String stadium_id;
     private int status;
     private List<Price> prices;
@@ -13,10 +14,11 @@ public class Pitch {
     public Pitch() {
     }
 
-    public Pitch(String id, String label, int pitch_size, String stadium_id, int status, List<Price> prices) {
+    public Pitch(String id, String label, int pitch_size,List<Integer> durations, String stadium_id, int status, List<Price> prices) {
         this.id = id;
         this.label = label;
         this.pitch_size = pitch_size;
+        this.durations = durations;
         this.stadium_id = stadium_id;
         this.status = status;
         this.prices = prices;
@@ -44,6 +46,14 @@ public class Pitch {
 
     public void setPitch_size(int pitch_size) {
         this.pitch_size = pitch_size;
+    }
+
+    public List<Integer> getDurations() {
+        return durations;
+    }
+
+    public void setDurations(List<Integer> durations) {
+        this.durations = durations;
     }
 
     public String getStadium_id() {

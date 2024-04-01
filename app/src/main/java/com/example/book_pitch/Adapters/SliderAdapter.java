@@ -61,7 +61,7 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.ViewHolder
 
         void setImage(String item){
             RequestOptions requestOptions = new RequestOptions();
-            requestOptions = requestOptions.transform(new CenterCrop(), new RoundedCorners(20));
+            requestOptions = requestOptions.transform(new CenterCrop());
 
             Glide.with(ctx)
                     .load(item)

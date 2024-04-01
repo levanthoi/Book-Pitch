@@ -19,9 +19,15 @@ import java.util.List;
 public class LabelPitchAdapter extends RecyclerView.Adapter<LabelPitchAdapter.ViewHolder> {
     private List<Pitch> pitches;
     private int selectedItem = RecyclerView.NO_POSITION;
+    private LabelPitchClickListener listener;
 
-    public LabelPitchAdapter(List<Pitch> pitches) {
+    public interface LabelPitchClickListener {
+        void onClick(Pitch pitch);
+    }
+
+    public LabelPitchAdapter(List<Pitch> pitches, LabelPitchClickListener listener) {
         this.pitches = pitches;
+        this.listener = listener;
     }
 
     @NonNull
@@ -34,16 +40,9 @@ public class LabelPitchAdapter extends RecyclerView.Adapter<LabelPitchAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Pitch pitch = pitches.get(position);
-        holder.textView.setText(pitch.getLabel());
+        holder.textView.setText("Sân " + pitch.getPitch_size()+ " - " + pitch.getLabel());
+
         holder.itemView.setSelected(selectedItem == position);
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectedItem = holder.getAdapterPosition();
-                notifyDataSetChanged();
-//                holder.cardView.setBackgroundResource(R.drawable.border_cardview);
-            }
-        });
 
         if(selectedItem == position){
             holder.cardView.setBackgroundColor(Color.parseColor("#85C240"));
@@ -70,9 +69,13 @@ public class LabelPitchAdapter extends RecyclerView.Adapter<LabelPitchAdapter.Vi
             cardView = itemView.findViewById(R.id.card_label_pitch);
 
             cardView.setOnClickListener(v -> {
-                notifyItemChanged(selectedItem);
-                selectedItem = getAdapterPosition();
-                notifyItemChanged(selectedItem);
+                int position = getBindingAdapterPosition();
+                if(position != RecyclerView.NO_POSITION){
+                    selectedItem = position;
+                    listener.onClick(pitches.get(position));
+                    // Cập nhật thay đổi
+                    notifyDataSetChanged();
+                }
             });
         }
     }
