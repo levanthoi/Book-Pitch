@@ -45,5 +45,6 @@ public class MessageFragment extends Fragment implements MessageGroupAdapter.Mes
         Intent intent = new Intent(getActivity(), MessageItemActivity.class);
         startActivity(intent);
         getActivity().finish();
+
     }
 }

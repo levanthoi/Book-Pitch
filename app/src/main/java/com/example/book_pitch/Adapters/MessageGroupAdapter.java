@@ -35,11 +35,16 @@ public class MessageGroupAdapter extends RecyclerView.Adapter<MessageGroupAdapte
         holder.name.setText(messagesLists.get(position).getName());
         holder.lastMessage.setText(messagesLists.get(position).getLastMessages());
         holder.unseenMessages.setText(String.valueOf(messagesLists.get(position).getUnseenMessages()));
+
+
+
     }
     @Override
     public int getItemCount() {
         return messagesLists.size();
     }
+
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private ImageView profilePic;
         private TextView name;
@@ -52,5 +57,7 @@ public class MessageGroupAdapter extends RecyclerView.Adapter<MessageGroupAdapte
             lastMessage = itemView.findViewById(R.id.lastMessage);
             unseenMessages = itemView.findViewById(R.id.unseenMessages);
         }
+
+
     }
 }
