@@ -5,10 +5,9 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="android:windowBackground">@color/gray</item>
         <item name="android:textColorPrimary">@color/black</item>
-        <item name="colorPrimary">@color/lightGreen</item>
+        <item name="colorPrimary">@color/darkGreen</item>
         <item name="android:colorPrimaryDark">@color/gray</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:statusBarColor">@color/darkGreen</item>
     </style>
 
     <style name="Theme.BookPitch" parent="Base.Theme.BookPitch" />

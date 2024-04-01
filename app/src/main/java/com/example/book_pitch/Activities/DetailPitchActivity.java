@@ -4,12 +4,14 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.WindowCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -46,6 +48,8 @@ public class DetailPitchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_pitch);
+
+        getWindow().setStatusBarColor(Color.parseColor("#198754"));
 
         handleIntent(getIntent());
         initView();
@@ -136,7 +140,7 @@ public class DetailPitchActivity extends AppCompatActivity {
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, stadium.getTitle());
         shareIntent.putExtra(Intent.EXTRA_TEXT, stadium.getAddress());
-        startActivity(Intent.createChooser(shareIntent, "Share Product"));
+        startActivity(Intent.createChooser(shareIntent, "Chia sẻ"));
     }
 
     private void handleFavorite() {
