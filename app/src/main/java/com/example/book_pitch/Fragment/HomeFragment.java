@@ -4,6 +4,7 @@ import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -28,6 +32,7 @@ import android.widget.TextView;
 
 import com.example.book_pitch.Activities.DetailPitchActivity;
 import com.example.book_pitch.Activities.NotificationActivity;
+import com.example.book_pitch.Activities.SearchActivity;
 import com.example.book_pitch.Adapters.PopularAdapter;
 import com.example.book_pitch.Adapters.WrapContentGridLayoutManager;
 import com.example.book_pitch.Adapters.WrapContentLinearLayoutManager;
@@ -58,6 +63,7 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
     private boolean dataLoaded = false;
 
     ImageView btn_noti;
+    TextView search_home;
     PopularAdapter popularAdapter;
     FirebaseFirestore firestore;
 
@@ -89,6 +95,8 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
         recyclerPopular = view.findViewById(R.id.rclPopular);
         rclNearMe = view.findViewById(R.id.rclNearMe);
         btn_noti = view.findViewById(R.id.btn_noti);
+        search_home = view.findViewById(R.id.search_home);
+
 //        loading1 = view.findViewById(R.id.loading1);
 //        loading2 = view.findViewById(R.id.loading2);
 
@@ -128,6 +136,14 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
                 Intent intent = new Intent(getActivity(), NotificationActivity.class);
                 startActivity(intent);
 
+            }
+        });
+
+        search_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                startActivity(intent);
             }
         });
     }

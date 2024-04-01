@@ -64,7 +64,7 @@ public class DetailPitchActivity extends AppCompatActivity {
     }
 
     private void openBottomSheetContact() {
-        BottomSheetHotline bottomSheetHotline = new BottomSheetHotline(this);
+        BottomSheetHotline bottomSheetHotline = new BottomSheetHotline(this, stadium);
         bottomSheetHotline.show(getSupportFragmentManager(), bottomSheetHotline.getTag());
     }
 
@@ -95,6 +95,20 @@ public class DetailPitchActivity extends AppCompatActivity {
         title_toolabr.setText(stadium != null ? stadium.getTitle() : "Chi tiết sân bóng");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleShare();
+            }
+        });
+
+        heart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleFavorite();
+            }
+        });
+
         btn_direction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,6 +129,18 @@ public class DetailPitchActivity extends AppCompatActivity {
                 openBottomSheetContact();
             }
         });
+    }
+
+    private void handleShare() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, stadium.getTitle());
+        shareIntent.putExtra(Intent.EXTRA_TEXT, stadium.getAddress());
+        startActivity(Intent.createChooser(shareIntent, "Share Product"));
+    }
+
+    private void handleFavorite() {
+
     }
 
     private void openGoogleMap(String latitude, String longitude) {
