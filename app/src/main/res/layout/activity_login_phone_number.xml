@@ -41,7 +41,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="300dp"
+                android:layout_marginTop="280dp"
                 android:orientation="vertical"
                 android:padding="30dp">
 
@@ -123,7 +123,35 @@
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="20dp" />
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Hoặc đăng nhập bằng"
+                    android:textSize="@dimen/text_base"
+                    android:layout_gravity="center"/>
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+                        <ImageView
+                            android:id="@+id/loginGoogle"
+                            android:layout_width="100dp"
+                            android:layout_height="60dp"
+                            android:background="@drawable/logo_google"/>
+                        <ImageView
+                            android:id="@+id/loginFacebook"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/logo_facebook"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
