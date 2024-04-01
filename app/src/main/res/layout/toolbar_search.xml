@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.appbar.MaterialToolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/darkGreen">
+
+    <EditText
+        android:id="@+id/editQuery"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginVertical="8dp"
+        android:background="@drawable/background_search_bar"
+        android:inputType="text"
+        android:imeOptions="actionSearch"
+        android:drawableStart="@drawable/search"
+        android:drawablePadding="8dp"
+        android:hint="Nhập từ khóa tìm kiếm"
+        android:gravity="start|center"
+        android:paddingStart="8dp"
+        android:paddingEnd="12dp"
+        android:textSize="@dimen/text_base"
+        android:textColor="#979797"
+        android:importantForAutofill="no"/>
+</com.google.android.material.appbar.MaterialToolbar>

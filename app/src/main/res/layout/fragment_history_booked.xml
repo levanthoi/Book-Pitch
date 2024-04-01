@@ -23,12 +23,13 @@
             app:layout_constraintTop_toTopOf="parent">
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="400dp"
+                android:background="@drawable/empty"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Không có sân nào được đặt"
-                android:textSize="18dp"
+                android:text="Không có lịch sử đặt sân "
+                android:textSize="@dimen/text_xl"
                 android:gravity="center"/>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

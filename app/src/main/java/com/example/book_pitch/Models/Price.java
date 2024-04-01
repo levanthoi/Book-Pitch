@@ -3,7 +3,8 @@ package com.example.book_pitch.Models;
 public class Price {
     private String id;
     private String pitch_id;
-    private String date;
+    private String from_date;
+    private String to_date;
     private int duration;
     private String from_time;
     private String to_time;
@@ -12,10 +13,11 @@ public class Price {
     public Price() {
     }
 
-    public Price(String id, String pitch_id, String date, int duration, String from_time, String to_time, String price) {
+    public Price(String id, String pitch_id, String from_date, String to_date, int duration, String from_time, String to_time, String price) {
         this.id = id;
         this.pitch_id = pitch_id;
-        this.date = date;
+        this.from_date = from_date;
+        this.to_date = to_date;
         this.duration = duration;
         this.from_time = from_time;
         this.to_time = to_time;
@@ -38,12 +40,20 @@ public class Price {
         this.pitch_id = pitch_id;
     }
 
-    public String getDate() {
-        return date;
+    public String getFrom_date() {
+        return from_date;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setFrom_date(String from_date) {
+        this.from_date = from_date;
+    }
+
+    public String getTo_date() {
+        return to_date;
+    }
+
+    public void setTo_date(String to_date) {
+        this.to_date = to_date;
     }
 
     public int getDuration() {

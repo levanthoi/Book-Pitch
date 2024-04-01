@@ -21,6 +21,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.book_pitch.Activities.MessageItemActivity;
+import com.example.book_pitch.Models.Stadium;
 import com.example.book_pitch.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -28,11 +29,13 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 public class BottomSheetHotline extends BottomSheetDialogFragment {
     private static final int REQUEST_CALL_PHONE = 1;
     Button btn_phone, btn_message;
-    TextView copy_phone, text_phone;
+    TextView copy_phone, text_phone, title_contact, address_contact;
     Context ctx;
+    Stadium stadium;
 
-    public BottomSheetHotline(Context ctx) {
+    public BottomSheetHotline(Context ctx, Stadium stadium) {
         this.ctx = ctx;
+        this.stadium = stadium;
     }
 
     @NonNull
@@ -57,6 +60,15 @@ public class BottomSheetHotline extends BottomSheetDialogFragment {
         btn_message = view.findViewById(R.id.btn_message);
         copy_phone = view.findViewById(R.id.copy_phone);
         text_phone = view.findViewById(R.id.text_phone);
+        title_contact = view.findViewById(R.id.title_contact);
+        address_contact = view.findViewById(R.id.address_contact);
+
+        if(stadium != null) {
+            title_contact.setText(stadium.getTitle());
+            address_contact.setText(stadium.getAddress());
+            text_phone.setText(stadium.getPhone());
+        }
+
 
         btn_phone.setOnClickListener(new View.OnClickListener() {
             @Override
