@@ -84,7 +84,7 @@ public class LoginPhoneNumberActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String phoneNumber;
     private FirebaseFirestore fireStore;
-    CardView loginGoogleBtn, loginFacebookBtn;
+    CardView loginGoogleBtn, loginFacebookBtn, loginGuest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +97,8 @@ public class LoginPhoneNumberActivity extends AppCompatActivity {
         registerBtn = findViewById(R.id.register);
         loginGoogleBtn = findViewById(R.id.loginGoogle);
         loginFacebookBtn = findViewById(R.id.loginFacebook);
+        loginGuest = findViewById(R.id.loginGuest);
+
         fireStore = FirebaseFirestore.getInstance();
 //        LOGIN PHONE NUMBER
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -152,6 +154,15 @@ public class LoginPhoneNumberActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LoginPhoneNumberActivity.this, FacebookAuthActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        loginGuest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginPhoneNumberActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
