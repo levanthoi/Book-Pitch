@@ -119,7 +119,7 @@ public class WelcomeActivity extends Activity {
 
     private void launchHomeScreen() {
         PrefManager.getInstance(this).setFirstimeLaunch(false);
-        startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+        startActivity(new Intent(WelcomeActivity.this, LoginPhoneNumberActivity.class));
         finish();
     }
 

@@ -131,5 +131,6 @@ public class GoogleAuthActivity extends LoginPhoneNumberActivity {
     private void gotoMainActivity() {
         Intent intent = new Intent(GoogleAuthActivity.this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 }

@@ -75,7 +75,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class LoginPhoneNumberActivity extends Activity {
+public class LoginPhoneNumberActivity extends AppCompatActivity {
     private static final String TAG = LoginPhoneNumberActivity.class.getName();
     private ProgressBar progressBar;
     private EditText phoneNumberText;
@@ -84,7 +84,7 @@ public class LoginPhoneNumberActivity extends Activity {
     private FirebaseAuth mAuth;
     private String phoneNumber;
     private FirebaseFirestore fireStore;
-    CardView loginGoogleBtn, loginFacebookBtn;
+    CardView loginGoogleBtn, loginFacebookBtn, loginGuest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +97,8 @@ public class LoginPhoneNumberActivity extends Activity {
         registerBtn = findViewById(R.id.register);
         loginGoogleBtn = findViewById(R.id.loginGoogle);
         loginFacebookBtn = findViewById(R.id.loginFacebook);
+        loginGuest = findViewById(R.id.loginGuest);
+
         fireStore = FirebaseFirestore.getInstance();
 //        LOGIN PHONE NUMBER
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -152,6 +154,15 @@ public class LoginPhoneNumberActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(LoginPhoneNumberActivity.this, FacebookAuthActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        loginGuest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginPhoneNumberActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }

@@ -34,8 +34,9 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mAuth.signOut();
-                Intent i = new Intent(SettingActivity.this, MainActivity.class);
+                Intent i = new Intent(SettingActivity.this, LoginPhoneNumberActivity.class);
                 startActivity(i);
+                finish();
             }
         });
         AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
