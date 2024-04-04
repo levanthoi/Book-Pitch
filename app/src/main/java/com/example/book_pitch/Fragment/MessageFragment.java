@@ -11,6 +11,8 @@ import com.example.book_pitch.Activities.MessageItemActivity;
 import com.example.book_pitch.Adapters.MessageGroupAdapter;
 import com.example.book_pitch.Models.MessageGroup;
 import com.example.book_pitch.R;
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 public class MessageFragment extends Fragment implements MessageGroupAdapter.MessageGroupAdapterOnClickHandler {
     private RecyclerView messageRecyclerView;
@@ -41,10 +43,10 @@ public class MessageFragment extends Fragment implements MessageGroupAdapter.Mes
         messageRecyclerView.setHasFixedSize(true);
     }
     @Override
-    public void onClick(MessageGroup messages) {
+    public void onClick(MessageGroup messageGroup) {
         Intent intent = new Intent(getActivity(), MessageItemActivity.class);
+        Gson gson = new Gson();
+        intent.putExtra("messageGroup", gson.toJson(messageGroup));
         startActivity(intent);
-        getActivity().finish();
-
     }
 }

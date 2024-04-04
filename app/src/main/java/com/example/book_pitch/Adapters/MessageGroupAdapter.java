@@ -1,17 +1,25 @@
 package com.example.book_pitch.Adapters;
 
 
+
+
+import android.content.Intent;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.book_pitch.Activities.ChatActivity;
 import com.example.book_pitch.Models.MessageGroup;
+import com.example.book_pitch.Models.Stadium;
 import com.example.book_pitch.R;
+import com.example.book_pitch.databinding.ItemNewBinding;
 
 import java.util.List;
 
@@ -32,11 +40,19 @@ public class MessageGroupAdapter extends RecyclerView.Adapter<MessageGroupAdapte
     }
     @Override
     public void onBindViewHolder(@NonNull MessageGroupAdapter.MyViewHolder holder, int position) {
+        final MessageGroup message = messagesLists.get(position);
         holder.name.setText(messagesLists.get(position).getName());
         holder.lastMessage.setText(messagesLists.get(position).getLastMessages());
         holder.unseenMessages.setText(String.valueOf(messagesLists.get(position).getUnseenMessages()));
 
-
+//        holder.rootLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(v.getContext(), ChatActivity.class);
+//                Intent.putExtra("messageGroup", String.valueOf(message));
+//                v.getContext().startActivity(intent);
+//            }
+//        });
 
     }
     @Override
@@ -50,12 +66,21 @@ public class MessageGroupAdapter extends RecyclerView.Adapter<MessageGroupAdapte
         private TextView name;
         private TextView lastMessage;
         private TextView unseenMessages;
+
+//        private LinearLayout rootLayout;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             profilePic = itemView.findViewById(R.id.profilePic);
             name = itemView.findViewById(R.id.name);
             lastMessage = itemView.findViewById(R.id.lastMessage);
             unseenMessages = itemView.findViewById(R.id.unseenMessages);
+//            rootLayout = itemView.findViewById(R.id.rootLayout);
+            itemView.setOnClickListener(v -> {
+                int position = getBindingAdapterPosition();
+                    MessageGroup s = messagesLists.get(position);
+                    clickHandler.onClick(s);
+
+            });
         }
 
 

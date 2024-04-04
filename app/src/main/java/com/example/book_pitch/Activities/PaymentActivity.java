@@ -19,8 +19,7 @@ import com.example.book_pitch.Models.Stadium;
 import com.example.book_pitch.R;
 import com.example.book_pitch.Utils.Helper;
 import com.google.gson.Gson;
-import com.vnpay.authentication.VNP_AuthenticationActivity;
-import com.vnpay.authentication.VNP_SdkCompletedCallback;
+
 
 public class PaymentActivity extends AppCompatActivity {
 

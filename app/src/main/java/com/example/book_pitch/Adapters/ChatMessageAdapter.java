@@ -1,9 +1,14 @@
 package com.example.book_pitch.Adapters;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -47,11 +52,12 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
             holder.leftChatTextView.setText(message.getMessage());
         }
         long currentTimeMillis = System.currentTimeMillis();
-        long timeInterval = 10 * 60 * 1000; // 10 phút
+        long timeInterval = 10 * 60 * 1000;
         long fakeTimestamp = currentTimeMillis - timeInterval;
 
         // Gán giá trị fake cho TextView hiển thị timestamp
         holder.leftChatTextView.setText(String.valueOf(fakeTimestamp));
+
     }
 
     @Override
@@ -63,10 +69,13 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
         TextView leftChatTextView;
         TextView rightChatTextView;
 
+        ImageButton back_btn;
+
         public MessageViewHolder(@NonNull View itemView) {
             super(itemView);
             leftChatTextView = itemView.findViewById(R.id.left_chat_textview);
             rightChatTextView = itemView.findViewById(R.id.right_chat_textview);
+            back_btn = itemView.findViewById((R.id.back_btn));
         }
     }
 }
