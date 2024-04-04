@@ -91,21 +91,16 @@ public class RegisterActivity extends Activity {
                 }
                 progressBar.setVisibility(View.VISIBLE);
                 fireStore.collection("users")
+                        .whereEqualTo("phoneNumber", phoneNumber)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
-                                    boolean phoneNumberExists = false;
-                                    for (DocumentSnapshot document : task.getResult()) {
-                                        if (document.getId().equals(phoneNumber)) {
+                                        if (!task.getResult().isEmpty()) {
                                             progressBar.setVisibility(View.GONE);
                                             Toast.makeText(RegisterActivity.this, "Số điện thoại đã được đăng ký", Toast.LENGTH_LONG).show();
-                                            phoneNumberExists = true;
-                                            return;
-                                        }
-                                    }
-                                    if (!phoneNumberExists) {
+                                    } else {
                                         Map<String, Object> user = new HashMap<>();
                                         user.put("displayName", displayName);
                                         user.put("address", address);
@@ -113,7 +108,8 @@ public class RegisterActivity extends Activity {
                                         user.put("avatar", "");
                                         user.put("gender", "");
                                         user.put("email" , "");
-                                        fireStore.collection("users").document(phoneNumber)
+                                        user.put("loginOption","phoneNumber");
+                                        fireStore.collection("users").document()
                                                 .set(user)
                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override

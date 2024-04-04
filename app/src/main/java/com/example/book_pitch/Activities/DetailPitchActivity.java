@@ -4,6 +4,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.WindowCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
@@ -109,6 +110,19 @@ public class DetailPitchActivity extends AppCompatActivity {
         heart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                boolean isHeartOn = heart.getTag() != null && (boolean) heart.getTag();
+                if (isHeartOn) {
+                    heart.setImageResource(R.drawable.heart_outline);
+                    heart.setTag(false);
+                    Toast.makeText(DetailPitchActivity.this, "Đã xóa khỏi danh sách yêu thích", Toast.LENGTH_SHORT).show();
+                    // Thực hiện các hành động khi heart bị tắt
+                } else {
+                    heart.setImageResource(R.drawable.heart_outline_red);
+                    heart.setTag(true);
+                    Toast.makeText(DetailPitchActivity.this, "Đã thêm vào danh sách yêu thích", Toast.LENGTH_SHORT).show();
+                    // Thực hiện các hành động khi heart được bật
+                }
+
                 handleFavorite();
             }
         });

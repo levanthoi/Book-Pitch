@@ -45,4 +45,11 @@
     <string name="tin_t_c">Tin Tức</string>
     <string name="th_ng_b_o">Thông báo</string>
     <string name="_2h_tr_c">2h trước</string>
+    <string name="default_web_client_id">919174305763-3b1somh2siahhdd65caji3t0kg6tcbmk.apps.googleusercontent.com</string>
+
+    <!--    Facebook AppId-->
+    <string name="facebook_app_id">436003159111667</string>
+    <string name="fb_login_protocol_scheme">fb436003159111667</string>
+    <string name="facebook_client_token">8366ffc3868ede24239ae6c571ac57f1</string>
+
 </resources>

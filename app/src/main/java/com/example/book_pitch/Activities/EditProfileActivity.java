@@ -51,9 +51,10 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
-        getSupportActionBar().setTitle(R.string.edit_profile);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(R.string.edit_profile);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         userAvatar = findViewById(R.id.userAvatar);
         userDisplayName = findViewById(R.id.userDisplayName);
         userAddress = findViewById(R.id.userAddress);
@@ -70,63 +71,102 @@ public class EditProfileActivity extends AppCompatActivity {
         genderAdapter = new GenderAdapter(this, genders);
         userGender.setAdapter(genderAdapter);
         db = FirebaseFirestore.getInstance();
+        String phoneNumber =  mAuth.getCurrentUser().getPhoneNumber();
+        if(phoneNumber != null) {
+            db.collection("users")
+                    .whereEqualTo("phoneNumber",phoneNumber)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    String displayName = document.getString("displayName");
+                                    String address = document.getString("address");
+                                    String phoneNumberStr = document.getString("phoneNumber");
+                                    String email = document.getString("email");
+                                    String gender = document.getString("gender");
 
-        db.collection("users")
-                .whereEqualTo(FieldPath.documentId(), mAuth.getCurrentUser().getPhoneNumber())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                String displayName = document.getString("displayName");
-                                String address = document.getString("address");
-                                String phoneNumber = document.getString("phoneNumber");
-                                String email = document.getString("email");
-                                String gender = document.getString("gender");
-
-                                userDisplayName.setText(displayName);
-                                userPhoneNumber.setText(phoneNumber);
-                                userAddress.setText(address);
-                                userEmail.setText(email);
-                                if (gender != null) {
-                                    int index = genders.indexOf(gender);
-                                    if (index != -1) {
-                                        userGender.setSelection(index);
+                                    userDisplayName.setText(displayName);
+                                    userPhoneNumber.setText(phoneNumberStr);
+                                    userAddress.setText(address);
+                                    userEmail.setText(email);
+                                    if (gender != null) {
+                                        int index = genders.indexOf(gender);
+                                        if (index != -1) {
+                                            userGender.setSelection(index);
+                                        }
                                     }
                                 }
+                            } else {
+                                // Xử lý khi không thể lấy dữ liệu từ Firestore
+                                Toast.makeText(EditProfileActivity.this, "Lấy dữ liệu thất bại", Toast.LENGTH_SHORT).show();
                             }
-                        } else {
-                            // Xử lý khi không thể lấy dữ liệu từ Firestore
-                            Toast.makeText(EditProfileActivity.this, "Lấy dữ liệu thất bại", Toast.LENGTH_SHORT).show();
                         }
-                    }
-                });
+                    });
+        } else {
+            db.collection("users")
+                    .whereEqualTo("email",mAuth.getCurrentUser().getEmail())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    String displayName = document.getString("displayName");
+                                    String address = document.getString("address");
+                                    String phoneNumberStr = document.getString("phoneNumber");
+                                    String email = document.getString("email");
+                                    String gender = document.getString("gender");
+
+                                    userDisplayName.setText(displayName);
+                                    userPhoneNumber.setText(phoneNumberStr);
+                                    userAddress.setText(address);
+                                    userEmail.setText(email);
+                                    if (gender != null) {
+                                        int index = genders.indexOf(gender);
+                                        if (index != -1) {
+                                            userGender.setSelection(index);
+                                        }
+                                    }
+                                }
+                            } else {
+                                // Xử lý khi không thể lấy dữ liệu từ Firestore
+                                Toast.makeText(EditProfileActivity.this, "Lấy dữ liệu thất bại", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        }
+
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String userId = mAuth.getCurrentUser().getPhoneNumber();
-                DocumentReference docRef = db.collection("users").document(userId);
-                Map<String, Object> updates = new HashMap<>();
-                updates.put("displayName", userDisplayName.getText().toString());
-                updates.put("address", userAddress.getText().toString());
-                updates.put("phoneNumber", userPhoneNumber.getText().toString());
-                updates.put("avatar", "");
-                updates.put("gender", userGender.getSelectedItem().toString());
-                docRef.update(updates)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Toast.makeText(EditProfileActivity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(EditProfileActivity.this, "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                String userId = mAuth.getCurrentUser().getUid();
+                if(userId != null) {
+                    DocumentReference userRef = db.collection("users").document(userId);
+                    Map<String, Object> updates = new HashMap<>();
+                    updates.put("displayName", userDisplayName.getText().toString());
+                    updates.put("address", userAddress.getText().toString());
+                    updates.put("phoneNumber", userPhoneNumber.getText().toString());
+                    updates.put("avatar", "");
+                    updates.put("gender", userGender.getSelectedItem().toString());
+                    userRef.update(updates)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(EditProfileActivity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(EditProfileActivity.this, "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                } else {
+                    Toast.makeText(EditProfileActivity.this, "Lỗi", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
