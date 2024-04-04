@@ -1,10 +1,5 @@
 package com.example.book_pitch.Activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -15,8 +10,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.book_pitch.Models.Bill;
-import com.example.book_pitch.Models.Stadium;
 import com.example.book_pitch.R;
 import com.example.book_pitch.Utils.AndroidUtil;
 import com.example.book_pitch.Utils.Helper;

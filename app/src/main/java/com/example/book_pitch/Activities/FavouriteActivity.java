@@ -35,8 +35,10 @@ public class FavouriteActivity extends AppCompatActivity implements FavouriteAda
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourite);
 
-        getSupportActionBar().setTitle(R.string.favourite);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(R.string.favourite);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         emptyLayout = findViewById(R.id.emptyLayout);
 
