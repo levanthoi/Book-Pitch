@@ -26,10 +26,10 @@ public class SettingActivity extends AppCompatActivity {
         deleteAccount = findViewById(R.id.deleteAccount);
         about = findViewById(R.id.about);
         mAuth = FirebaseAuth.getInstance();
-
-        getSupportActionBar().setTitle(R.string.setting);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(R.string.setting);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
