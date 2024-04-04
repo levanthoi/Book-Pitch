@@ -48,7 +48,7 @@ dependencies {
     // FirebaseUI for Cloud Firestore
     implementation("com.firebaseui:firebase-ui-firestore:8.0.2")
     implementation(fileTree(mapOf(
-        "dir" to "D:\\Projects\\BookPitch\\app\\libs",
+        "dir" to "libs",
         "include" to listOf("*.aar", "*.jar"),
     )))
     testImplementation("junit:junit:4.13.2")
