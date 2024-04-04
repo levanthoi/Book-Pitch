@@ -59,7 +59,11 @@
             android:name=".Activities.SplashScreenActivity"
             android:exported="true"
             android:theme="@style/Theme.App.Starting">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".Activities.WelcomeActivity"
@@ -102,15 +106,10 @@
             android:theme="@style/AppTheme.NoActionBar" /> <!-- Payment -->
         <activity
             android:name=".Activities.PaymentActivity"
-            android:exported="true"
+            android:exported="false"
             android:parentActivityName=".Activities.DetailPitchActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+<!--                <action android:name="android.intent.action.VIEW" />-->
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="demozpdk"

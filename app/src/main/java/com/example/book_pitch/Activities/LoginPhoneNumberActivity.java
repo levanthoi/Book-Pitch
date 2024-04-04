@@ -75,7 +75,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class LoginPhoneNumberActivity extends Activity {
+public class LoginPhoneNumberActivity extends AppCompatActivity {
     private static final String TAG = LoginPhoneNumberActivity.class.getName();
     private ProgressBar progressBar;
     private EditText phoneNumberText;
