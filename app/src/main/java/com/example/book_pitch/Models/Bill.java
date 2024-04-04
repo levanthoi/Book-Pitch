@@ -1,6 +1,7 @@
 package com.example.book_pitch.Models;
 
 public class Bill {
+    private int id;
     private Price price;
     private String title;
     private int pitch_size;
