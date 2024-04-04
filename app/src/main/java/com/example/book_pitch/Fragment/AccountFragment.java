@@ -19,9 +19,12 @@ import com.example.book_pitch.Activities.LoginPhoneNumberActivity;
 import com.example.book_pitch.Activities.MainActivity;
 import com.example.book_pitch.Activities.SettingActivity;
 import com.example.book_pitch.R;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 public class AccountFragment extends Fragment {
     FirebaseAuth mAuth;
@@ -72,36 +75,73 @@ public class AccountFragment extends Fragment {
             editProfileBtn.setVisibility(View.GONE);
             actionUserContainer.setVisibility(View.GONE);
         } else {
-            fireStore.collection("users")
-                    .document(mAuth.getCurrentUser().getPhoneNumber())
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                // Hiển thị thông tin người dùng
-                                String displayName = document.getString("displayName");
-                                String phoneNumber = document.getString("phoneNumber");
-                                String address = document.getString("address");
+            String phoneNumber = mAuth.getCurrentUser().getPhoneNumber();
+            if (phoneNumber != null) {
+                fireStore.collection("users")
+                        .whereEqualTo("phoneNumber", phoneNumber)
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    if (document.exists()) {
+                                        // Hiển thị thông tin người dùng
+                                        String displayName = document.getString("displayName");
+                                        String phoneNumberStr = document.getString("phoneNumber");
+                                        String address = document.getString("address");
 
-                                displayNameUser.setText(displayName);
-                                phoneNumberUser.setText(phoneNumber);
-                                addressUser.setText("Địa chỉ: " + address);
+                                        displayNameUser.setText(displayName);
+                                        phoneNumberUser.setText(phoneNumberStr);
+                                        addressUser.setText("Địa chỉ: " + address);
 
-                                // Hiển thị thông tin người dùng và nút đăng xuất, ẩn nút đăng nhập
-                                loginBtn.setVisibility(View.GONE);
-                                displayNameUser.setVisibility(View.VISIBLE);
-                                phoneNumberUser.setVisibility(View.VISIBLE);
-                                addressUser.setVisibility(View.VISIBLE);
-                                editProfileBtn.setVisibility(View.VISIBLE);
-                                actionUserContainer.setVisibility(View.VISIBLE);
+                                        // Hiển thị thông tin người dùng và nút đăng xuất, ẩn nút đăng nhập
+                                        loginBtn.setVisibility(View.GONE);
+                                        displayNameUser.setVisibility(View.VISIBLE);
+                                        phoneNumberUser.setVisibility(View.VISIBLE);
+                                        addressUser.setVisibility(View.VISIBLE);
+                                        editProfileBtn.setVisibility(View.VISIBLE);
+                                        actionUserContainer.setVisibility(View.VISIBLE);
+                                    } else {
+                                        System.out.println("No such document!");
+                                    }
+                                }
                             } else {
-                                System.out.println("No such document!");
+                                System.err.println("Error getting user information: " + task.getException().getMessage());
                             }
-                        } else {
-                            System.err.println("Error getting user information: " + task.getException().getMessage());
-                        }
-                    });
+                        });
+            } else {
+                fireStore.collection("users")
+                        .whereEqualTo("email", mAuth.getCurrentUser().getEmail())
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    if (document.exists()) {
+                                        // Hiển thị thông tin người dùng
+                                        String displayName = document.getString("displayName");
+                                        String phoneNumberStr = document.getString("phoneNumber");
+                                        String address = document.getString("address");
+
+                                        displayNameUser.setText(displayName);
+                                        phoneNumberUser.setText(phoneNumberStr);
+                                        addressUser.setText("Địa chỉ: " + address);
+
+                                        // Hiển thị thông tin người dùng và nút đăng xuất, ẩn nút đăng nhập
+                                        loginBtn.setVisibility(View.GONE);
+                                        displayNameUser.setVisibility(View.VISIBLE);
+                                        phoneNumberUser.setVisibility(View.VISIBLE);
+                                        addressUser.setVisibility(View.VISIBLE);
+                                        editProfileBtn.setVisibility(View.VISIBLE);
+                                        actionUserContainer.setVisibility(View.VISIBLE);
+                                    } else {
+                                        System.out.println("No such document!");
+                                    }
+                                }
+                            } else {
+                                System.err.println("Error getting user information: " + task.getException().getMessage());
+                            }
+                        });
+            }
+
         }
         history_book.setOnClickListener(new View.OnClickListener() {
             @Override

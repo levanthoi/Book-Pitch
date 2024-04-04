@@ -10,6 +10,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -23,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -46,6 +48,8 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
@@ -61,6 +65,7 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
     ProgressBar loading1, loading2;
     private List<Stadium> stadiums;
     private boolean dataLoaded = false;
+    private boolean isSearchViewExpanded = false;
 
     ImageView btn_noti;
     TextView search_home;
@@ -87,6 +92,7 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
         firestore = FirebaseFirestore.getInstance();
 
         init(view);
+//        handleToolbarAnimation(view);
 //        getData();
         return view;
     }
@@ -107,7 +113,7 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
 
 
         recyclerPopular.setLayoutManager(new WrapContentLinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
-        rclNearMe.setLayoutManager(new WrapContentGridLayoutManager(getActivity(), 2));
+        rclNearMe.setLayoutManager(new WrapContentGridLayoutManager(getActivity(), 1));
 
 //        recyclerPopular.setHasFixedSize(true);
         // Khởi tạo FirestoreRecyclerOptions
@@ -173,6 +179,17 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
         super.onStop();
         // Dừng lắng nghe sự kiện từ Firestore khi Fragment bị ẩn
         popularAdapter.stopListening();
+    }
+
+    private void handleToolbarAnimation(View v) {
+//        CollapsingToolbarLayout collapsingToolbarLayout;
+//        collapsingToolbarLayout = v.findViewById(R.id.collapsing);
+//        AppBarLayout appBarLayout = v.findViewById(R.id.appbar_layout_home);
+//        Toolbar toolbar = v.findViewById(R.id.toolbar_home);
+//        if (getActivity() instanceof AppCompatActivity) {
+//            AndroidUtil.showToast(getContext(), "HIIHIH");
+//            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+//        }
     }
 
     @Override

@@ -33,7 +33,6 @@ android {
     buildFeatures{
         viewBinding = true
     }
-
 }
 
 dependencies {
@@ -58,7 +57,9 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
+    implementation("com.google.android.gms:play-services-auth:20.4.0")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("me.leolin:ShortcutBadger:1.1.22@aar")
+    implementation("com.facebook.android:facebook-android-sdk:latest.release")
 }

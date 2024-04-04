@@ -1,12 +1,8 @@
 package com.example.book_pitch.Activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,12 +10,23 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.book_pitch.Models.Bill;
-import com.example.book_pitch.Models.Stadium;
 import com.example.book_pitch.R;
+import com.example.book_pitch.Utils.AndroidUtil;
 import com.example.book_pitch.Utils.Helper;
+import com.example.book_pitch.Utils.Helpers.AppInfo;
+import com.example.book_pitch.Utils.Helpers.CreateOrder;
 import com.google.gson.Gson;
 
+import org.json.JSONObject;
+
+import vn.zalopay.sdk.Environment;
+import vn.zalopay.sdk.ZaloPayError;
+import vn.zalopay.sdk.ZaloPaySDK;
+import vn.zalopay.sdk.listeners.PayOrderListener;
 
 public class PaymentActivity extends AppCompatActivity {
 
@@ -39,7 +46,12 @@ public class PaymentActivity extends AppCompatActivity {
 
         handleIntent(getIntent());
 
+
         initView();
+        //Khởi tạo ZPDK
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        ZaloPaySDK.init(AppInfo.APP_ID, Environment.SANDBOX);
     }
 
     private void handleIntent(Intent intent) {
@@ -80,38 +92,49 @@ public class PaymentActivity extends AppCompatActivity {
         });
 
         btn_detail_booking.setOnClickListener(new View.OnClickListener() {
+            String amount = "10000";
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PaymentActivity.this, PaymentSuccessActivity.class);
-                intent.putExtra("url", "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html"); //bắt buộc, VNPAY cung cấp
-                intent.putExtra("tmn_code", "KSPLJVON"); //bắt buộc, VNPAY cung cấp
-                intent.putExtra("scheme", "PaymentSuccessActivity"); //bắt buộc, scheme để mở lại app khi có kết quả thanh toán từ mobile banking
-                intent.putExtra("is_sandbox", true); //bắt buộc, true <=> môi trường test, true <=> môi trường live
+                CreateOrder orderApi = new CreateOrder();
+                try {
+                    JSONObject data = orderApi.createOrder(bill!=null ? bill.getPrice().getPrice() : "200000");
+                    String code = data.getString("returncode");
 
-//                VNP_AuthenticationActivity.setSdkCompletedCallback(new VNP_SdkCompletedCallback() {
-//                    @Override
-//                    public void sdkAction(String action) {
-//                        Log.wtf("SplashActivity", "action: " + action);
-//                        //action == AppBackAction
-//                        //Người dùng nhấn back từ sdk để quay lại
-//
-//                        //action == CallMobileBankingApp
-//                        //Người dùng nhấn chọn thanh toán qua app thanh toán (Mobile Banking, Ví...)
-//                        //lúc này app tích hợp sẽ cần lưu lại cái PNR, khi nào người dùng mở lại app tích hợp thì sẽ gọi kiểm tra trạng thái thanh toán của PNR Đó xem đã thanh toán hay chưa.
-//
-//                        //action == WebBackAction
-//                        //Người dùng nhấn back từ trang thanh toán thành công khi thanh toán qua thẻ khi url có chứa: cancel.sdk.merchantbackapp
-//
-//                        //action == FaildBackAction
-//                        //giao dịch thanh toán bị failed
-//
-//                        //action == SuccessBackAction
-//                        //thanh toán thành công trên webview
-//                    }
-//                });
-                startActivity(intent);
+                    if (code.equals("1")) {
+
+                        String token = data.getString("zptranstoken");
+                        Log.d("TỌKEN", token);
+//                    String token = AppInfo.MAC_KEY;
+
+                        ZaloPaySDK.getInstance().payOrder(PaymentActivity.this, token, "demozpdk://app", new PayOrderListener() {
+                            @Override
+                            public void onPaymentSucceeded(final String transactionId, final String transToken, final String appTransID) {
+                                AndroidUtil.showToast(PaymentActivity.this, "Thanh toán thành công");
+                            }
+
+                            @Override
+                            public void onPaymentCanceled(String zpTransToken, String appTransID) {
+                                AndroidUtil.showToast(PaymentActivity.this, "Thanh toán bị hủy");
+                            }
+
+                            @Override
+                            public void onPaymentError(ZaloPayError zaloPayError, String zpTransToken, String appTransID) {
+                                AndroidUtil.showToast(PaymentActivity.this, "Thanh toán thất bại");
+                            }
+                        });
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        ZaloPaySDK.getInstance().onResult(intent);
     }
 
     @Override

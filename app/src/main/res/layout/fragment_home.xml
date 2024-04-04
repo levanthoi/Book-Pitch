@@ -36,12 +36,12 @@
                         android:orientation="horizontal"
                         android:weightSum="2"
                         android:paddingHorizontal="16dp">
-<!--                        <ImageView-->
-<!--                            android:layout_width="30dp"-->
-<!--                            android:layout_height="30dp"-->
-<!--                            android:background="@drawable/logo"-->
-<!--                            android:layout_gravity="center"-->
-<!--                            android:layout_marginHorizontal="8dp"/>-->
+                        <!--                        <ImageView-->
+                        <!--                            android:layout_width="30dp"-->
+                        <!--                            android:layout_height="30dp"-->
+                        <!--                            android:background="@drawable/logo"-->
+                        <!--                            android:layout_gravity="center"-->
+                        <!--                            android:layout_marginHorizontal="8dp"/>-->
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -165,11 +165,11 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-<!--                <FrameLayout-->
-<!--                    android:id="@+id/sliderFragmentLayout2"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="150dp"-->
-<!--                    android:layout_margin="16dp" />-->
+                <!--                <FrameLayout-->
+                <!--                    android:id="@+id/sliderFragmentLayout2"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="150dp"-->
+                <!--                    android:layout_margin="16dp" />-->
 
                 <!--                Sân bóng gần bạn -->
 

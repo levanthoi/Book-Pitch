@@ -9,7 +9,13 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <queries>
+        <package android:name="vn.com.vng.zalopay" />
+        <package android:name="vn.com.vng.zalopay.sbmc" />
+    </queries>
 
     <application
         android:allowBackup="true"
@@ -22,9 +28,23 @@
         android:theme="@style/Theme.BookPitch"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.GoogleAuthActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.FacebookAuthActivity"
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="@string/facebook_client_token" />
+
+        <activity
             android:name=".Activities.SearchActivity"
             android:exported="false"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.AboutActivity"
             android:exported="false"
@@ -40,11 +60,7 @@
             android:name=".Activities.SplashScreenActivity"
             android:exported="true"
             android:theme="@style/Theme.App.Starting">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".Activities.WelcomeActivity"
@@ -87,8 +103,21 @@
             android:theme="@style/AppTheme.NoActionBar" /> <!-- Payment -->
         <activity
             android:name=".Activities.PaymentActivity"
-            android:exported="false"
-            android:parentActivityName=".Activities.DetailPitchActivity" />
+            android:exported="true"
+            android:parentActivityName=".Activities.DetailPitchActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="demozpdk"
+                    android:host="app" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Activities.PaymentSuccessActivity"
             android:exported="false"

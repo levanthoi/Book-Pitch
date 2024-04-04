@@ -23,8 +23,10 @@ public class BookedAndHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booked_and_history);
 
-        getSupportActionBar().setTitle(R.string.history_and_booked);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(R.string.history_and_booked);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         mTabLayout = findViewById(R.id.tab_layout);
         mViewPager = findViewById(R.id.view_pager);
