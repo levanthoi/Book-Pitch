@@ -240,7 +240,7 @@ public class DetailPitchActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         if(mCurrent != null) {
             String userId = mCurrent.getUid();
-            db.collection("favourites").document(stadium.getId())
+            db.collection("favourites").document(userId)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
@@ -248,7 +248,7 @@ public class DetailPitchActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 DocumentSnapshot document = task.getResult();
                                 if (document.exists()) {
-                                    if (document.getData().containsKey(userId)) {
+                                    if (document.getData().containsKey(stadium.getId())) {
                                         heart.setImageResource(R.drawable.heart_outline_red);
                                     } else {
                                         heart.setImageResource(R.drawable.heart_outline);
