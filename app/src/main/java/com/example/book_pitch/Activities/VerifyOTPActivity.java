@@ -50,8 +50,7 @@ public class VerifyOTPActivity extends Activity {
     private FirebaseAuth mAuth;
     private ProgressBar progressBar;
     private TextView tvPhoneNumber;
-    private String mPhoneNumber;
-    private String mVerificationId;
+    private String mPhoneNumber, mVerificationId, mAddress, mDisplayName;
     private Button sendOtpBtn;
     private TextView reSendOtpBtn;
     private EditText otp1, otp2, otp3 ,otp4, otp5, otp6;
@@ -181,6 +180,8 @@ public class VerifyOTPActivity extends Activity {
     private void getDataIntent() {
         mPhoneNumber = getIntent().getStringExtra("mPhoneNumber");
         mVerificationId = getIntent().getStringExtra("mVerificationId");
+        mAddress = getIntent().getStringExtra("mAddress");
+        mDisplayName = getIntent().getStringExtra("mDisplayName");
     }
     private void onClickSendOTPCode(String strOtp) {
             PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, strOtp);
@@ -235,9 +236,57 @@ public class VerifyOTPActivity extends Activity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             // Update UI
-                            Intent intent = new Intent(VerifyOTPActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                            fireStore.collection("users")
+                                    .whereEqualTo("phoneNumber", mPhoneNumber)
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                if (task.getResult().isEmpty()) {
+                                                    FirebaseUser mCurrent = mAuth.getCurrentUser();
+                                                    if(mCurrent != null) {
+                                                        String userId = mCurrent.getUid();
+                                                        Map<String, Object> user = new HashMap<>();
+                                                        user.put("uid", userId);
+                                                        user.put("displayName", mDisplayName);
+                                                        user.put("address", mAddress);
+                                                        user.put("phoneNumber", mPhoneNumber);
+                                                        user.put("avatar", "");
+                                                        user.put("gender", "");
+                                                        user.put("email" , "");
+                                                        user.put("loginOption","phoneNumber");
+                                                        fireStore.collection("users").document(userId)
+                                                                .set(user)
+                                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                    @Override
+                                                                    public void onSuccess(Void aVoid) {
+                                                                        Toast.makeText(VerifyOTPActivity.this, "Đăng ký thành công", Toast.LENGTH_LONG).show();
+                                                                        gotoMainActivity();
+                                                                    }
+                                                                })
+                                                                .addOnFailureListener(new OnFailureListener() {
+                                                                    @Override
+                                                                    public void onFailure(@NonNull Exception e) {
+                                                                        Log.w(TAG, "Error adding document", e);
+                                                                        progressBar.setVisibility(View.GONE);
+                                                                    }
+                                                                });
+                                                    }
+                                                } else {
+                                                    progressBar.setVisibility(View.GONE);
+                                                    Toast.makeText(VerifyOTPActivity.this, "Đăng nhập thành công", Toast.LENGTH_LONG).show();
+                                                    Intent intent = new Intent(VerifyOTPActivity.this, MainActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+                                            } else {
+                                                progressBar.setVisibility(View.GONE);
+                                                Log.w(TAG, "Error getting documents.", task.getException());
+                                            }
+                                        }
+                                    });
+
                         } else {
                             // Sign in failed, display a message and update the UI
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -249,5 +298,10 @@ public class VerifyOTPActivity extends Activity {
                         }
                     }
                 });
+    }
+
+    private void gotoMainActivity() {
+        Intent intent = new Intent(VerifyOTPActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }

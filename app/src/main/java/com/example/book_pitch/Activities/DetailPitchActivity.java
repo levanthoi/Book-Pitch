@@ -33,15 +33,24 @@ import com.example.book_pitch.R;
 import com.example.book_pitch.Services.PitchService;
 import com.example.book_pitch.Utils.AndroidUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DetailPitchActivity extends AppCompatActivity {
     private ViewPager2 sliderPitch;
@@ -135,25 +144,66 @@ public class DetailPitchActivity extends AppCompatActivity {
             }
         });
 
+//       HANDLE HEART
         heart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean isHeartOn = heart.getTag() != null && (boolean) heart.getTag();
-                if (isHeartOn) {
-                    heart.setImageResource(R.drawable.heart_outline);
-                    heart.setTag(false);
-                    Toast.makeText(DetailPitchActivity.this, "Đã xóa khỏi danh sách yêu thích", Toast.LENGTH_SHORT).show();
-                    // Thực hiện các hành động khi heart bị tắt
-                } else {
-                    heart.setImageResource(R.drawable.heart_outline_red);
-                    heart.setTag(true);
-                    Toast.makeText(DetailPitchActivity.this, "Đã thêm vào danh sách yêu thích", Toast.LENGTH_SHORT).show();
-                    // Thực hiện các hành động khi heart được bật
-                }
+                FirebaseUser mCurrent = FirebaseAuth.getInstance().getCurrentUser();
+                if(mCurrent != null) {
+                    String userId = mCurrent.getUid();
+                    if (isHeartOn) {
+                        heart.setImageResource(R.drawable.heart_outline);
+                        heart.setTag(false);
+                        // Thực hiện các hành động khi heart bị tắt
+                        if(mCurrent != null) {
+                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                            Map<String, Object> updates = new HashMap<>();
+                            updates.put(stadium.getId(), FieldValue.delete());
 
-                handleFavorite();
+                            db.collection("favourites").document(userId)
+                                    .update(updates)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Toast.makeText(DetailPitchActivity.this, "Đã xóa khỏi danh sách yêu thích!", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                        } else {
+                            Toast.makeText(DetailPitchActivity.this, "Vui lòng đăng nhập!", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        heart.setImageResource(R.drawable.heart_outline_red);
+                        heart.setTag(true);
+                        // Thực hiện các hành động khi heart được bật
+
+                        if(mCurrent != null) {
+                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                            Map<String, Object> pitchData = new HashMap<>();
+//                        pitchData.put("pitchId", stadium.getId());
+//                        pitchData.put("pitchTitle", stadium.getTitle());
+//                        pitchData.put("pitchAddress", stadium.getAddress());
+//                        pitchData.put("pitchPhone", stadium.getPhone());
+                            pitchData.put(stadium.getId(), true);
+                            db.collection("favourites").document(userId)
+                                    .set(pitchData, SetOptions.merge())
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Toast.makeText(DetailPitchActivity.this, "Đã thêm vào danh sách yêu thích!", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        }
+                    }
+                } else {
+                    Toast.makeText(DetailPitchActivity.this, "Vui lòng đăng nhập!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+        handleFavorite();
 
         btn_direction.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,7 +236,28 @@ public class DetailPitchActivity extends AppCompatActivity {
     }
 
     private void handleFavorite() {
-
+        FirebaseUser mCurrent = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        if(mCurrent != null) {
+            String userId = mCurrent.getUid();
+            db.collection("favourites").document(stadium.getId())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    if (document.getData().containsKey(userId)) {
+                                        heart.setImageResource(R.drawable.heart_outline_red);
+                                    } else {
+                                        heart.setImageResource(R.drawable.heart_outline);
+                                    }
+                                }
+                            }
+                        }
+                    });
+        }
     }
 
     private void openGoogleMap(String latitude, String longitude) {

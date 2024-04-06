@@ -155,6 +155,7 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), EditProfileActivity.class);
+                i.putExtra("email", mAuth.getCurrentUser().getEmail());
                 startActivity(i);
             }
         });

@@ -31,6 +31,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import org.json.JSONException;
@@ -115,29 +116,65 @@ public class FacebookAuthActivity extends LoginPhoneNumberActivity {
     }
 
     private void addNewUserToFirestore(String email, String displayName) {
-        Map<String, Object> user = new HashMap<>();
-        user.put("email", email);
-        user.put("displayName", displayName);
-        user.put("address", "");
-        user.put("avatar", "");
-        user.put("phoneNumber", "");
-        user.put("gender", "");
-        user.put("loginOption","facebook");
-        fireStore.collection("users").document()
-                .set(user)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(FacebookAuthActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-                        gotoMainActivity();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(FacebookAuthActivity.this, "Đã xảy ra lỗi khi thêm thông tin người dùng", Toast.LENGTH_SHORT).show();
-                    }
-                });
+        FirebaseUser mCurrent = mAuth.getCurrentUser();
+        if(mCurrent != null) {
+            String userId = mCurrent.getUid();
+            Map<String, Object> user = new HashMap<>();
+            user.put("uid", userId);
+            user.put("email", email);
+            user.put("displayName", displayName);
+            user.put("address", "");
+            user.put("avatar", "");
+            user.put("phoneNumber", "");
+            user.put("gender", "");
+            user.put("loginOption","facebook");
+
+            fireStore.collection("users")
+                    .whereEqualTo("email", email)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                boolean foundEmail = false;
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    foundEmail = true;
+                                    String loginOption = document.getString("loginOption");
+                                    // Tiến hành xử lý loginOption ở đây
+                                    if (loginOption != null && loginOption.equals("facebook")) {
+                                        // Người dùng đã đăng nhập bằng Facebook
+                                        Toast.makeText(FacebookAuthActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+                                        gotoMainActivity();
+                                        return; // Thoát khỏi vòng lặp vì đã xác định được kết quả
+                                    }
+                                }
+                                // Nếu không tìm thấy email hoặc không tìm thấy "loginOption" là "Facebook"
+                                if (!foundEmail) {
+                                    // Thêm dữ liệu vào Firestore
+                                    fireStore.collection("users").document(userId)
+                                            .set(user)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Toast.makeText(FacebookAuthActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+                                                    gotoMainActivity();
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(FacebookAuthActivity.this, "Đã xảy ra lỗi!", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                } else {
+                                    Toast.makeText(FacebookAuthActivity.this, "Tài khoản đã được đăng ký!", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                // Xử lý khi truy vấn Firestore không thành công
+                            }
+                        }
+                    });
+        }
     }
 
     private void gotoMainActivity() {

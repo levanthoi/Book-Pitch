@@ -138,6 +138,7 @@ public class LoginPhoneNumberActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LoginPhoneNumberActivity.this, RegisterActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 //        LOGIN GOOGLE
