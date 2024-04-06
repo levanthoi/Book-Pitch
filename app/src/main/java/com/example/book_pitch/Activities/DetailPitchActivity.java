@@ -30,7 +30,14 @@ import com.example.book_pitch.Fragment.BottomSheetHotline;
 import com.example.book_pitch.Models.Pitch;
 import com.example.book_pitch.Models.Stadium;
 import com.example.book_pitch.R;
+import com.example.book_pitch.Services.PitchService;
+import com.example.book_pitch.Utils.AndroidUtil;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -45,6 +52,7 @@ public class DetailPitchActivity extends AppCompatActivity {
     private Handler slideHandler = new Handler();
     List<String> slider = new ArrayList<>();
     Stadium stadium;
+    FirebaseFirestore firestore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +61,7 @@ public class DetailPitchActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(Color.parseColor("#198754"));
 
         handleIntent(getIntent());
+        firestore = FirebaseFirestore.getInstance();
         initView();
         getData();
         render();
@@ -75,7 +84,26 @@ public class DetailPitchActivity extends AppCompatActivity {
 
     public void openBottomSheet(){
         List<Pitch> list = new ArrayList<>();
-        if(stadium != null) list.addAll(stadium.getPitches());
+//        PitchService pitchService = new PitchService();
+        if(stadium != null) {
+            firestore.collection("pitches")
+                    .whereEqualTo("stadium_id", "0sRWgWvgDk3d3N8c2Tch")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()){
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    if(document.exists()){
+                                        Pitch p = document.toObject(Pitch.class);
+                                        list.add(p);
+                                    }
+
+                                }
+                            }
+                        }
+                    });
+        }
         BottomSheetFragment bottomSheetFragment = new BottomSheetFragment(this, list, stadium);
         bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }

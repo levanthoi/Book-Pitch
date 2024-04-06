@@ -16,6 +16,11 @@ public class Stadium {
     private String about_us;
     private String opening_time;
     private String closing_time;
+    private String average_rating;
+    private List<String> images;
+    private String phone;
+    private Location location;
+    private int deleted;
 //    private boolean created_at_human;
 //    private int ball_available;
 //    private int bibs_available;
@@ -26,20 +31,13 @@ public class Stadium {
 //    private boolean upfront_payment;
 //    private boolean chat_with_customers;
 //    private int ratedTimes;
-    private String average_rating;
 //    private String discount;
-    private List<String> images;
 //    private List<String> supported_payment_methods;
 //    private String facebook_url;
 //    private String instagram_url;
 //    private String twitter_url;
 //    private String whatsapp;
 //    private String website;
-    private String phone;
-//    private int visible_on_web;
-    private Location location;
-    private List<Pitch> pitches;
-    private int deleted;
 
     public Stadium() {
     }
@@ -65,7 +63,6 @@ public class Stadium {
         this.average_rating = average_rating;
         this.images = images;
         this.phone = phone;
-        this.pitches = pitches;
         this.deleted = deleted;
     }
 
@@ -147,14 +144,6 @@ public class Stadium {
 
     public void setLocation(Location location) {
         this.location = location;
-    }
-
-    public List<Pitch> getPitches() {
-        return pitches;
-    }
-
-    public void setPitches(List<Pitch> pitches) {
-        this.pitches = pitches;
     }
 
     public String getAddress() {

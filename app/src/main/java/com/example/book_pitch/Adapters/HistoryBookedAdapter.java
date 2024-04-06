@@ -72,9 +72,9 @@ public class HistoryBookedAdapter extends RecyclerView.Adapter<HistoryBookedAdap
             });
         }
         public void bind(Bill bill) {
-            tvName.setText(bill.getTitle());
-            location.setText(bill.getAddress());
-            tvPhoneNumber.setText(bill.getPhone());
+//            tvName.setText(bill.getTitle());
+//            location.setText(bill.getAddress());
+//            tvPhoneNumber.setText(bill.getPhone());
         }
     }
 }

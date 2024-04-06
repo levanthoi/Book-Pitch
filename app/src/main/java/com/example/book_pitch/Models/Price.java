@@ -1,5 +1,20 @@
 package com.example.book_pitch.Models;
 
+
+/**
+ * Price
+ *
+ * String   id        - ID của giá
+ * String   pitch_id  - ID của sân bóng
+ * String   from_date - Ngày bắt đầu
+ * String   to_date   - Ngày kết thúc
+ * int      duration  - Thời lượng đá
+ * String   from_time - Thời gian bắt đầu
+ * String   to_time   - Thời gian kết thúc
+ * String   price     - Giá cụ thể
+ *
+ * */
+
 public class Price {
     private String id;
     private String pitch_id;

@@ -76,9 +76,9 @@ public class PitchBookedAdapter extends RecyclerView.Adapter<PitchBookedAdapter.
             });
         }
         public void bind(Bill bill) {
-            tvTitle.setText(bill.getTitle());
-            tvAddress.setText(bill.getAddress());
-            tvNamePitch.setText(bill.getTitle());
+//            tvTitle.setText(bill.getTitle());
+//            tvAddress.setText(bill.getAddress());
+//            tvNamePitch.setText(bill.getTitle());
             tvBeginTime.setText(bill.getPrice().getFrom_time());
             tvEndTime.setText(bill.getPrice().getTo_time());
             tvDate.setText(bill.getPrice().getTo_date());
