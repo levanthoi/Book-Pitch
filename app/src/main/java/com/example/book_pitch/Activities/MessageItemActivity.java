@@ -19,9 +19,8 @@ import com.google.gson.Gson;
 
 public class MessageItemActivity extends AppCompatActivity {
     private MessageGroup messageGroup;
-    ImageButton back_btn;
-
-    TextView other_username;
+    private ImageButton back_btn;
+    private TextView other_username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

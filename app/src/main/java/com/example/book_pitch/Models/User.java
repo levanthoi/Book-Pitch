@@ -1,7 +1,7 @@
 package com.example.book_pitch.Models;
 
 public class User {
-//    private String id;
+    private String uid; //namlee
     private String displayName;
     private String email;
     private String phoneNumber;
@@ -11,7 +11,8 @@ public class User {
     public User() {
 
     }
-    public User(String displayName, String email, String phoneNumber, String address, String gender, String avatar) {
+    public User(String uid,String displayName, String email, String phoneNumber, String address, String gender, String avatar) {
+        this.uid = uid; //namlee
         this.displayName = displayName;
         this.email = email;
         this.phoneNumber = phoneNumber;
@@ -20,6 +21,14 @@ public class User {
         this.avatar = avatar;
     }
 
+    // namleee
+    public String getId() {
+        return uid;
+    }
+    public void setId(String uid) {
+        this.uid = uid;
+    }
+    // namleee
     public String getDisplayName() {
         return displayName;
     }
@@ -67,4 +76,6 @@ public class User {
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
+
+
 }

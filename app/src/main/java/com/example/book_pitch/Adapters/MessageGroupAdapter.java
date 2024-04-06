@@ -3,23 +3,17 @@ package com.example.book_pitch.Adapters;
 
 
 
-import android.content.Intent;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.book_pitch.Activities.ChatActivity;
 import com.example.book_pitch.Models.MessageGroup;
-import com.example.book_pitch.Models.Stadium;
 import com.example.book_pitch.R;
-import com.example.book_pitch.databinding.ItemNewBinding;
 
 import java.util.List;
 
@@ -28,6 +22,8 @@ public class MessageGroupAdapter extends RecyclerView.Adapter<MessageGroupAdapte
     private final MessageGroupAdapterOnClickHandler clickHandler;
     public interface MessageGroupAdapterOnClickHandler{
         void onClick(MessageGroup messages);
+
+        void onClick(String id, String name);
     }
     public MessageGroupAdapter(List<MessageGroup> messagesLists, MessageGroupAdapterOnClickHandler clickHandler) {
         this.messagesLists = messagesLists;
@@ -42,18 +38,10 @@ public class MessageGroupAdapter extends RecyclerView.Adapter<MessageGroupAdapte
     public void onBindViewHolder(@NonNull MessageGroupAdapter.MyViewHolder holder, int position) {
         final MessageGroup message = messagesLists.get(position);
         holder.name.setText(messagesLists.get(position).getName());
-        holder.lastMessage.setText(messagesLists.get(position).getLastMessages());
-        holder.unseenMessages.setText(String.valueOf(messagesLists.get(position).getUnseenMessages()));
-
-//        holder.rootLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(v.getContext(), ChatActivity.class);
-//                Intent.putExtra("messageGroup", String.valueOf(message));
-//                v.getContext().startActivity(intent);
-//            }
-//        });
-
+        holder.lastMessage.setText(messagesLists.get(position).getLast_message());
+        holder.itemView.setOnClickListener(v -> {
+            clickHandler.onClick(message.getId(), message.getName());
+        });
     }
     @Override
     public int getItemCount() {
