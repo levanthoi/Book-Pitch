@@ -1,23 +1,61 @@
 package com.example.book_pitch.Models;
 
+
+import java.time.LocalDateTime;
+import java.util.Date;
+
+/**
+ * @ Bill - Order
+ * int      id              - id hóa đơn
+ * String   user_id         - id user người đặt
+ * Price    price           - chi tiết giá
+ * String   pitch_id        - id sân bóng con
+ * int      status          - Trạng thái (pending, confirm, completed, failed)
+ * String   transactionToken- Mã token của giao dịch thanh toán (zptranstoken)
+ * Date createdAt           - Thời gian tạo hóa đơn
+ * Date updatedAt           - Thời gian cập nhật hóa đơn
+ * int      deleted         - Xóa
+ * */
+
 public class Bill {
     private int id;
+    private String user_id;
     private Price price;
-    private String title;
-    private int pitch_size;
-    private String label;
-    private String address;
-    private String phone;
+    private String pitch_id;
+    private int status;
+    private String transactionToken;
+    private int deleted;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     public Bill() {
     }
 
-    public Bill(Price price, String title, int pitch_size, String label, String address, String phone) {
+    public Bill(int id, String user_id, Price price, String pitch_id, int status, String transactionToken, int deleted, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.id = id;
+        this.user_id = user_id;
         this.price = price;
-        this.title = title;
-        this.pitch_size = pitch_size;
-        this.label = label;
-        this.address = address;
-        this.phone = phone;
+        this.pitch_id = pitch_id;
+        this.status = status;
+        this.transactionToken = transactionToken;
+        this.deleted = deleted;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 
     public Price getPrice() {
@@ -28,43 +66,51 @@ public class Bill {
         this.price = price;
     }
 
-    public String getTitle() {
-        return title;
+    public String getPitch_id() {
+        return pitch_id;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setPitch_id(String pitch_id) {
+        this.pitch_id = pitch_id;
     }
 
-    public int getPitch_size() {
-        return pitch_size;
+    public int getStatus() {
+        return status;
     }
 
-    public void setPitch_size(int pitch_size) {
-        this.pitch_size = pitch_size;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
-    public String getLabel() {
-        return label;
+    public String getTransactionToken() {
+        return transactionToken;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setTransactionToken(String transactionToken) {
+        this.transactionToken = transactionToken;
     }
 
-    public String getAddress() {
-        return address;
+    public int getDeleted() {
+        return deleted;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setDeleted(int deleted) {
+        this.deleted = deleted;
     }
 
-    public String getPhone() {
-        return phone;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

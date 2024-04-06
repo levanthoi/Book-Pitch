@@ -2,6 +2,20 @@ package com.example.book_pitch.Models;
 
 import java.util.List;
 
+/**
+ *  Pitch
+ *  ==========
+ * int      id              - ID của sân bóng
+ * String   label           - Nhãn của sân bóng
+ * int      pitch_size      - Kích thước của sân bóng
+ * List<Integer> durations  - Danh sách các khoảng thời gian có sẵn cho đặt sân
+ * String   stadium_id      - ID của sân vận động chứa sân bóng
+ * int      status          - Trạng thái của sân bóng (pending, confirmed, etc.)
+ * List<Price> prices       - Danh sách giá cho các khoảng thời gian đặt sân
+ *
+ * */
+
+
 public class Pitch {
     private String id;
     private String label;

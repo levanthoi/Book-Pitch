@@ -1,6 +1,17 @@
 package com.example.book_pitch.Models;
 
 import java.util.List;
+/** MessageGroup
+ * id - nhóm chat (id duy nhất của từng thằng record trong bảng MessageGroup)
+ * last_message: tin nhắn cuối cùng
+ * read: trạng thái đã đọc hay chưa
+ * name: Tên nhóm chat
+ * members: Array(auth_id, id_user)
+ *
+ * */
+//
+//
+//
 
 public class MessageGroup {
     private String id;

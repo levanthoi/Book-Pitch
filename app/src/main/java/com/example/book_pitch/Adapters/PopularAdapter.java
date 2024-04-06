@@ -60,6 +60,7 @@ public class PopularAdapter extends FirestoreRecyclerAdapter<Stadium, PopularAda
         holder.txtTitle.setText(stadium.getTitle());
         holder.txtLocation.setText(stadium.getAddress());
         holder.txtPhone.setText(stadium.getPhone());
+        holder.tv_rating.setText(stadium.getAverage_rating());
         holder.openTime.setText(stadium.getOpening_time() + "-" + stadium.getClosing_time());
 
         Log.d(TAG, "Stadium data at position " + position + ": " + stadium.toString());
@@ -79,7 +80,7 @@ public class PopularAdapter extends FirestoreRecyclerAdapter<Stadium, PopularAda
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView txtTitle, txtLocation, txtPhone, openTime;
+        public TextView txtTitle, txtLocation, txtPhone, openTime, tv_rating;
         public ImageView image;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -87,6 +88,7 @@ public class PopularAdapter extends FirestoreRecyclerAdapter<Stadium, PopularAda
             txtLocation = itemView.findViewById(R.id.txtLocation);
             txtPhone = itemView.findViewById(R.id.txtPhone);
             openTime = itemView.findViewById(R.id.openTime);
+            tv_rating = itemView.findViewById(R.id.rating);
 
             itemView.setOnClickListener(v -> {
                 int position = getBindingAdapterPosition();

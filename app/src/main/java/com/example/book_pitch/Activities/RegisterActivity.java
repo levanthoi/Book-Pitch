@@ -1,6 +1,8 @@
 package com.example.book_pitch.Activities;
 
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import android.app.Activity;
 import android.content.Intent;
@@ -23,6 +25,7 @@ import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
@@ -59,7 +62,7 @@ public class RegisterActivity extends Activity {
         progressBar = findViewById(R.id.progressbar);
         checkBox = findViewById(R.id.checkBox);
         fireStore = FirebaseFirestore.getInstance();
-
+        mAuth = FirebaseAuth.getInstance();
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,34 +100,11 @@ public class RegisterActivity extends Activity {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
-                                        if (!task.getResult().isEmpty()) {
-                                            progressBar.setVisibility(View.GONE);
-                                            Toast.makeText(RegisterActivity.this, "Số điện thoại đã được đăng ký", Toast.LENGTH_LONG).show();
+                                    if (task.getResult().isEmpty()) {
+                                        onClickSendOtpCode(phoneNumber, displayName, address);
                                     } else {
-                                        Map<String, Object> user = new HashMap<>();
-                                        user.put("displayName", displayName);
-                                        user.put("address", address);
-                                        user.put("phoneNumber", phoneNumber);
-                                        user.put("avatar", "");
-                                        user.put("gender", "");
-                                        user.put("email" , "");
-                                        user.put("loginOption","phoneNumber");
-                                        fireStore.collection("users").document()
-                                                .set(user)
-                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void aVoid) {
-                                                        onClickSendOtpCode(phoneNumber, displayName, address);
-                                                    }
-                                                })
-                                                .addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Log.w(TAG, "Error adding document", e);
-                                                        progressBar.setVisibility(View.GONE);
-                                                    }
-                                                });
-
+                                        progressBar.setVisibility(View.GONE);
+                                        Toast.makeText(RegisterActivity.this, "Số điện thoại đã được đăng ký!", Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
                                     progressBar.setVisibility(View.GONE);
@@ -140,9 +120,10 @@ public class RegisterActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(RegisterActivity.this, LoginPhoneNumberActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
-        mAuth = FirebaseAuth.getInstance();
+
 
     }
     private void onClickSendOtpCode(String phoneNumber, String displayName, String address) {
@@ -173,7 +154,7 @@ public class RegisterActivity extends Activity {
 
                                 // Save verification ID and resending token so we can use them later
                                 super.onCodeSent(verificationId, token);
-                                gotoVerifyOTPActivity(phoneNumber, verificationId);
+                                gotoVerifyOTPActivity(phoneNumber, verificationId, address, displayName);
                             }
                         })           // Callbacks để xử lý kết quả xác thực
                         .build();
@@ -204,10 +185,12 @@ public class RegisterActivity extends Activity {
                 });
     }
 
-    private void gotoVerifyOTPActivity(String phoneNumber, String verificationId) {
+    private void gotoVerifyOTPActivity(String phoneNumber, String verificationId, String address, String displayName) {
         Intent intent = new Intent(RegisterActivity.this, VerifyOTPActivity.class);
         intent.putExtra("mPhoneNumber", phoneNumber);
         intent.putExtra("mVerificationId", verificationId);
+        intent.putExtra("mAddress", address);
+        intent.putExtra("mDisplayName", displayName);
         startActivity(intent);
         finish();
     }

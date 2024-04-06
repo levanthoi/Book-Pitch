@@ -202,11 +202,11 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements La
                     Bill bill = new Bill();
                     if(pitch_selected != null && stadium != null) {
                         bill.setPrice(price);
-                        bill.setPitch_size(pitch_selected.getPitch_size());
-                        bill.setLabel(pitch_selected.getLabel());
-                        bill.setTitle(stadium.getTitle());
-                        bill.setAddress(stadium.getAddress());
-                        bill.setPhone(stadium.getPhone());
+//                        bill.setPitch_size(pitch_selected.getPitch_size());
+//                        bill.setLabel(pitch_selected.getLabel());
+//                        bill.setTitle(stadium.getTitle());
+//                        bill.setAddress(stadium.getAddress());
+//                        bill.setPhone(stadium.getPhone());
                     }
 
                     Gson gson = new Gson();

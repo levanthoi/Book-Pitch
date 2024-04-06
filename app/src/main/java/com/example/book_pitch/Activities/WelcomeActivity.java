@@ -20,6 +20,8 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.book_pitch.Adapters.IntroViewAdapter;
 import com.example.book_pitch.R;
 import com.example.book_pitch.Utils.PrefManager;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class WelcomeActivity extends Activity {
 
@@ -119,8 +121,14 @@ public class WelcomeActivity extends Activity {
 
     private void launchHomeScreen() {
         PrefManager.getInstance(this).setFirstimeLaunch(false);
-        startActivity(new Intent(WelcomeActivity.this, LoginPhoneNumberActivity.class));
-        finish();
+        FirebaseUser mCurrent = FirebaseAuth.getInstance().getCurrentUser();
+        if(mCurrent != null) {
+            startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+            finish();
+        } else {
+            startActivity(new Intent(WelcomeActivity.this, LoginPhoneNumberActivity.class));
+            finish();
+        }
     }
 
 }

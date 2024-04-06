@@ -73,9 +73,9 @@ public class PaymentActivity extends AppCompatActivity {
         tv_dateTime = (TextView) findViewById(R.id.tv_dateTime);
 
         if(bill != null) {
-            tv_title.setText(bill.getTitle());
-            tv_address.setText(bill.getAddress());
-            tv_label.setText(bill.getPitch_size() + " - " + bill.getLabel());
+//            tv_title.setText(bill.getTitle());
+//            tv_address.setText(bill.getAddress());
+//            tv_label.setText(bill.getPitch_size() + " - " + bill.getLabel());
             tv_openTime.setText(bill.getPrice().getFrom_time() + " - " + bill.getPrice().getTo_time());
             tv_dateTime.setText(bill.getPrice().getTo_date());
             btn_detail_booking.setText("ĐẶT SÂN (" + Helper.formatNumber(bill.getPrice().getPrice())  + " VNĐ)");
