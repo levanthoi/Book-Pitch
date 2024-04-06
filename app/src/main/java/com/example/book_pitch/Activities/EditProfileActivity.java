@@ -45,7 +45,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private GenderAdapter genderAdapter;
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
-
+    private String mEmail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +63,7 @@ public class EditProfileActivity extends AppCompatActivity {
         userGender = findViewById(R.id.userGender);
         saveBtn = findViewById(R.id.saveBtn);
         mAuth = FirebaseAuth.getInstance();
-
+        mEmail = getIntent().getStringExtra("email");
         List<String> genders = new ArrayList<>();
         genders.add("Nam");
         genders.add("Nữ");
@@ -99,14 +99,13 @@ public class EditProfileActivity extends AppCompatActivity {
                                     }
                                 }
                             } else {
-                                // Xử lý khi không thể lấy dữ liệu từ Firestore
                                 Toast.makeText(EditProfileActivity.this, "Lấy dữ liệu thất bại", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
         } else {
             db.collection("users")
-                    .whereEqualTo("email",mAuth.getCurrentUser().getEmail())
+                    .whereEqualTo("email",mEmail)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override

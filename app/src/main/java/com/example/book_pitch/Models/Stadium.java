@@ -40,11 +40,12 @@ public class Stadium {
     private Location location;
     private List<Pitch> pitches;
     private int deleted;
+    private String avatar;
 
     public Stadium() {
     }
 
-    public Stadium(String id, String title, String opening_time, String closing_time, String average_rating, String phone, Location location) {
+    public Stadium(String id, String title, String opening_time, String closing_time, String average_rating, String phone, Location location, String avatar) {
         this.id = id;
         this.title = title;
         this.opening_time = opening_time;
@@ -52,6 +53,7 @@ public class Stadium {
         this.average_rating = average_rating;
         this.phone = phone;
         this.location = location;
+        this.avatar = avatar;
     }
 
     public Stadium(String id, String title, String slug, String address, String about_us, String opening_time, String closing_time, String average_rating, List<String> images, String phone, List<Pitch> pitches, int deleted) {
@@ -181,5 +183,13 @@ public class Stadium {
                 ", slug='" + slug + '\'' +
                 // Các trường khác cần hiển thị...
                 '}';
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }
