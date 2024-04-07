@@ -62,4 +62,6 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("me.leolin:ShortcutBadger:1.1.22@aar")
     implementation("com.facebook.android:facebook-android-sdk:latest.release")
+    
+
 }
