@@ -113,7 +113,7 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
 
 
         recyclerPopular.setLayoutManager(new WrapContentLinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
-        rclNearMe.setLayoutManager(new WrapContentGridLayoutManager(getActivity(), 1));
+        rclNearMe.setLayoutManager(new WrapContentGridLayoutManager(getActivity(), 2));
 
 //        recyclerPopular.setHasFixedSize(true);
         // Khởi tạo FirestoreRecyclerOptions
