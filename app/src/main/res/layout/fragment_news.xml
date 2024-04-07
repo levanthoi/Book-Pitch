@@ -12,25 +12,36 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        
-        <!--<ImageView
-            android:id="@+id/image_news"
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="150dp"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="14dp"
-            android:scaleType="centerCrop"
-            tools:srcCompat="@drawable/vna_potal_euro_2020_le_be_mac_an_tuong_voi_cong_nghe_hinh_anh_thuc_te_ao_stand" >
-        </ImageView>-->
-
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="monospace"
+            android:text="Tin tức"
+            android:textColor="@color/darkGreen"
+            android:textSize="@dimen/text_3xl"
+            android:textStyle="bold"
+            android:paddingVertical="10dp"/>
+        <EditText
+            android:id="@+id/search_news"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/background_search_bar"
+            android:drawableStart="@drawable/search"
+            android:drawablePadding="8dp"
+            android:gravity="start|center"
+            android:hint="Tìm kiếm tin tức"
+            android:padding="8dp"
+            android:paddingHorizontal="8dp"
+            android:text=""
+            android:textSize="@dimen/text_base"
+            app:layout_editor_absoluteY="16dp" />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_blogs"
             android:layout_width="match_parent"
-            android:layout_height="567dp"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="14dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="10dp"
             android:layout_marginBottom="40dp" />
 
     </LinearLayout>
