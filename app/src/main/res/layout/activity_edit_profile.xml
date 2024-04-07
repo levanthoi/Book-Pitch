@@ -153,12 +153,13 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/saveBtn"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="60dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:backgroundTint="@color/darkGreen"
             android:text="Lưu"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:background="@drawable/border_circle"/>
     </LinearLayout>
 
 </FrameLayout>

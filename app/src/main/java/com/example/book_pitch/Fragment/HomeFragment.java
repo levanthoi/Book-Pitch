@@ -26,6 +26,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowInsets;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -144,7 +146,8 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
 
             }
         });
-
+        Animation shakeAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.shake_animation);
+        btn_noti.startAnimation(shakeAnimation);
         search_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
