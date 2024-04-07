@@ -1,7 +1,5 @@
 package com.example.book_pitch.Models;
 
-
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -10,43 +8,48 @@ import java.util.Date;
  * String   user_id         - id user người đặt
  * Price    price           - chi tiết giá
  * String   pitch_id        - id sân bóng con
- * int      status          - Trạng thái (pending, confirm, completed, failed)
+ * String   stadium_id      - id sân bóng cha
+ * int      status          - Trạng thái (pending: 0, confirm: 1, completed: 2, failed: -1)
  * String   transactionToken- Mã token của giao dịch thanh toán (zptranstoken)
- * Date createdAt           - Thời gian tạo hóa đơn
- * Date updatedAt           - Thời gian cập nhật hóa đơn
+ * Date     createdAt           - Thời gian tạo hóa đơn
+ * Date     updatedAt           - Thời gian cập nhật hóa đơn
  * int      deleted         - Xóa
  * */
 
 public class Bill {
-    private int id;
+    private String id;
     private String user_id;
     private Price price;
     private String pitch_id;
+    private String stadium_id;
     private int status;
     private String transactionToken;
+    private String transactionId;
     private int deleted;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Date createdAt;
+    private Date updatedAt;
     public Bill() {
     }
 
-    public Bill(int id, String user_id, Price price, String pitch_id, int status, String transactionToken, int deleted, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Bill(String id, String user_id, Price price, String pitch_id, String stadium_id, int status, String transactionToken, String transactionId, int deleted, Date createdAt, Date updatedAt) {
         this.id = id;
         this.user_id = user_id;
         this.price = price;
         this.pitch_id = pitch_id;
+        this.stadium_id = stadium_id;
         this.status = status;
         this.transactionToken = transactionToken;
+        this.transactionId = transactionId;
         this.deleted = deleted;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -98,19 +101,35 @@ public class Bill {
         this.deleted = deleted;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public Date getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
+    }
+
+    public String getStadium_id() {
+        return stadium_id;
+    }
+
+    public void setStadium_id(String stadium_id) {
+        this.stadium_id = stadium_id;
     }
 }

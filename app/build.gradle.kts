@@ -64,4 +64,5 @@ dependencies {
     implementation("com.facebook.android:facebook-android-sdk:latest.release")
     implementation ("org.jsoup:jsoup:1.14.3")
 
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
 }

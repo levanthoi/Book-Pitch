@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import com.example.book_pitch.Models.Pitch;
 import com.example.book_pitch.Models.Price;
 import com.example.book_pitch.Models.Stadium;
 import com.example.book_pitch.R;
+import com.example.book_pitch.Utils.AndroidUtil;
 import com.example.book_pitch.Utils.DateUtil;
 import com.example.book_pitch.Utils.FirebaseUtil;
 import com.example.book_pitch.Utils.ScreenUtils;
@@ -52,8 +54,11 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements La
     private DatePickerDialog datePickerDialog;
     private Context ctx;
     private Pitch pitch_selected;
+    private int duration_selected = 0;
     private String date;
     private Stadium stadium;
+    private Price newPrice = new Price();
+    private List<Price> results;
 
     public BottomSheetFragment() {
     }
@@ -89,6 +94,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements La
             }
         });
 
+        results = new ArrayList<>();
         rcl_show_pitch = view.findViewById(R.id.rcl_show_pitch);
         rcl_show_pitch.setLayoutManager(new GridLayoutManager(getContext(), 3));
         return bottomSheetDialog;
@@ -101,6 +107,8 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements La
                 month += 1;
                 date = makeDateString(dayOfMonth, month, year);
                 btnDate.setText(date);
+                newPrice.setFrom_date(date);
+                newPrice.setTo_date(date);
             }
         };
 
@@ -149,19 +157,27 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements La
     public void onClick(Pitch pitch) {
         pitch_selected = pitch;
         rcl_durations.setAdapter(new DurationAdapter(pitch.getDurations(), this::onClickDuration));
+
+        // set lại giá trị cho duration_selected khi không chọn
+        duration_selected = 0;
+        btnBooking.setVisibility(View.GONE);
+
+        // list giá các khung giờ
+        if(results.size()>0) {
+            results.clear();
+            rcl_show_pitch.getAdapter().notifyDataSetChanged();
+        }
+
     }
 
     @Override
     public void onClickDuration(int duration) {
-        List<Price> results = new ArrayList<>();
-
-
+        duration_selected = duration;
         if(pitch_selected != null && date != null)
             for (Price price : pitch_selected.getPrices()) {
                 if ((price.getDuration() == duration) && inDate(price)) {
                     int limit = TimeUtil.convertTimeToInt(price.getTo_time());
                     for(int i = TimeUtil.convertTimeToInt(price.getFrom_time()); i<=limit; i+=duration) {
-                        Price newPrice = new Price();
                         newPrice.setId(price.getId());
                         newPrice.setDuration(price.getDuration());
                         newPrice.setFrom_date(date);
@@ -175,6 +191,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements La
                     }
                 }
         }
+
         rcl_show_pitch.setAdapter(new ShowPitchAdapter(results, this::onClickShowPitch));
     }
 
@@ -188,33 +205,32 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements La
 
     @Override
     public void onClickShowPitch(Price price) {
-
-        btnBooking.setVisibility(View.VISIBLE);
-        btnBooking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!FirebaseUtil.isLoggedIn()){
-                    Intent intent = new Intent(getActivity(), LoginPhoneNumberActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                }else{
-                    Intent intent = new Intent(getActivity(), PaymentActivity.class);
-                    Bill bill = new Bill();
-                    if(pitch_selected != null && stadium != null) {
-                        bill.setPrice(price);
-//                        bill.setPitch_size(pitch_selected.getPitch_size());
-//                        bill.setLabel(pitch_selected.getLabel());
-//                        bill.setTitle(stadium.getTitle());
-//                        bill.setAddress(stadium.getAddress());
-//                        bill.setPhone(stadium.getPhone());
+        if(duration_selected != 0){
+            btnBooking.setVisibility(View.VISIBLE);
+            btnBooking.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(!FirebaseUtil.isLoggedIn()){
+                        Intent intent = new Intent(getActivity(), LoginPhoneNumberActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    }else{
+                        Intent intent = new Intent(getActivity(), PaymentActivity.class);
+                        if(pitch_selected != null && stadium != null) {
+                            Gson gson = new Gson();
+                            intent.putExtra("stadium", gson.toJson(stadium));
+                            intent.putExtra("pitch", gson.toJson(pitch_selected));
+                            intent.putExtra("price", gson.toJson(price));
+                            startActivity(intent);
+                        }else{
+                            AndroidUtil.showToast(getContext(), "Đang lỗi hệ thống. Vui lòng khởi động lại");
+                        }
                     }
-
-                    Gson gson = new Gson();
-                    intent.putExtra("bill", gson.toJson(bill));
-                    startActivity(intent);
+                    dismiss();
                 }
-                dismiss();
-            }
-        });
+            });
+        }else {
+            btnBooking.setVisibility(View.GONE);
+        }
     }
 }
