@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +28,7 @@ import com.example.book_pitch.Utils.Helpers.CreateOrder;
 import com.example.book_pitch.Utils.Helpers.Helpers;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -134,7 +136,27 @@ public class PaymentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(isValid()){
-                    handlePayment();
+                    if(mauth.getCurrentUser().getPhoneNumber().isEmpty()) {
+                        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Nhập số điện thoại trước khi thanh toán!", Snackbar.LENGTH_LONG);
+
+                        // Thêm một nút vào Snackbar
+                        snackbar.setAction("Thêm", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // Xử lý sự kiện khi người dùng chọn nút
+                                Intent intent = new Intent(PaymentActivity.this, EditProfileActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+
+                        // Thiết lập màu cho nút
+                        snackbar.setActionTextColor(getResources().getColor(R.color.darkGreen, null));
+
+                        // Hiển thị Snackbar
+                        snackbar.show();
+                    } else {
+                        handlePayment();
+                    }
                 }
             }
         });

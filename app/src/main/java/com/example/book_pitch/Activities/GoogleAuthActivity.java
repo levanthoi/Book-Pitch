@@ -1,5 +1,10 @@
 package com.example.book_pitch.Activities;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -36,6 +41,30 @@ public class GoogleAuthActivity extends LoginPhoneNumberActivity {
     private FirebaseFirestore fireStore;
     GoogleSignInClient mGoogleSignInClient;
     int RC_GOOGLE_SIGN_IN = 1;
+    private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if(result.getResultCode() == RESULT_OK) {
+                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
+                try {
+                    GoogleSignInAccount signInAccount = task.getResult(ApiException.class);
+                    AuthCredential authCredential = GoogleAuthProvider.getCredential(signInAccount.getIdToken(),null);
+                    mAuth.signInWithCredential(authCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()) {
+                                FirebaseGoogleAuth(signInAccount);
+                            } else {
+                                Toast.makeText(GoogleAuthActivity.this, "Đăng nhập thất bại!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                } catch(ApiException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    });
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,27 +80,10 @@ public class GoogleAuthActivity extends LoginPhoneNumberActivity {
     }
     private void loginGoogle() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_GOOGLE_SIGN_IN);
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == RC_GOOGLE_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
-        }
-    }
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try{
-            GoogleSignInAccount acc = completedTask.getResult(ApiException.class);
-            FirebaseGoogleAuth(acc);
-        } catch(ApiException e) {
-            Toast.makeText(this, "Signed In failed", Toast.LENGTH_SHORT).show();
-            FirebaseGoogleAuth(null);
-        }
+        activityResultLauncher.launch(signInIntent);
     }
     private void FirebaseGoogleAuth(GoogleSignInAccount acct) {
-        if(acct != null){
+        if(acct != null) {
             AuthCredential authCredential = GoogleAuthProvider.getCredential(acct.getIdToken(),null);
             mAuth.signInWithCredential(authCredential)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -134,7 +146,6 @@ public class GoogleAuthActivity extends LoginPhoneNumberActivity {
                         }
                     });
         }
-
     }
     private void gotoMainActivity() {
         Intent intent = new Intent(GoogleAuthActivity.this, MainActivity.class);

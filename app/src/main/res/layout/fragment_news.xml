@@ -21,7 +21,8 @@
             android:textColor="@color/darkGreen"
             android:textSize="@dimen/text_3xl"
             android:textStyle="bold"
-            android:paddingVertical="10dp"/>
+            android:paddingVertical="10dp"
+            android:layout_marginTop="30dp"/>
         <EditText
             android:id="@+id/search_news"
             android:layout_width="match_parent"

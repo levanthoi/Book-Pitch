@@ -10,9 +10,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.book_pitch.Adapters.NewsAdapter;
@@ -28,6 +31,7 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnNewsItemClic
     RecyclerView rcvNews;
     private NewsAdapter newsAdapter;
     private ArrayList<New> news;
+    EditText search_news;
     public NewsFragment() {
     }
 
@@ -40,6 +44,8 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnNewsItemClic
         news = new ArrayList<>();
         newsAdapter = new NewsAdapter(news, this);
         rcvNews.setAdapter(newsAdapter);
+        search_news = view.findViewById(R.id.search_news);
+        setupSearchListener();
         return view;
     }
 
@@ -78,5 +84,36 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnNewsItemClic
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
         startActivity(intent);
+    }
+
+    private void handleSearch(String keyword) {
+        if (newsAdapter != null) {
+            newsAdapter.filterNewsItems(keyword);
+        }
+    }
+
+    private void setupSearchListener() {
+
+        search_news.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String keyword = s.toString().trim().toLowerCase();
+                if (keyword.isEmpty()) {
+                    fetchNews();
+                } else {
+                    handleSearch(s.toString());
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 }
