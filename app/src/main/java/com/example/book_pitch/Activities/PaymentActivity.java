@@ -104,10 +104,10 @@ public class PaymentActivity extends AppCompatActivity {
         current_name = (TextView) findViewById(R.id.current_name);
         current_phone = (TextView) findViewById(R.id.current_phone);
 
-        if(!mauth.getCurrentUser().getDisplayName().isEmpty()){
+        if(mauth.getCurrentUser().getDisplayName() != null){
             current_name.setText(mauth.getCurrentUser().getDisplayName());
         }
-        if(!mauth.getCurrentUser().getPhoneNumber().isEmpty()){
+        if(mauth.getCurrentUser().getPhoneNumber() != null){
             current_phone.setText(mauth.getCurrentUser().getPhoneNumber());
         }
 

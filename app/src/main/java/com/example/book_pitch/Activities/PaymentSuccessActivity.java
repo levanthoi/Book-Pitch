@@ -159,32 +159,6 @@ public class PaymentSuccessActivity extends AppCompatActivity {
     private void handleDownload() {
         if(qrCodeBitmap != null)
             saveImageToStorage(qrCodeBitmap);
-//        OkHttpClient client = new OkHttpClient();
-//
-//        Request request = new Request.Builder()
-//                .url("https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/444px-QR_code_for_mobile_English_Wikipedia.svg.png")
-//                .build();
-//
-//        client.newCall(request).enqueue(new Callback() {
-//            @Override
-//            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//            @Override
-//            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-//                if(response.isSuccessful()){
-//                    final Bitmap bitmap = BitmapFactory.decodeStream(response.body().byteStream());
-//
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            saveImageToStorage(bitmap);
-//                        }
-//                    });
-//                }
-//            }
-//        });
     }
 
     private void saveImageToStorage(Bitmap bitmap) {

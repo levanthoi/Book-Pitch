@@ -49,7 +49,9 @@
                     android:fontFamily="sans-serif-medium"
                     android:text="Top 5 lịch sử thú vị về Euro"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_lg" />
+                    android:textSize="@dimen/text_lg"
+                    android:ellipsize="end"
+                    android:maxLines="2"/>
 
                 <TextView
                     android:id="@+id/txtDescription_new"

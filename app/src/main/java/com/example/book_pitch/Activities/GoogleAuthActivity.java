@@ -71,67 +71,70 @@ public class GoogleAuthActivity extends LoginPhoneNumberActivity {
         }
     }
     private void FirebaseGoogleAuth(GoogleSignInAccount acct) {
-        AuthCredential authCredential = GoogleAuthProvider.getCredential(acct.getIdToken(),null);
-        mAuth.signInWithCredential(authCredential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()) {
-                            GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
-                            fireStore.collection("users")
-                                    .whereEqualTo("email", account.getEmail())
-                                    .get()
-                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                            if (task.isSuccessful()) {
-                                                if (!task.getResult().isEmpty()) {
-                                                    Toast.makeText(GoogleAuthActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-                                                    gotoMainActivity();
-                                                    return;
-                                                } else {
-                                                    FirebaseUser mCurrent = mAuth.getCurrentUser();
-                                                    if(mCurrent != null) {
-                                                        String userId = mCurrent.getUid();
-                                                        Map<String, Object> user = new HashMap<>();
-                                                        user.put("uid", userId);
-                                                        user.put("email", account.getEmail());
-                                                        user.put("displayName", account.getDisplayName());
-                                                        user.put("address", "");
-                                                        user.put("avatar", "");
-                                                        user.put("phoneNumber", "");
-                                                        user.put("gender", "");
-                                                        user.put("loginOption","google");
-                                                        // Thêm dữ liệu vào Firestore
-                                                        fireStore.collection("users").document(userId)
-                                                                .set(user)
-                                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                    @Override
-                                                                    public void onSuccess(Void aVoid) {
-                                                                        gotoMainActivity();
-                                                                    }
-                                                                })
-                                                                .addOnFailureListener(new OnFailureListener() {
-                                                                    @Override
-                                                                    public void onFailure(@NonNull Exception e) {
-                                                                        Log.w(TAG, "Error adding document", e);
-                                                                    }
-                                                                });
+        if(acct != null){
+            AuthCredential authCredential = GoogleAuthProvider.getCredential(acct.getIdToken(),null);
+            mAuth.signInWithCredential(authCredential)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()) {
+                                GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+                                fireStore.collection("users")
+                                        .whereEqualTo("email", account.getEmail())
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    if (!task.getResult().isEmpty()) {
                                                         Toast.makeText(GoogleAuthActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
                                                         gotoMainActivity();
+                                                        return;
+                                                    } else {
+                                                        FirebaseUser mCurrent = mAuth.getCurrentUser();
+                                                        if(mCurrent != null) {
+                                                            String userId = mCurrent.getUid();
+                                                            Map<String, Object> user = new HashMap<>();
+                                                            user.put("uid", userId);
+                                                            user.put("email", account.getEmail());
+                                                            user.put("displayName", account.getDisplayName());
+                                                            user.put("address", "");
+                                                            user.put("avatar", "");
+                                                            user.put("phoneNumber", "");
+                                                            user.put("gender", "");
+                                                            user.put("loginOption","google");
+                                                            // Thêm dữ liệu vào Firestore
+                                                            fireStore.collection("users").document(userId)
+                                                                    .set(user)
+                                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                        @Override
+                                                                        public void onSuccess(Void aVoid) {
+                                                                            gotoMainActivity();
+                                                                        }
+                                                                    })
+                                                                    .addOnFailureListener(new OnFailureListener() {
+                                                                        @Override
+                                                                        public void onFailure(@NonNull Exception e) {
+                                                                            Log.w(TAG, "Error adding document", e);
+                                                                        }
+                                                                    });
+                                                            Toast.makeText(GoogleAuthActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+                                                            gotoMainActivity();
+                                                        }
                                                     }
+                                                } else {
+                                                    Log.d(TAG, "Error getting documents: ", task.getException());
                                                 }
-                                            } else {
-                                                Log.d(TAG, "Error getting documents: ", task.getException());
                                             }
-                                        }
 
-                                    });
-                        } else {
-                            Toast.makeText(GoogleAuthActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                                        });
+                            } else {
+                                Toast.makeText(GoogleAuthActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+        }
+
     }
     private void gotoMainActivity() {
         Intent intent = new Intent(GoogleAuthActivity.this, MainActivity.class);
