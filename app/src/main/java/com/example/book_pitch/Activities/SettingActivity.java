@@ -12,6 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.book_pitch.R;
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SettingActivity extends AppCompatActivity {
@@ -34,6 +37,8 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mAuth.signOut();
+                GoogleSignIn.getClient(SettingActivity.this, GoogleSignInOptions.DEFAULT_SIGN_IN).signOut();
+                LoginManager.getInstance().logOut();
                 Intent i = new Intent(SettingActivity.this, LoginPhoneNumberActivity.class);
                 startActivity(i);
                 finish();
