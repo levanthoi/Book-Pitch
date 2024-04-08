@@ -8,20 +8,41 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.book_pitch.Models.Bill;
+import com.example.book_pitch.Models.Pitch;
+import com.example.book_pitch.Models.Price;
+import com.example.book_pitch.Models.Stadium;
 import com.example.book_pitch.R;
 import com.example.book_pitch.Utils.AndroidUtil;
+import com.example.book_pitch.Utils.FirebaseUtil;
 import com.example.book_pitch.Utils.Helper;
 import com.example.book_pitch.Utils.Helpers.AppInfo;
 import com.example.book_pitch.Utils.Helpers.CreateOrder;
+import com.example.book_pitch.Utils.Helpers.Helpers;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
+
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.UUID;
 
 import vn.zalopay.sdk.Environment;
 import vn.zalopay.sdk.ZaloPayError;
@@ -32,8 +53,13 @@ public class PaymentActivity extends AppCompatActivity {
 
     ImageView info_user;
     Button btn_detail_booking;
-    Bill bill;
-    TextView tv_title, tv_label, tv_address, tv_openTime, tv_dateTime;
+    TextView tv_title, tv_label, tv_address, tv_openTime, tv_dateTime, current_name, current_phone;
+    Stadium stadium;
+    Pitch pitch;
+    Price price;
+    FirebaseFirestore firestore;
+    FirebaseAuth mauth;
+    static Bill bill = new Bill();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +69,11 @@ public class PaymentActivity extends AppCompatActivity {
 //        ActionBar actionBar = getSupportActionBar();
         getSupportActionBar().setTitle(R.string.payment_info);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        firestore = FirebaseFirestore.getInstance();
+        mauth =  FirebaseAuth.getInstance();
 
         handleIntent(getIntent());
+
 
 
         initView();
@@ -55,11 +84,18 @@ public class PaymentActivity extends AppCompatActivity {
     }
 
     private void handleIntent(Intent intent) {
-        String key_id = "bill";
-        if(intent != null && intent.hasExtra(key_id)){
-            String stadium_str = intent.getStringExtra(key_id);
+        String key_stadium = "stadium";
+        String key_pitch= "pitch";
+        String key_price = "price";
+        if(intent != null && intent.hasExtra(key_stadium) && intent.hasExtra(key_pitch) && intent.hasExtra(key_price)){
+            String stadium_str = intent.getStringExtra(key_stadium);
+            String pitch_str = intent.getStringExtra(key_pitch);
+            String price_str = intent.getStringExtra(key_price);
+
             Gson gson = new Gson();
-            bill = gson.fromJson(stadium_str, Bill.class);
+            stadium = gson.fromJson(stadium_str, Stadium.class);
+            pitch = gson.fromJson(pitch_str, Pitch.class);
+            price = gson.fromJson(price_str, Price.class);
         }
     }
 
@@ -71,14 +107,33 @@ public class PaymentActivity extends AppCompatActivity {
         tv_label = (TextView) findViewById(R.id.tv_label);
         tv_openTime = (TextView) findViewById(R.id.tv_openTime);
         tv_dateTime = (TextView) findViewById(R.id.tv_dateTime);
-
-        if(bill != null) {
-//            tv_title.setText(bill.getTitle());
-//            tv_address.setText(bill.getAddress());
-//            tv_label.setText(bill.getPitch_size() + " - " + bill.getLabel());
-            tv_openTime.setText(bill.getPrice().getFrom_time() + " - " + bill.getPrice().getTo_time());
-            tv_dateTime.setText(bill.getPrice().getTo_date());
-            btn_detail_booking.setText("ĐẶT SÂN (" + Helper.formatNumber(bill.getPrice().getPrice())  + " VNĐ)");
+        current_name = (TextView) findViewById(R.id.current_name);
+        current_phone = (TextView) findViewById(R.id.current_phone);
+        FirebaseUser mUser = mauth.getCurrentUser();
+        if(mUser != null) {
+            String userId = mUser.getUid();
+            firestore.collection("users").document(userId)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                String displayName = document.getString("displayName");
+                                String phoneNumber = document.getString("phoneNumber");
+                                current_name.setText(displayName);
+                                current_phone.setText(phoneNumber);
+                            }
+                        }
+                    });
+        }
+        if(stadium != null && pitch != null && price != null) {
+            tv_title.setText(stadium.getTitle());
+            tv_address.setText(stadium.getAddress());
+            tv_label.setText("Sân "+ pitch.getPitch_size() + " - " + pitch.getLabel());
+            tv_openTime.setText(price.getFrom_time() + " - " + price.getTo_time());
+            tv_dateTime.setText(price.getFrom_date());
+            btn_detail_booking.setText("ĐẶT SÂN (" + Helper.formatNumber(price.getPrice())  + " VNĐ)");
         }
 
 
@@ -92,43 +147,140 @@ public class PaymentActivity extends AppCompatActivity {
         });
 
         btn_detail_booking.setOnClickListener(new View.OnClickListener() {
-            String amount = "10000";
             @Override
             public void onClick(View v) {
-                CreateOrder orderApi = new CreateOrder();
-                try {
-                    JSONObject data = orderApi.createOrder(bill!=null ? bill.getPrice().getPrice() : "200000");
-                    String code = data.getString("returncode");
+                if(isValid()){
+                    if(mauth.getCurrentUser().getPhoneNumber().isEmpty()) {
+                        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Nhập số điện thoại trước khi thanh toán!", Snackbar.LENGTH_LONG);
 
-                    if (code.equals("1")) {
-
-                        String token = data.getString("zptranstoken");
-                        Log.d("TỌKEN", token);
-//                    String token = AppInfo.MAC_KEY;
-
-                        ZaloPaySDK.getInstance().payOrder(PaymentActivity.this, token, "demozpdk://app", new PayOrderListener() {
+                        // Thêm một nút vào Snackbar
+                        snackbar.setAction("Thêm", new View.OnClickListener() {
                             @Override
-                            public void onPaymentSucceeded(final String transactionId, final String transToken, final String appTransID) {
-                                AndroidUtil.showToast(PaymentActivity.this, "Thanh toán thành công");
-                            }
-
-                            @Override
-                            public void onPaymentCanceled(String zpTransToken, String appTransID) {
-                                AndroidUtil.showToast(PaymentActivity.this, "Thanh toán bị hủy");
-                            }
-
-                            @Override
-                            public void onPaymentError(ZaloPayError zaloPayError, String zpTransToken, String appTransID) {
-                                AndroidUtil.showToast(PaymentActivity.this, "Thanh toán thất bại");
+                            public void onClick(View v) {
+                                // Xử lý sự kiện khi người dùng chọn nút
+                                Intent intent = new Intent(PaymentActivity.this, EditProfileActivity.class);
+                                startActivity(intent);
                             }
                         });
-                    }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
+                        // Thiết lập màu cho nút
+                        snackbar.setActionTextColor(getResources().getColor(R.color.darkGreen, null));
+
+                        // Hiển thị Snackbar
+                        snackbar.show();
+                    } else {
+                        handlePayment();
+                    }
                 }
             }
         });
+    }
+
+    private void handlePayment() {
+        bill.setId(Helpers.getAppTransId());
+        bill.setPrice(price);
+        bill.setDeleted(0);
+        bill.setStatus(0);
+        bill.setUser_id(FirebaseUtil.currentUserId());
+        bill.setPitch_id(pitch.getId());
+        bill.setStadium_id(stadium.getId());
+        bill.setTransactionToken("");
+        bill.setCreatedAt(new Date());
+        bill.setUpdatedAt(new Date());
+
+        sendPayment(bill);
+    }
+
+    private boolean isValid() {
+        RadioButton btn_zalopay = findViewById(R.id.btn_zalopay);
+        if(!btn_zalopay.isChecked()) {
+//            btn_zalopay.setError("Ở đây này");
+            AndroidUtil.showToast(PaymentActivity.this, "Vui lòng chọn phương thức thanh toán");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void sendPayment(Bill bill) {
+        CreateOrder orderApi = new CreateOrder();
+        try {
+            JSONObject data = orderApi.createOrder(bill!=null ? bill.getPrice().getPrice() : "200000");
+            String code = data.getString("returncode");
+            Log.d("test", data.toString());
+            Log.d("test", code);
+
+            if (code.equals("1")) {
+                String token = data.getString("zptranstoken");
+
+                ZaloPaySDK.getInstance().payOrder(PaymentActivity.this, token, "demozpdk://app", new ZalopayListener());
+            }else{
+                Log.d("test", "not 1");
+//                handlePaymentFailure(bill, "Không thể tạo: " + data.getString("returnmessage"));
+            }
+
+        } catch (Exception e) {
+            Log.d("EÊ", "ERRRRR");
+            handlePaymentFailure(bill, "not connect");
+            e.printStackTrace();
+        }
+    }
+
+    private class ZalopayListener implements PayOrderListener {
+
+        @Override
+        public void onPaymentSucceeded(String appTransID, String transToken, String transactionId) {
+            Log.d("test", "Successs");
+            bill.setId(appTransID);
+            bill.setTransactionToken(transToken);
+            bill.setTransactionId(transactionId);
+            bill.setStatus(1);
+
+            saveOrderToFirestore(bill);
+            AndroidUtil.showToast(PaymentActivity.this, "Thanh toán thành công");
+        }
+
+        @Override
+        public void onPaymentCanceled(String s, String s1) {
+            Log.d("test", "Cancel");
+            handlePaymentFailure(bill, "Thanh toán đã hủy");
+        }
+
+        @Override
+        public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
+            Log.d("test", "Errorrr");
+            handlePaymentFailure(bill, "Thanh toán không thành công");
+        }
+    }
+
+    private void handlePaymentFailure(Bill bill, String errorMessage) {
+        bill.setStatus(-1); // Đánh dấu đơn hàng thất bại
+        saveOrderToFirestore(bill);
+        AndroidUtil.showToast(this, errorMessage);
+    }
+
+    private void saveOrderToFirestore(Bill bill) {
+        bill.setCreatedAt(new Date());
+        bill.setUpdatedAt(new Date());
+
+        firestore.collection("bills").document(bill.getId()).set(bill)
+                .addOnSuccessListener(v -> {
+                    if(bill.getStatus() == 1){
+                        Intent intent = new Intent(PaymentActivity.this, PaymentSuccessActivity.class);
+                        intent.putExtra("bill", new Gson().toJson(bill));
+                        startActivity(intent);
+                        finish();
+                    }
+
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Xử lý lỗi khi lưu vào Firestore
+                        Log.d("Failllll FIRESTORE", "FRRRR");
+                        AndroidUtil.showToast(PaymentActivity.this, "Lỗi firebase");
+                    }
+                });
     }
 
     @Override

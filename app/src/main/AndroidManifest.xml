@@ -11,6 +11,8 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION"/>
 
     <queries>
         <package android:name="vn.com.vng.zalopay" />
@@ -27,6 +29,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BookPitch"
         tools:targetApi="31">
+        <activity
+            android:name=".Activities.Detail_newActivity"
+            android:exported="false" />
         <activity
             android:name=".Activities.GoogleAuthActivity"
             android:exported="false"
@@ -57,7 +62,8 @@
             android:parentActivityName=".Activities.ProfileActivity" />
         <activity
             android:name=".Activities.NotificationActivity"
-            android:exported="false" /> <!-- Intro -->
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.SplashScreenActivity"
             android:exported="true"
@@ -109,14 +115,16 @@
             android:theme="@style/AppTheme.NoActionBar" /> <!-- Payment -->
         <activity
             android:name=".Activities.PaymentActivity"
-            android:exported="false"
+            android:exported="true"
+            android:launchMode="singleTask"
             android:parentActivityName=".Activities.DetailPitchActivity">
             <intent-filter>
-<!--                <action android:name="android.intent.action.VIEW" />-->
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="demozpdk"
-                    android:host="app" />
+                <data
+                    android:host="app"
+                    android:scheme="demozpdk" />
             </intent-filter>
         </activity>
         <activity

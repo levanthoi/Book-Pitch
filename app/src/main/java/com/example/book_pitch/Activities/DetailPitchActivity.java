@@ -33,6 +33,7 @@ import com.example.book_pitch.R;
 import com.example.book_pitch.Services.PitchService;
 import com.example.book_pitch.Utils.AndroidUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -61,7 +62,7 @@ public class DetailPitchActivity extends AppCompatActivity {
     private Handler slideHandler = new Handler();
     List<String> slider = new ArrayList<>();
     Stadium stadium;
-    FirebaseFirestore firestore;
+    FirebaseFirestore db ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +71,7 @@ public class DetailPitchActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(Color.parseColor("#198754"));
 
         handleIntent(getIntent());
-        firestore = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
         initView();
         getData();
         render();
@@ -95,8 +96,8 @@ public class DetailPitchActivity extends AppCompatActivity {
         List<Pitch> list = new ArrayList<>();
 //        PitchService pitchService = new PitchService();
         if(stadium != null) {
-            firestore.collection("pitches")
-                    .whereEqualTo("stadium_id", "0sRWgWvgDk3d3N8c2Tch")
+            db.collection("pitches")
+                    .whereEqualTo("stadium_id", stadium.getId())
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -107,14 +108,19 @@ public class DetailPitchActivity extends AppCompatActivity {
                                         Pitch p = document.toObject(Pitch.class);
                                         list.add(p);
                                     }
-
                                 }
+                                BottomSheetFragment bottomSheetFragment = new BottomSheetFragment(DetailPitchActivity.this, list, stadium);
+                                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+                            }else{
                             }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d("ERRRRR", e.getMessage());
                         }
                     });
         }
-        BottomSheetFragment bottomSheetFragment = new BottomSheetFragment(this, list, stadium);
-        bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
     private void getData(){
         if(stadium != null) slider.addAll(stadium.getImages());
@@ -157,7 +163,6 @@ public class DetailPitchActivity extends AppCompatActivity {
                         heart.setTag(false);
                         // Thực hiện các hành động khi heart bị tắt
                         if(mCurrent != null) {
-                            FirebaseFirestore db = FirebaseFirestore.getInstance();
                             Map<String, Object> updates = new HashMap<>();
                             updates.put(stadium.getId(), FieldValue.delete());
 
@@ -180,8 +185,6 @@ public class DetailPitchActivity extends AppCompatActivity {
                         // Thực hiện các hành động khi heart được bật
 
                         if(mCurrent != null) {
-                            FirebaseFirestore db = FirebaseFirestore.getInstance();
-
                             Map<String, Object> pitchData = new HashMap<>();
 //                        pitchData.put("pitchId", stadium.getId());
 //                        pitchData.put("pitchTitle", stadium.getTitle());
@@ -240,7 +243,7 @@ public class DetailPitchActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         if(mCurrent != null) {
             String userId = mCurrent.getUid();
-            db.collection("favourites").document(stadium.getId())
+            db.collection("favourites").document(userId)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
@@ -248,7 +251,7 @@ public class DetailPitchActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 DocumentSnapshot document = task.getResult();
                                 if (document.exists()) {
-                                    if (document.getData().containsKey(userId)) {
+                                    if (document.getData().containsKey(stadium.getId())) {
                                         heart.setImageResource(R.drawable.heart_outline_red);
                                     } else {
                                         heart.setImageResource(R.drawable.heart_outline);

@@ -8,78 +8,88 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.book_pitch.Models.News;
+import com.example.book_pitch.Models.New;
 import com.example.book_pitch.R;
-import com.example.book_pitch.databinding.ItemNewBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
-    private final List<News> mListNews;
-
-    private Context ctx;
-
-
-    public NewsAdapter(List<News> mListNews) {
-        this.mListNews = mListNews;
+    private Context context;
+    private ArrayList<New> News;
+    private OnNewsItemClickHandler clickHandler;
+    public interface OnNewsItemClickHandler {
+        void onClick(New newItem);
+    }
+    public NewsAdapter(ArrayList<New> News, OnNewsItemClickHandler clickHandler) {
+        this.News = News;
+        this.clickHandler = clickHandler;
+    }
+    public void setNewsItems(ArrayList<New> newsItems) {
+        this.News = newsItems;
+        notifyDataSetChanged();
     }
 
     @NonNull
     @Override
-    public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        /*ItemNewBinding itemNewBinding = ItemNewBinding.inflate(R.layout., parent, false);*/
-        ctx = parent.getContext();
-        LayoutInflater layoutInflater = LayoutInflater.from(ctx);
-        View view = layoutInflater.inflate(R.layout.item_new, parent, false);
-        return new NewsViewHolder(view);
+    public NewsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        context = parent.getContext();
+        View view = LayoutInflater.from(context).inflate(R.layout.item_new, parent, false);
+        return new NewsAdapter.ViewHolder(view);
+    }
+
+    public void filterNewsItems(String keyword) {
+        keyword = keyword.toLowerCase();
+        ArrayList<New> filteredList = new ArrayList<>();
+        for (New newsItem : News) {
+            if (newsItem.getTitle().toLowerCase().contains(keyword)) {
+                filteredList.add(newsItem);
+            }
+        }
+        this.News = filteredList;
+        notifyDataSetChanged();
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
-        News news = mListNews.get(position);
-        if(news == null){
-            return;
-        }
-        holder.txtDate_new.setText("Tháng " + news.getDate() );
-        holder.txtTitle_new.setText(news.getTitle());
-        holder.txtDescription_new.setText(news.getDescription());
-        Glide.with(ctx)
-                .load(news.getImage())
-                .into(holder.img_new);
-
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        New newsItem = News.get(position);
+        holder.bind(newsItem);
     }
 
     @Override
     public int getItemCount() {
-        if(mListNews != null){
-            return mListNews.size();
-        }
-        return 0;
+        return News == null ? 0 : News.size();
     }
 
-    public static class NewsViewHolder extends RecyclerView.ViewHolder {
-        private TextView txtDate_new;
-        private TextView txtTitle_new;
-        private TextView txtDescription_new;
-        private TextView txtShare_new;
-        private ImageView img_new;
-        private CardView Card_new;
-
-        public NewsViewHolder(@NonNull View itemView) {
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView ivImage;
+        TextView tvTitle;
+        TextView tvDescription;
+        TextView tvpubDate;
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtDate_new =itemView.findViewById(R.id.txtDate_new);
-            txtTitle_new =itemView.findViewById(R.id.txtTitle_new);
-            txtDescription_new =itemView.findViewById(R.id.txtDescription_new);
-            txtShare_new =itemView.findViewById(R.id.txtShare_new);
-            img_new =itemView.findViewById(R.id.img_new);
-            Card_new = itemView.findViewById(R.id.Card_new);
+            ivImage = itemView.findViewById(R.id.img_new);
+            tvTitle = itemView.findViewById(R.id.txtTitle_new);
+            tvDescription = itemView.findViewById(R.id.txtDescription_new);
+            tvpubDate = itemView.findViewById(R.id.txtPubDate_new);
+            itemView.setOnClickListener(v -> {
+                int position = getBindingAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    New n = News.get(position);
+                    clickHandler.onClick(n);
+                }
+            });
+        }
 
+        public void bind(New newsItem) {
+            tvTitle.setText(newsItem.getTitle());
+            tvDescription.setText(newsItem.getDescription());
+            tvpubDate.setText(newsItem.getpubDate());
+            Glide.with(context).load(newsItem.getImage()).into(ivImage);
         }
     }
-
 }

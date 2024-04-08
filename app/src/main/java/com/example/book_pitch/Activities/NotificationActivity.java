@@ -1,23 +1,15 @@
 package com.example.book_pitch.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.Manifest;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
+import android.view.MenuItem;
 
-import com.example.book_pitch.Adapters.NewsAdapter;
 import com.example.book_pitch.Adapters.NotificationAdapter;
-import com.example.book_pitch.Models.News;
 import com.example.book_pitch.Models.Notification;
 import com.example.book_pitch.R;
 
@@ -32,6 +24,13 @@ public class NotificationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setTitle("Thông báo");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         rcvNoti_new = findViewById(R.id.rv_noti_new);
         rcvNoti_old = findViewById(R.id.rv_noti_old);
 
@@ -43,6 +42,14 @@ public class NotificationActivity extends AppCompatActivity {
         NotificationAdapter noti_oldAdapter = new NotificationAdapter(getNotiList1());
         rcvNoti_old.setAdapter(noti_oldAdapter);
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) { // Kiểm tra xem nút back đã được nhấn chưa
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private List<Notification> getNotiList() {

@@ -3,34 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape"
             android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:weightSum="2">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_height="80dp"
+                android:layout_weight="0.5"
                 android:scaleType="centerCrop"
-                android:src="@drawable/favourite_img"
-                app:shapeAppearanceOverlay="@style/rounded_top_left_bottom_left_md" />
+                android:src="@drawable/favourite_img"/>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:orientation="vertical"
-                android:padding="5dp">
+                android:paddingHorizontal="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -42,12 +42,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Sân Đại học Thủy Lợi"
-                        android:textStyle="bold" />
+                        android:textColor="@color/dot_inactive"/>
                 </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="5dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -58,7 +54,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Sân 7 - Số 1"
-                        android:textStyle="italic" />
+                        android:textStyle="italic"
+                        android:textSize="@dimen/text_xs"/>
                 </LinearLayout>
 
                 <View
@@ -68,16 +65,15 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tvAddress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/address"
                         android:drawablePadding="4dp"
-                        android:text="Tay Son, Dong Da" />
+                        android:text="Tay Son, Dong Da"
+                        android:textSize="@dimen/text_xs"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -101,35 +97,9 @@
                         android:id="@+id/tvBeginTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:drawableStart="@drawable/time"
                         android:drawablePadding="8dp"
-                        android:text="19:00 -" />
-                    <TextView
-                        android:id="@+id/tvEndTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:drawablePadding="8dp"
-                        android:text="20:00" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="5dp" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tvDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:drawablePadding="8dp"
-                        android:text="Thứ 2 - 12/3/2024" />
+                        android:text="19:00 -"
+                        android:textSize="@dimen/text_xs"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -164,11 +134,45 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/darkGreen"
-                        android:text="Hủy" />
+                        android:text="Viết đánh giá" />
                 </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/gray"
+            android:padding="8dp"
+            android:weightSum="2"
+            android:layout_gravity="center_vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đánh giá nhanh"
+                android:layout_gravity="center_vertical"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:gravity="end">
+                <RatingBar
+                    android:id="@+id/rating_tab"
+                    android:layout_gravity="end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:stepSize="0.5"
+                    android:numStars="5"
+                    android:rating="4.6"
+                    android:isIndicator="true"
+                    android:progressTint="@color/yellow"
+                    style="@style/Widget.AppCompat.RatingBar.Indicator"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>

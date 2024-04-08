@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +25,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -71,16 +75,39 @@ public class EditProfileActivity extends AppCompatActivity {
         genderAdapter = new GenderAdapter(this, genders);
         userGender.setAdapter(genderAdapter);
         db = FirebaseFirestore.getInstance();
-        String phoneNumber =  mAuth.getCurrentUser().getPhoneNumber();
-        if(phoneNumber != null) {
-            db.collection("users")
-                    .whereEqualTo("phoneNumber",phoneNumber)
+        userPhoneNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Không cần xử lý trước sự thay đổi văn bản
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Không cần xử lý trong quá trình thay đổi văn bản
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String phoneNumber = editable.toString();
+                if (!phoneNumber.startsWith("+84")) {
+                    phoneNumber = "+84" + phoneNumber;
+                    // Cập nhật lại văn bản trong EditText
+                    userPhoneNumber.setText(phoneNumber);
+                    // Di chuyển con trỏ về cuối văn bản
+                    userPhoneNumber.setSelection(phoneNumber.length());
+                }
+            }
+        });
+        FirebaseUser mUser = mAuth.getCurrentUser();
+        if(mUser != null) {
+            String userId = mUser.getUid();
+            db.collection("users").document(userId)
                     .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                DocumentSnapshot document = task.getResult();
                                     String displayName = document.getString("displayName");
                                     String address = document.getString("address");
                                     String phoneNumberStr = document.getString("phoneNumber");
@@ -97,46 +124,12 @@ public class EditProfileActivity extends AppCompatActivity {
                                             userGender.setSelection(index);
                                         }
                                     }
-                                }
                             } else {
-                                Toast.makeText(EditProfileActivity.this, "Lấy dữ liệu thất bại", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-        } else {
-            db.collection("users")
-                    .whereEqualTo("email",mEmail)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    String displayName = document.getString("displayName");
-                                    String address = document.getString("address");
-                                    String phoneNumberStr = document.getString("phoneNumber");
-                                    String email = document.getString("email");
-                                    String gender = document.getString("gender");
-
-                                    userDisplayName.setText(displayName);
-                                    userPhoneNumber.setText(phoneNumberStr);
-                                    userAddress.setText(address);
-                                    userEmail.setText(email);
-                                    if (gender != null) {
-                                        int index = genders.indexOf(gender);
-                                        if (index != -1) {
-                                            userGender.setSelection(index);
-                                        }
-                                    }
-                                }
-                            } else {
-                                // Xử lý khi không thể lấy dữ liệu từ Firestore
                                 Toast.makeText(EditProfileActivity.this, "Lấy dữ liệu thất bại", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
         }
-
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,5 +171,4 @@ public class EditProfileActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

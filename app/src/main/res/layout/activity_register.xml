@@ -5,163 +5,173 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Activities.LoginPhoneNumberActivity"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <RelativeLayout
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_bg">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:src="@drawable/ball_img" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:paddingTop="30dp">
 
         <LinearLayout
+            android:id="@+id/linearLayout8"
             android:layout_width="match_parent"
-            android:layout_height="305dp"
-            android:layout_marginBottom="-105dp"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="28dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:src="@drawable/logo" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:gravity="center"
-                android:text="TLU"
-                android:textSize="28sp"
+                android:layout_gravity="center"
+                android:fontFamily="@font/bungee_inline"
+                android:text="Sport Me"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_3xl"
                 android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="200dp"
-            android:orientation="vertical"
-            android:padding="30dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-
-            <TextView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="ĐĂNG KÝ TÀI KHOẢN"
-                android:textColor="@color/darkGreen"
-                android:textSize="32dp"
-                android:textStyle="bold" />
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="20dp" />
-            <ProgressBar
-                android:id="@+id/progressbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:visibility="gone"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:alpha="0.7"
-                android:text="Họ tên"
-                android:textSize="16dp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/editTextName"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@drawable/border_edittext"
-                android:drawableEnd="@drawable/done_icon"
-                android:hint="Họ tên"
-                android:inputType="textPersonName" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:alpha="0.7"
-                android:text="Địa chỉ"
-                android:textSize="16dp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/editTextAddress"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@drawable/border_edittext"
-                android:drawableEnd="@drawable/location_icon"
-                android:hint="Địa chỉ"
-                android:inputType="text" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:alpha="0.7"
-                android:text="Nhập số điện thoại"
-                android:textSize="16dp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@drawable/border_edittext"
-                android:orientation="horizontal"
-                android:gravity="center">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="+84 "
-                    android:textSize="20dp" />
-
-                <EditText
-                    android:id="@+id/editTextPhoneNumber"
-                    style="@style/Widget.AppCompat.AutoCompleteTextView"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp"
+                android:layout_marginHorizontal="20dp">
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@color/white"
-                    android:drawableEnd="@drawable/phone_icon"
-                    android:inputType="phone"
-                    android:textSize="20dp" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="20dp" />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <CheckBox
-                    android:id="@+id/checkBox"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Bằng việc đăng ký, bạn đồng ý với những Chính sách &amp; điều khoản của chúng tôi"
-                    android:textSize="16dp" />
+                    android:orientation="vertical"
+                    android:padding="10dp">
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:fontFamily="@font/muli_black"
+                        android:text="ĐĂNG KÝ TÀI KHOẢN"
+                        android:textColor="@color/darkGreen"
+                        android:textSize="@dimen/text_xl"
+                        android:textStyle="bold"
+                        android:paddingVertical="20dp"/>
+                    <ProgressBar
+                        android:id="@+id/progressbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:visibility="gone" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:alpha="0.7"
+                        android:text="Họ tên"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/editTextName"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:background="@drawable/border_edittext"
+                        android:drawableEnd="@drawable/done_icon"
+                        android:hint="Họ tên"
+                        android:inputType="textPersonName" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:alpha="0.7"
+                        android:text="Địa chỉ"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/editTextAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:background="@drawable/border_edittext"
+                        android:drawableEnd="@drawable/location_icon"
+                        android:hint="Địa chỉ"
+                        android:inputType="text" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:alpha="0.7"
+                        android:text="Nhập số điện thoại"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:background="@drawable/border_edittext"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="+84 "
+                            android:textSize="20dp" />
+
+                        <EditText
+                            android:id="@+id/editTextPhoneNumber"
+                            style="@style/Widget.AppCompat.AutoCompleteTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:backgroundTint="@color/white"
+                            android:drawableEnd="@drawable/phone_icon"
+                            android:inputType="phone"
+                            android:textSize="20dp" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="10dp">
+
+                        <CheckBox
+                            android:id="@+id/checkBox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Bằng việc đăng ký, bạn đồng ý với những Chính sách &amp; điều khoản của chúng tôi"
+                            android:textSize="16dp" />
+
+                    </LinearLayout>
 
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/signUpBtn"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:backgroundTint="@color/darkGreen"
-                android:text="Đăng ký"
-                android:textColor="@color/white"
-                android:textSize="20dp"
-                app:cornerRadius="10dp" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/signUpBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:backgroundTint="@color/darkGreen"
+                        android:text="Đăng ký"
+                        android:textColor="@color/white"
+                        android:textSize="20dp"
+                        app:cornerRadius="50dp" />
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
 
             <View
                 android:layout_width="wrap_content"
@@ -170,9 +180,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingVertical="10dp">
 
                 <TextView
                     android:id="@+id/textView2"
@@ -188,12 +198,10 @@
                     android:layout_height="wrap_content"
                     android:text=" Đăng nhập"
                     android:textColor="@color/darkGreen"
-                    android:textSize="16dp"
+                    android:textSize="@dimen/text_base"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
+    </LinearLayout>
 
-    </RelativeLayout>
-
-    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
