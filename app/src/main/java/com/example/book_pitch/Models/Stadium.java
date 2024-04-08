@@ -68,6 +68,15 @@ public class Stadium {
         this.deleted = deleted;
     }
 
+    public Stadium(String id, String title, String average_rating, String phone, String address, String avatar) {
+        this.id = id;
+        this.title = title;
+        this.average_rating = average_rating;
+        this.phone = phone;
+        this.address = address;
+        this.avatar = avatar;
+    }
+
     public String getId() {
         return id;
     }

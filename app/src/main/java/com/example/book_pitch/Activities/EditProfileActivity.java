@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -71,10 +73,36 @@ public class EditProfileActivity extends AppCompatActivity {
         genderAdapter = new GenderAdapter(this, genders);
         userGender.setAdapter(genderAdapter);
         db = FirebaseFirestore.getInstance();
-        String phoneNumber =  mAuth.getCurrentUser().getPhoneNumber();
-        if(phoneNumber != null) {
+        userPhoneNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Không cần xử lý trước sự thay đổi văn bản
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Không cần xử lý trong quá trình thay đổi văn bản
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String phoneNumber = editable.toString();
+                if (!phoneNumber.startsWith("+84")) {
+                    phoneNumber = "+84" + phoneNumber;
+                    // Cập nhật lại văn bản trong EditText
+                    userPhoneNumber.setText(phoneNumber);
+                    // Di chuyển con trỏ về cuối văn bản
+                    userPhoneNumber.setSelection(phoneNumber.length());
+                }
+            }
+        });
+        String phoneNumber = mAuth.getCurrentUser().getPhoneNumber();
+        String email = mAuth.getCurrentUser().getEmail();
+        String queryField = (phoneNumber != null) ? "phoneNumber" : "email";
+        String queryValue = (phoneNumber != null) ? phoneNumber : email;
+        if(queryValue != null) {
             db.collection("users")
-                    .whereEqualTo("phoneNumber",phoneNumber)
+                    .whereEqualTo(queryField,queryValue)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -99,44 +127,11 @@ public class EditProfileActivity extends AppCompatActivity {
                                     }
                                 }
                             } else {
-                                Toast.makeText(EditProfileActivity.this, "Lấy dữ liệu thất bại", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-        } else {
-            db.collection("users")
-                    .whereEqualTo("email",mEmail)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    String displayName = document.getString("displayName");
-                                    String address = document.getString("address");
-                                    String phoneNumberStr = document.getString("phoneNumber");
-                                    String email = document.getString("email");
-                                    String gender = document.getString("gender");
-
-                                    userDisplayName.setText(displayName);
-                                    userPhoneNumber.setText(phoneNumberStr);
-                                    userAddress.setText(address);
-                                    userEmail.setText(email);
-                                    if (gender != null) {
-                                        int index = genders.indexOf(gender);
-                                        if (index != -1) {
-                                            userGender.setSelection(index);
-                                        }
-                                    }
-                                }
-                            } else {
-                                // Xử lý khi không thể lấy dữ liệu từ Firestore
                                 Toast.makeText(EditProfileActivity.this, "Lấy dữ liệu thất bại", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
         }
-
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override

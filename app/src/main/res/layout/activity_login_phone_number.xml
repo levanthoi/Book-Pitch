@@ -5,244 +5,239 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Activities.LoginPhoneNumberActivity"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <RelativeLayout
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_bg">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="80dp">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:src="@drawable/ball_img" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/linearLayout8"
             android:layout_width="match_parent"
-            android:layout_height="305dp"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="28dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:src="@drawable/logo" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:gravity="center"
-                android:text="TLU"
-                android:textSize="28sp"
+                android:layout_gravity="center"
+                android:fontFamily="@font/bungee_inline"
+                android:text="Sport Me"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_3xl"
                 android:textStyle="bold" />
         </LinearLayout>
-    </RelativeLayout>
-            <LinearLayout
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="260dp"
-                android:orientation="vertical"
-                android:padding="20dp">
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="XIN CHÀO"
-                    android:textColor="@color/darkGreen"
-                    android:textSize="32dp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:alpha="0.7"
-                    android:gravity="center"
-                    android:text="Vui lòng nhập số điện thoại để đăng nhập"
-                    android:textSize="16dp"/>
-
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp" />
-                <ProgressBar
-                    android:id="@+id/progressbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:visibility="gone"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:alpha="0.7"
-                    android:text="Nhập số điện thoại"
-                    android:textStyle="bold"
-                    android:textSize="16dp"/>
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="10dp"/>
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp"
+                android:layout_marginHorizontal="20dp">
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:background="@drawable/border_edittext"
-                    android:orientation="horizontal"
-                    android:gravity="center">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="+84 "
-                        android:textSize="20dp" />
-
-                    <EditText
-                        android:id="@+id/editTextPhoneNumber"
-                        style="@style/Widget.AppCompat.AutoCompleteTextView"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="@color/white"
-                        android:drawableEnd="@drawable/phone_icon"
-                        android:inputType="phone"
-                        android:textSize="20dp" />
-                </LinearLayout>
-
-
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp" />
-
-                <Button
-                    android:id="@+id/loginBtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:backgroundTint="@color/darkGreen"
-                    android:text="ĐĂNG NHẬP"
-                    app:cornerRadius="10dp"
-                    android:textSize="20dp"/>
-
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Hoặc đăng nhập bằng"
-                    android:textSize="@dimen/text_base"
-                    android:layout_gravity="center"/>
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp" />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center">
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/loginGoogle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:cardCornerRadius="4dp"
-                        android:layout_margin="4dp">
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center"
-                            android:backgroundTint="@color/white"
-                            android:padding="4dp">
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:background="@drawable/logo_google"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Google"
-                                android:textSize="@dimen/text_base"/>
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/loginFacebook"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:cardCornerRadius="4dp"
-                        android:layout_margin="4dp">
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center"
-                            android:backgroundTint="@color/white"
-                            android:padding="4dp">
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_marginRight="4dp"
-                                android:background="@drawable/logo_facebook"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Facebook"
-                                android:textSize="@dimen/text_base"/>
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/loginGuest"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:cardCornerRadius="4dp"
-                        android:layout_margin="4dp">
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center"
-                            android:backgroundTint="@color/white"
-                            android:padding="4dp">
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_marginRight="4dp"
-                                android:background="@drawable/person_icon"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Khách"
-                                android:textSize="@dimen/text_base"/>
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-                </LinearLayout>
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp" />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Bạn chưa có tài khoản?"
-                        android:textSize="16dp"/>
-
+                        android:fontFamily="@font/muli_black"
+                        android:text="XIN CHÀO"
+                        android:textColor="@color/darkGreen"
+                        android:textSize="@dimen/text_2xl"
+                        android:textStyle="bold" />
                     <TextView
-                        android:id="@+id/register"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.7"
+                        android:gravity="center"
+                        android:text="Vui lòng nhập số điện thoại để đăng nhập"
+                        android:textSize="16dp" />
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp" />
+                    <ProgressBar
+                        android:id="@+id/progressbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:visibility="gone" />
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" Đăng ký"
-                        android:textColor="@color/darkGreen"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/text_base"
-                        />
+                        android:alpha="0.7"
+                        android:text="Nhập số điện thoại"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="10dp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:background="@drawable/border_edittext"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="+84 "
+                            android:textSize="20dp" />
+
+                        <EditText
+                            android:id="@+id/editTextPhoneNumber"
+                            style="@style/Widget.AppCompat.AutoCompleteTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:backgroundTint="@color/white"
+                            android:drawableEnd="@drawable/phone_icon"
+                            android:inputType="phone"
+                            android:textSize="20dp" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp" />
+                    <Button
+                        android:id="@+id/loginBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:backgroundTint="@color/darkGreen"
+                        android:text="ĐĂNG NHẬP"
+                        android:textSize="20dp"
+                        app:cornerRadius="50dp" />
                 </LinearLayout>
 
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Hoặc đăng nhập bằng"
+                android:textSize="@dimen/text_base" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/loginGoogle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    app:cardCornerRadius="50dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/white"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/logo_google" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/loginFacebook"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:backgroundTint="@color/blue"
+                    app:cardCornerRadius="50dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/logo_facebook"
+                            android:backgroundTint="@color/white" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/loginGuest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    app:cardCornerRadius="50dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/white"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/person_icon" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
             </LinearLayout>
-</RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Bạn chưa có tài khoản?"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/register"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Đăng ký"
+                    android:textColor="@color/darkGreen"
+                    android:textSize="@dimen/text_base"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
