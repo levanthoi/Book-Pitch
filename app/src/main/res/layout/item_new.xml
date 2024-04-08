@@ -3,85 +3,84 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/Reltaive_new"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/Card_new"
-        android:layout_margin="15dp"
-        app:cardCornerRadius="15dp">
+        app:cardElevation="10dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="4dp"
+        app:cardCornerRadius="10dp">
+
+        <LinearLayout
+            android:id="@+id/link"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="130dp"
+                android:layout_height="100dp">
+                <ImageView
+                    android:id="@+id/img_new"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    tools:srcCompat="@drawable/vna_potal_euro_2020_le_be_mac_an_tuong_voi_cong_nghe_hinh_anh_thuc_te_ao_stand" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layout1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignTop="@+id/Card_new"
+                android:layout_alignBottom="@+id/Card_new"
+                android:layout_alignParentEnd="true"
+                android:paddingLeft="8dp"
+                android:layout_toEndOf="@+id/Card_new"
+                android:orientation="vertical">
 
 
-        <ImageView
-            android:id="@+id/img_new"
-            android:layout_width="130dp"
-            android:layout_height="90dp"
-            android:scaleType="centerCrop"
-            tools:srcCompat="@drawable/vna_potal_euro_2020_le_be_mac_an_tuong_voi_cong_nghe_hinh_anh_thuc_te_ao_stand" />
+                <TextView
+                    android:id="@+id/txtTitle_new"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Top 5 lịch sử thú vị về Euro"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_lg" />
 
-        <TextView
-            android:id="@+id/txtDate_new"
-            android:layout_width="65dp"
-            android:layout_height="25dp"
-            android:layout_margin="10dp"
-            android:background="@color/white"
-            android:backgroundTint="@color/white"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center"
-            android:text="tháng 6"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+                <TextView
+                    android:id="@+id/txtDescription_new"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="1.Sô bàn thắng nhiều nhất ghi được trong một trận đấu [...]"
+                    android:textSize="@dimen/text_sm" />
+
+                <TextView
+                    android:id="@+id/txtPubDate_new"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginBottom="0dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Thể thao"
+                    android:textColor="@color/black"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
     </androidx.cardview.widget.CardView>
 
 
-    <LinearLayout
-        android:id="@+id/layout1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/Card_new"
-        android:layout_alignBottom="@+id/Card_new"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="11dp"
-        android:layout_marginBottom="5dp"
-        android:layout_toEndOf="@+id/Card_new"
-        android:orientation="vertical">
 
-
-        <TextView
-            android:id="@+id/txtTitle_new"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
-            android:fontFamily="sans-serif-medium"
-            android:text="Top 5 lịch sử thú vị về Euro"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/txtDescription_new"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
-            android:maxLines="3"
-            android:fontFamily="sans-serif-medium"
-            android:text="1.Sô bàn thắng nhiều nhất ghi được trong một trận đấu [...]"
-            android:textColor="@color/black"
-            android:textSize="13sp" />
-
-        <TextView
-            android:id="@+id/txtShare_new"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="0dp"
-            android:fontFamily="sans-serif-medium"
-            android:text="Thể thao"
-            android:textColor="@color/black"
-            android:textSize="13sp" />
-
-    </LinearLayout>
 
 
 </RelativeLayout>

@@ -7,35 +7,23 @@
     android:orientation="vertical"
     tools:context=".Activities.NotificationActivity">
 
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="Thông báo"
-        android:textColor="@color/black"
-        android:textSize="27sp" />
+        android:background="@color/darkGreen"
+        android:elevation="4dp"
 
-    <View
-        android:id="@+id/view"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_below="@id/textView9"
-        android:layout_alignStart="@+id/textView9"
-        android:background="@color/gray"
-        android:backgroundTint="@color/gray" />
+        />
 
 
     <Button
         android:id="@+id/bt1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/view"
+        android:layout_below="@id/toolbar"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="-45dp"
+        android:layout_marginTop="3dp"
         android:backgroundTint="@color/black"
         android:text="Tất cả"
         android:textColor="@color/white" />
@@ -44,9 +32,9 @@
         android:id="@+id/bt2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/view"
+        android:layout_below="@id/toolbar"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="-47dp"
+        android:layout_marginTop="3dp"
         android:layout_marginEnd="138dp"
         android:backgroundTint="@color/white"
         android:text="Dành cho bạn"
@@ -56,7 +44,7 @@
         android:id="@+id/searchview1"
         android:layout_width="400dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/view"
+        android:layout_below="@id/bt1"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
