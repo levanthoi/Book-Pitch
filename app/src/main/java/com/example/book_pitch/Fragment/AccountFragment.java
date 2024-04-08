@@ -3,6 +3,7 @@ package com.example.book_pitch.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.book_pitch.Activities.BookedAndHistoryActivity;
 import com.example.book_pitch.Activities.EditProfileActivity;
@@ -23,7 +25,10 @@ import com.example.book_pitch.Activities.SettingActivity;
 import com.example.book_pitch.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -83,42 +88,66 @@ public class AccountFragment extends Fragment {
             welcome.setVisibility(View.GONE);
             avatar.setVisibility(View.GONE);
         } else {
-            String phoneNumber = mAuth.getCurrentUser().getPhoneNumber();
-            String email = mAuth.getCurrentUser().getEmail();
-            String queryField = (phoneNumber != null) ? "phoneNumber" : "email";
-            String queryValue = (phoneNumber != null) ? phoneNumber : email;
-            if (queryValue != null) {
-                fireStore.collection("users")
-                        .whereEqualTo(queryField, queryValue)
+//            String phoneNumber = mAuth.getCurrentUser().getPhoneNumber();
+//            String email = mAuth.getCurrentUser().getEmail();
+//            String queryField = (phoneNumber != null) ? "phoneNumber" : "email";
+//            String queryValue = (phoneNumber != null) ? phoneNumber : email;
+//            if (queryValue != null) {
+//                fireStore.collection("users")
+//                        .whereEqualTo(queryField, queryValue)
+//                        .get()
+//                        .addOnCompleteListener(task -> {
+//                            if (task.isSuccessful()) {
+//                                for (QueryDocumentSnapshot document : task.getResult()) {
+//                                    if (document.exists()) {
+//                                        // Hiển thị thông tin người dùng
+//                                        String displayName = document.getString("displayName");
+////                                        String phoneNumberStr = document.getString("phoneNumber");
+////                                        String address = document.getString("address");
+//
+//                                        displayNameUser.setText(displayName);
+////                                        phoneNumberUser.setText(phoneNumberStr);
+////                                        addressUser.setText("Địa chỉ: " + address);
+//
+//                                        // Hiển thị thông tin người dùng và nút đăng xuất, ẩn nút đăng nhập
+//                                        loginBtn.setVisibility(View.GONE);
+//                                        displayNameUser.setVisibility(View.VISIBLE);
+////                                        phoneNumberUser.setVisibility(View.VISIBLE);
+////                                        addressUser.setVisibility(View.VISIBLE);
+//                                        editProfileBtn.setVisibility(View.VISIBLE);
+//                                        actionUserContainer.setVisibility(View.VISIBLE);
+//                                        welcome.setVisibility(View.VISIBLE);
+//                                        avatar.setVisibility(View.VISIBLE);
+//                                    } else {
+//                                        System.out.println("No such document!");
+//                                    }
+//                                }
+//                            } else {
+//                                System.err.println("Error getting user information: " + task.getException().getMessage());
+//                            }
+//                        });
+//            }
+            FirebaseUser mUser = mAuth.getCurrentUser();
+            if(mUser != null) {
+                String userId = mUser.getUid();
+                fireStore.collection("users").document(userId)
                         .get()
-                        .addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    if (document.exists()) {
-                                        // Hiển thị thông tin người dùng
-                                        String displayName = document.getString("displayName");
-//                                        String phoneNumberStr = document.getString("phoneNumber");
-//                                        String address = document.getString("address");
-
-                                        displayNameUser.setText(displayName);
-//                                        phoneNumberUser.setText(phoneNumberStr);
-//                                        addressUser.setText("Địa chỉ: " + address);
-
-                                        // Hiển thị thông tin người dùng và nút đăng xuất, ẩn nút đăng nhập
-                                        loginBtn.setVisibility(View.GONE);
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    String displayName = document.getString("displayName");
+                                    displayNameUser.setText(displayName);
+                                    loginBtn.setVisibility(View.GONE);
                                         displayNameUser.setVisibility(View.VISIBLE);
-//                                        phoneNumberUser.setVisibility(View.VISIBLE);
-//                                        addressUser.setVisibility(View.VISIBLE);
                                         editProfileBtn.setVisibility(View.VISIBLE);
                                         actionUserContainer.setVisibility(View.VISIBLE);
                                         welcome.setVisibility(View.VISIBLE);
                                         avatar.setVisibility(View.VISIBLE);
-                                    } else {
-                                        System.out.println("No such document!");
-                                    }
+                                } else {
+                                    Toast.makeText(getActivity(), "Lấy dữ liệu thất bại", Toast.LENGTH_SHORT).show();
                                 }
-                            } else {
-                                System.err.println("Error getting user information: " + task.getException().getMessage());
                             }
                         });
             } else {
