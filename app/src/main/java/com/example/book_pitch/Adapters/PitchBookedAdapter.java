@@ -1,10 +1,12 @@
 package com.example.book_pitch.Adapters;
 
 import android.content.Context;
+import android.media.Rating;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -53,6 +55,7 @@ public class PitchBookedAdapter extends RecyclerView.Adapter<PitchBookedAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvTitle, tvAddress, tvNamePitch, tvBeginTime;
+        private RatingBar rating_tab;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -60,6 +63,7 @@ public class PitchBookedAdapter extends RecyclerView.Adapter<PitchBookedAdapter.
             tvAddress = itemView.findViewById(R.id.tvAddress);
             tvNamePitch = itemView.findViewById(R.id.tvNamePitch);
             tvBeginTime = itemView.findViewById(R.id.tvBeginTime);
+            rating_tab = itemView.findViewById(R.id.rating_tab);
 
 
             itemView.setOnClickListener(v -> {
@@ -77,6 +81,7 @@ public class PitchBookedAdapter extends RecyclerView.Adapter<PitchBookedAdapter.
                 public void onStadiumFetch(Stadium stadium) {
                     tvTitle.setText(stadium.getTitle());
                     tvAddress.setText(stadium.getAddress());
+                    rating_tab.setRating(Float.valueOf(stadium.getAverage_rating()));
                 }
             });
 
