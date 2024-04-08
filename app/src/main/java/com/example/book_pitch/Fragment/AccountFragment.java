@@ -45,7 +45,7 @@ public class AccountFragment extends Fragment {
     LinearLayout favourite;
     LinearLayout setting;
     Button loginBtn;
-    RelativeLayout avatar;
+    TextView avatar;
     FirebaseFirestore fireStore;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,6 +53,7 @@ public class AccountFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_account, container, false);
         init(view);
+
         return view;
     }
 
@@ -81,52 +82,11 @@ public class AccountFragment extends Fragment {
         if(mAuth.getCurrentUser() == null) {
             loginBtn.setVisibility(View.VISIBLE);
             displayNameUser.setVisibility(View.GONE);
-//            phoneNumberUser.setVisibility(View.GONE);
-//            addressUser.setVisibility(View.GONE);
             editProfileBtn.setVisibility(View.GONE);
             actionUserContainer.setVisibility(View.GONE);
             welcome.setVisibility(View.GONE);
             avatar.setVisibility(View.GONE);
         } else {
-//            String phoneNumber = mAuth.getCurrentUser().getPhoneNumber();
-//            String email = mAuth.getCurrentUser().getEmail();
-//            String queryField = (phoneNumber != null) ? "phoneNumber" : "email";
-//            String queryValue = (phoneNumber != null) ? phoneNumber : email;
-//            if (queryValue != null) {
-//                fireStore.collection("users")
-//                        .whereEqualTo(queryField, queryValue)
-//                        .get()
-//                        .addOnCompleteListener(task -> {
-//                            if (task.isSuccessful()) {
-//                                for (QueryDocumentSnapshot document : task.getResult()) {
-//                                    if (document.exists()) {
-//                                        // Hiển thị thông tin người dùng
-//                                        String displayName = document.getString("displayName");
-////                                        String phoneNumberStr = document.getString("phoneNumber");
-////                                        String address = document.getString("address");
-//
-//                                        displayNameUser.setText(displayName);
-////                                        phoneNumberUser.setText(phoneNumberStr);
-////                                        addressUser.setText("Địa chỉ: " + address);
-//
-//                                        // Hiển thị thông tin người dùng và nút đăng xuất, ẩn nút đăng nhập
-//                                        loginBtn.setVisibility(View.GONE);
-//                                        displayNameUser.setVisibility(View.VISIBLE);
-////                                        phoneNumberUser.setVisibility(View.VISIBLE);
-////                                        addressUser.setVisibility(View.VISIBLE);
-//                                        editProfileBtn.setVisibility(View.VISIBLE);
-//                                        actionUserContainer.setVisibility(View.VISIBLE);
-//                                        welcome.setVisibility(View.VISIBLE);
-//                                        avatar.setVisibility(View.VISIBLE);
-//                                    } else {
-//                                        System.out.println("No such document!");
-//                                    }
-//                                }
-//                            } else {
-//                                System.err.println("Error getting user information: " + task.getException().getMessage());
-//                            }
-//                        });
-//            }
             FirebaseUser mUser = mAuth.getCurrentUser();
             if(mUser != null) {
                 String userId = mUser.getUid();
@@ -139,6 +99,7 @@ public class AccountFragment extends Fragment {
                                     DocumentSnapshot document = task.getResult();
                                     String displayName = document.getString("displayName");
                                     displayNameUser.setText(displayName);
+                                    avatar.setText(getFirstLetter(displayName));
                                     loginBtn.setVisibility(View.GONE);
                                         displayNameUser.setVisibility(View.VISIBLE);
                                         editProfileBtn.setVisibility(View.VISIBLE);
@@ -186,5 +147,21 @@ public class AccountFragment extends Fragment {
                 startActivity(i);
             }
         });
+    }
+    public static String getFirstLetter(String displayName) {
+        String[] words = displayName.split(" ");
+        StringBuilder result = new StringBuilder();
+
+        if (words.length == 1) {
+            // Nếu chuỗi chỉ có 1 từ, lấy chữ đầu từ đó
+            result.append(words[0].charAt(0));
+        } else {
+            // Nếu chuỗi có nhiều từ, lấy chữ cái đầu của từ thứ 1 và 2
+            for (int i = 0; i < 2; i++) {
+                result.append(words[i].charAt(0));
+            }
+        }
+
+        return result.toString().toUpperCase();
     }
 }

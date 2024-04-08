@@ -130,42 +130,6 @@ public class EditProfileActivity extends AppCompatActivity {
                         }
                     });
         }
-//        String phoneNumber = mAuth.getCurrentUser().getPhoneNumber();
-//        String email = mAuth.getCurrentUser().getEmail();
-//        String queryField = (phoneNumber != null) ? "phoneNumber" : "email";
-//        String queryValue = (phoneNumber != null) ? phoneNumber : email;
-//        if(queryValue != null) {
-//            db.collection("users")
-//                    .whereEqualTo(queryField,queryValue)
-//                    .get()
-//                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                            if (task.isSuccessful()) {
-//                                for (QueryDocumentSnapshot document : task.getResult()) {
-//                                    String displayName = document.getString("displayName");
-//                                    String address = document.getString("address");
-//                                    String phoneNumberStr = document.getString("phoneNumber");
-//                                    String email = document.getString("email");
-//                                    String gender = document.getString("gender");
-//
-//                                    userDisplayName.setText(displayName);
-//                                    userPhoneNumber.setText(phoneNumberStr);
-//                                    userAddress.setText(address);
-//                                    userEmail.setText(email);
-//                                    if (gender != null) {
-//                                        int index = genders.indexOf(gender);
-//                                        if (index != -1) {
-//                                            userGender.setSelection(index);
-//                                        }
-//                                    }
-//                                }
-//                            } else {
-//                                Toast.makeText(EditProfileActivity.this, "Lấy dữ liệu thất bại", Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
-//                    });
-//        }
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,5 +171,4 @@ public class EditProfileActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

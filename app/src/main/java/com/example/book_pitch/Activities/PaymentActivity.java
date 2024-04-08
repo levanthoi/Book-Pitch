@@ -26,11 +26,15 @@ import com.example.book_pitch.Utils.Helper;
 import com.example.book_pitch.Utils.Helpers.AppInfo;
 import com.example.book_pitch.Utils.Helpers.CreateOrder;
 import com.example.book_pitch.Utils.Helpers.Helpers;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 
@@ -105,14 +109,24 @@ public class PaymentActivity extends AppCompatActivity {
         tv_dateTime = (TextView) findViewById(R.id.tv_dateTime);
         current_name = (TextView) findViewById(R.id.current_name);
         current_phone = (TextView) findViewById(R.id.current_phone);
-
-        if(mauth.getCurrentUser().getDisplayName() != null){
-            current_name.setText(mauth.getCurrentUser().getDisplayName());
+        FirebaseUser mUser = mauth.getCurrentUser();
+        if(mUser != null) {
+            String userId = mUser.getUid();
+            firestore.collection("users").document(userId)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                String displayName = document.getString("displayName");
+                                String phoneNumber = document.getString("phoneNumber");
+                                current_name.setText(displayName);
+                                current_phone.setText(phoneNumber);
+                            }
+                        }
+                    });
         }
-        if(mauth.getCurrentUser().getPhoneNumber() != null){
-            current_phone.setText(mauth.getCurrentUser().getPhoneNumber());
-        }
-
         if(stadium != null && pitch != null && price != null) {
             tv_title.setText(stadium.getTitle());
             tv_address.setText(stadium.getAddress());
@@ -229,7 +243,7 @@ public class PaymentActivity extends AppCompatActivity {
         @Override
         public void onPaymentCanceled(String s, String s1) {
             Log.d("test", "Cancel");
-            handlePaymentFailure(bill, "Thanh toán đã hùy");
+            handlePaymentFailure(bill, "Thanh toán đã hủy");
         }
 
         @Override
