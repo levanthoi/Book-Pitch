@@ -41,6 +41,19 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         View view = LayoutInflater.from(context).inflate(R.layout.item_new, parent, false);
         return new NewsAdapter.ViewHolder(view);
     }
+
+    public void filterNewsItems(String keyword) {
+        keyword = keyword.toLowerCase();
+        ArrayList<New> filteredList = new ArrayList<>();
+        for (New newsItem : News) {
+            if (newsItem.getTitle().toLowerCase().contains(keyword)) {
+                filteredList.add(newsItem);
+            }
+        }
+        this.News = filteredList;
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         New newsItem = News.get(position);
