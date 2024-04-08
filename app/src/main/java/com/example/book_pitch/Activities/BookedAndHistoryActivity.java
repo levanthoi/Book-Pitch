@@ -2,6 +2,9 @@ package com.example.book_pitch.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
@@ -9,13 +12,17 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.book_pitch.Adapters.TabViewBookedAdapter;
+import com.example.book_pitch.Fragment.AllFragment;
+import com.example.book_pitch.Fragment.FailedFragment;
+import com.example.book_pitch.Fragment.HistoryBookedFragment;
+import com.example.book_pitch.Fragment.PendingFragment;
+import com.example.book_pitch.Fragment.PitchBookedFragment;
 import com.example.book_pitch.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-public class BookedAndHistoryActivity extends AppCompatActivity {
-    private TabLayout mTabLayout;
-    private ViewPager2 mViewPager;
+public class BookedAndHistoryActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
+    private Fragment fragment = null;
     private TabViewBookedAdapter tabViewBookedAdapter;
 
     @Override
@@ -28,20 +35,54 @@ public class BookedAndHistoryActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        mTabLayout = findViewById(R.id.tab_layout);
-        mViewPager = findViewById(R.id.view_pager);
-        TabViewBookedAdapter tabViewBookedAdapter = new TabViewBookedAdapter(this);
+        TabLayout mTabLayout = findViewById(R.id.tab_layout);
+        fragment = new AllFragment();
 
-        mViewPager.setAdapter(tabViewBookedAdapter);
-        new TabLayoutMediator(mTabLayout, mViewPager, (tab, position) -> {
-            switch(position){
-                case 0:
-                    tab.setText("Sân đang đặt");
-                    break;
-                case 1:
-                    tab.setText("Lịch sử đặt sân");
-                    break;
-            }
-        }).attach();
+        handleTab();
+
+        mTabLayout.addOnTabSelectedListener(this);
+
+    }
+
+    private void handleTab() {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.tab_frame, fragment);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        switch (tab.getPosition()) {
+            case 0:
+                fragment = new AllFragment();
+                break;
+            case 1:
+                fragment = new PendingFragment();
+                break;
+            case 2:
+                fragment = new PitchBookedFragment();
+                break;
+            case 3:
+                fragment = new HistoryBookedFragment();
+                break;
+            case 4:
+                fragment = new FailedFragment();
+                break;
+            default:
+                break;
+        }
+
+        handleTab();
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+
     }
 }

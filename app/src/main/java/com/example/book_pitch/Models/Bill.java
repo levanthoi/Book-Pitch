@@ -1,5 +1,17 @@
 package com.example.book_pitch.Models;
 
+import androidx.annotation.NonNull;
+
+import com.example.book_pitch.Activities.PaymentSuccessActivity;
+import com.example.book_pitch.Utils.AndroidUtil;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.w3c.dom.Document;
+
 import java.util.Date;
 
 /**
@@ -131,5 +143,48 @@ public class Bill {
 
     public void setStadium_id(String stadium_id) {
         this.stadium_id = stadium_id;
+    }
+
+    public void stadium(final OnStadiumFetchListener listener) {
+        DocumentReference docRef = FirebaseFirestore.getInstance().collection("stadiums").document(stadium_id);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Stadium stadium = document.toObject(Stadium.class);
+                        if (listener != null) {
+                            listener.onStadiumFetch(stadium);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    public void pitch(final OnPitchFetchListener listener) {
+        DocumentReference docRef = FirebaseFirestore.getInstance().collection("pitches").document(pitch_id);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Pitch pitch = document.toObject(Pitch.class);
+                        if (listener != null) {
+                            listener.onPitchFetch(pitch);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    public interface OnStadiumFetchListener {
+        void onStadiumFetch(Stadium stadium);
+    }
+    public interface OnPitchFetchListener {
+        void onPitchFetch(Pitch pitch);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.book_pitch.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.book_pitch.Models.Bill;
+import com.example.book_pitch.Models.Pitch;
+import com.example.book_pitch.Models.Stadium;
 import com.example.book_pitch.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PitchBookedAdapter extends RecyclerView.Adapter<PitchBookedAdapter.ViewHolder> {
-    private ArrayList<Bill> bills;
+    private List<Bill> bills;
     private Context ctx;
     private final PitchBookedAdapterOnClickHandler clickHandler;
 
@@ -23,7 +27,7 @@ public class PitchBookedAdapter extends RecyclerView.Adapter<PitchBookedAdapter.
         void onClick(Bill bill);
     }
 
-    public PitchBookedAdapter(ArrayList<Bill> bills, PitchBookedAdapterOnClickHandler clickHandler) {
+    public PitchBookedAdapter(List<Bill> bills, PitchBookedAdapterOnClickHandler clickHandler) {
         this.bills = bills;
         this.clickHandler = clickHandler;
     }
@@ -48,7 +52,7 @@ public class PitchBookedAdapter extends RecyclerView.Adapter<PitchBookedAdapter.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvTitle, tvAddress, tvNamePitch, tvBeginTime, tvEndTime, tvDate;
+        private TextView tvTitle, tvAddress, tvNamePitch, tvBeginTime;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -56,8 +60,6 @@ public class PitchBookedAdapter extends RecyclerView.Adapter<PitchBookedAdapter.
             tvAddress = itemView.findViewById(R.id.tvAddress);
             tvNamePitch = itemView.findViewById(R.id.tvNamePitch);
             tvBeginTime = itemView.findViewById(R.id.tvBeginTime);
-            tvEndTime = itemView.findViewById(R.id.tvEndTime);
-            tvDate = itemView.findViewById(R.id.tvDate);
 
 
             itemView.setOnClickListener(v -> {
@@ -69,12 +71,25 @@ public class PitchBookedAdapter extends RecyclerView.Adapter<PitchBookedAdapter.
             });
         }
         public void bind(Bill bill) {
-//            tvTitle.setText(bill.getTitle());
-//            tvAddress.setText(bill.getAddress());
-//            tvNamePitch.setText(bill.getTitle());
-            tvBeginTime.setText(bill.getPrice().getFrom_time());
-            tvEndTime.setText(bill.getPrice().getTo_time());
-            tvDate.setText(bill.getPrice().getTo_date());
+            Log.d("test", bill.toString());
+            bill.stadium(new Bill.OnStadiumFetchListener() {
+                @Override
+                public void onStadiumFetch(Stadium stadium) {
+                    tvTitle.setText(stadium.getTitle());
+                    tvAddress.setText(stadium.getAddress());
+                }
+            });
+
+            bill.pitch(new Bill.OnPitchFetchListener() {
+                @Override
+                public void onPitchFetch(Pitch pitch) {
+                    tvNamePitch.setText("Sân " + pitch.getPitch_size() + " - " + "1");
+                }
+            });
+
+
+            tvBeginTime.setText(bill.getPrice().getFrom_time() + " - " + bill.getPrice().getTo_time() + ", "+ bill.getPrice().getTo_date());
         }
     }
+
 }
