@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +30,7 @@ import java.util.ArrayList;
 public class MessageFragment extends Fragment implements MessageGroupAdapter.MessageGroupAdapterOnClickHandler {
     private RecyclerView messageRecyclerView;
     private ArrayList<MessageGroup> messages;
-    private DatabaseReference mDatabase;
+    private DatabaseReference messageGroupRef ;
     private MessageGroupAdapter messageGroupAdapter;
 
     public MessageFragment(){
@@ -47,34 +49,30 @@ public class MessageFragment extends Fragment implements MessageGroupAdapter.Mes
 
     private void init(View view) {
         messageRecyclerView = view.findViewById(R.id.messageRecyclerView);
-
         messages = new ArrayList<>();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
+        messageGroupRef  = FirebaseDatabase.getInstance().getReference();
         // Thực hiện lắng nghe sự thay đổi của dữ liệu
-        mDatabase.child("message_group").addValueEventListener(new ValueEventListener() {
-
+        messageGroupRef .child("message_group").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 messages.clear();
+                messageGroupAdapter.notifyDataSetChanged();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     MessageGroup message = snapshot.getValue(MessageGroup.class);
                     messages.add(message);
                 }
-                messageGroupAdapter.notifyDataSetChanged();
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(getContext(), "Failed to load messages.", Toast.LENGTH_SHORT).show();
             }
         });
-
         messageGroupAdapter = new MessageGroupAdapter(messages, this);
         messageRecyclerView.setAdapter(messageGroupAdapter);
         messageRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         messageRecyclerView.setHasFixedSize(true);
     }
+
 
     @Override
     public void onClick(MessageGroup message) {
@@ -84,15 +82,4 @@ public class MessageFragment extends Fragment implements MessageGroupAdapter.Mes
         startActivity(intent);
     }
 
-    @Override
-    public void onClick(String groupId, String groupName) {
-        // Chuyển sang fragment_chat và chuyển dữ liệu cần thiết
-        Fragment fragment = new Fragment();
-        Bundle args = new Bundle();
-        args.putString("groupId", groupId);
-        args.putString("groupName", groupName);
-        fragment.setArguments(args);
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.toolbar, fragment).commit();
-    }
 }

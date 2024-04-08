@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,7 +24,6 @@ public class MessageGroupAdapter extends RecyclerView.Adapter<MessageGroupAdapte
     public interface MessageGroupAdapterOnClickHandler{
         void onClick(MessageGroup messages);
 
-        void onClick(String id, String name);
     }
     public MessageGroupAdapter(List<MessageGroup> messagesLists, MessageGroupAdapterOnClickHandler clickHandler) {
         this.messagesLists = messagesLists;
@@ -36,12 +36,10 @@ public class MessageGroupAdapter extends RecyclerView.Adapter<MessageGroupAdapte
     }
     @Override
     public void onBindViewHolder(@NonNull MessageGroupAdapter.MyViewHolder holder, int position) {
-        final MessageGroup message = messagesLists.get(position);
+        final MessageGroup messageGroup = messagesLists.get(position);
         holder.name.setText(messagesLists.get(position).getName());
         holder.lastMessage.setText(messagesLists.get(position).getLast_message());
-        holder.itemView.setOnClickListener(v -> {
-            clickHandler.onClick(message.getId(), message.getName());
-        });
+
     }
     @Override
     public int getItemCount() {
@@ -55,14 +53,14 @@ public class MessageGroupAdapter extends RecyclerView.Adapter<MessageGroupAdapte
         private TextView lastMessage;
         private TextView unseenMessages;
 
-//        private LinearLayout rootLayout;
+        private LinearLayout rootLayout;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             profilePic = itemView.findViewById(R.id.profilePic);
             name = itemView.findViewById(R.id.name);
             lastMessage = itemView.findViewById(R.id.lastMessage);
             unseenMessages = itemView.findViewById(R.id.unseenMessages);
-//            rootLayout = itemView.findViewById(R.id.rootLayout);
+            rootLayout = itemView.findViewById(R.id.rootLayout);
             itemView.setOnClickListener(v -> {
                 int position = getBindingAdapterPosition();
                     MessageGroup s = messagesLists.get(position);

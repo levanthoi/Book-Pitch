@@ -1,46 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="wrap_content"-->
-<!--    android:padding="8dp">-->
-
-<!--    <LinearLayout-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@drawable/edit_text_rounded_corner"-->
-<!--        android:backgroundTint="#1E88E5"-->
-<!--        android:padding="8dp"-->
-<!--        android:layout_marginEnd="80dp"-->
-<!--        android:id="@+id/left_chat_layout"-->
-<!--        android:orientation="vertical">-->
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:textSize="18sp"-->
-<!--            android:text="Hello"-->
-<!--            android:id="@+id/left_chat_textview"/>-->
-<!--    </LinearLayout>-->
-<!--    <LinearLayout-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@drawable/edit_text_rounded_corner"-->
-<!--        android:backgroundTint="#7CB342"-->
-<!--        android:layout_alignParentEnd="true"-->
-<!--        android:padding="8dp"-->
-<!--        android:layout_marginStart="80dp"-->
-<!--        android:id="@+id/right_chat_layout">-->
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:textSize="18sp"-->
-<!--            android:id="@+id/right_chat_textview"/>-->
-<!--    </LinearLayout>-->
-
-<!--</RelativeLayout>-->
-
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -51,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/edit_text_rounded_corner"
-        android:backgroundTint="#1E88E5"
+        android:backgroundTint="@color/darkGreen"
         android:orientation="vertical"
         android:padding="8dp"
         android:layout_marginEnd="80dp">
@@ -69,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/edit_text_rounded_corner"
-        android:backgroundTint="#7CB342"
+        android:backgroundTint="@color/lightGreen"
         android:layout_alignParentEnd="true"
         android:padding="8dp"
         android:layout_marginStart="80dp">
@@ -90,6 +48,6 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/left_chat_layout"
         android:layout_above="@id/right_chat_layout"
-        android:text="Timestamp Here" />
+        android:text="12:00" />
 
 </RelativeLayout>

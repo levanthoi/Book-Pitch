@@ -1,11 +1,12 @@
 package com.example.book_pitch.Models;
 
+import com.example.book_pitch.Utils.FirebaseUtil;
 import com.google.firebase.database.DataSnapshot;
 
 /**
  * ChatMessage
  * id - duy nhất
- * message: tin nhắn chat
+ * content: tin nhắn chat
  * id_group: id tham chiếu bên message_group
  * from_id: id_user của người gửi
  * to_id: id_của người nhận
@@ -23,11 +24,13 @@ public class ChatMessage {
         private String from_id;
         private String content;
         private String to_id;
-        private long timestamp;
+        private String timestamp;
+
+
     public ChatMessage(){
 
     }
-    public ChatMessage(String id,String id_group,String from_id,String to_id,String content,long timestamp) {
+    public ChatMessage(String id,String id_group,String from_id,String to_id,String content,String timestamp) {
         this.id = id;
         this.id_group = id_group;
         this.from_id = from_id;
@@ -77,11 +80,11 @@ public class ChatMessage {
         this.to_id = to_id;
     }
 
-    public long getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(long timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -90,12 +93,12 @@ public class ChatMessage {
         chatMessage.from_id = dataSnapshot.child("from_id").getValue(String.class);
         chatMessage.content = dataSnapshot.child("content").getValue(String.class);
         chatMessage.to_id = dataSnapshot.child("to_id").getValue(String.class);
-        chatMessage.timestamp = dataSnapshot.child("timestamp").getValue(Long.class);
+        chatMessage.timestamp = dataSnapshot.child("timestamp").getValue(String.class);
         return chatMessage;
     }
 
-    public boolean isCurrentUser(String currentUserId) {
-        return from_id.equals(currentUserId);
+    public boolean isCurrentUser() {
+        return from_id.equals(FirebaseUtil.currentUserId());
     }
 
 }
