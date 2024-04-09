@@ -38,65 +38,10 @@
             android:text=""
             android:textSize="@dimen/text_base"
             app:layout_editor_absoluteY="16dp" />
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:id="@+id/horizon_bt">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/btn_1"
-                    android:layout_margin="6dp"
-                    android:text="Thể thao">
-    
-                </Button>
-    
-                <Button
-                    android:id="@+id/btn_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="6dp"
-                    android:text="Thời sự">
-    
-                </Button>
-    
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/btn_3"
-                    android:layout_margin="6dp"
-                    android:text="Giải trí">
-    
-                </Button>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/btn_4"
-                    android:layout_margin="6dp"
-                    android:text="Giáo dục">
-
-                </Button>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/btn_5"
-                    android:layout_margin="6dp"
-                    android:text="Thế giới">
-
-                </Button>
-            </LinearLayout>
-        </HorizontalScrollView>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_blogs"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/horizon_bt"
-            android:layout_marginTop="5dp"
             android:layout_marginHorizontal="10dp"
             android:layout_marginBottom="40dp" />
 
