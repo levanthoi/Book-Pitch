@@ -1,6 +1,6 @@
 package com.example.book_pitch.Models;
 
-public class Notification {
+public class Notifi {
     private String title;
 
     private String image;
@@ -9,10 +9,15 @@ public class Notification {
 
     private String content;
 
-    public Notification() {
+    public Notifi() {
     }
 
-    public Notification(String title, String image, String time, String content) {
+    public Notifi(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+    public Notifi(String title, String image, String time, String content) {
         this.title = title;
         this.image = image;
         this.time = time;

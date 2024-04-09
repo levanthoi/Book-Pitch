@@ -56,7 +56,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class HomeFragment extends Fragment implements PopularAdapter.PopularAdapterOnClickHandler {
@@ -138,6 +138,8 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), NotificationActivity.class);
+                /*Calendar calendar = Calendar.getInstance();
+                calendar.se*/
                 startActivity(intent);
 
             }
