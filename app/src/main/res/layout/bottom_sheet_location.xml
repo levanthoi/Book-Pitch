@@ -24,10 +24,11 @@
         android:layout_height="wrap_content"
         android:background="@drawable/border_gray"
         android:hint="'Hà Nội', 'Đà Nẵng' ..."
-        android:paddingVertical="12dp"
-        android:textSize="@dimen/text_sm"/>
+        android:paddingVertical="14dp"
+        android:textSize="@dimen/text_base"/>
 
     <TextView
+        android:id="@+id/use_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sử dụng địa chỉ hiện tại của bạn"
