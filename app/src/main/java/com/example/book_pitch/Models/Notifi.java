@@ -12,6 +12,11 @@ public class Notification {
     public Notification() {
     }
 
+    public Notification(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
     public Notification(String title, String image, String time, String content) {
         this.title = title;
         this.image = image;
