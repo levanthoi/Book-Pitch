@@ -1,65 +1,62 @@
+
 package com.example.book_pitch.Utils;
 
-import android.content.Context;
+import com.example.book_pitch.Models.New;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.parser.Parser;
+import org.jsoup.select.Elements;
 
-import com.example.book_pitch.Adapters.NewsAdapter;
-import com.example.book_pitch.Models.MySaxParser_new;
-import com.example.book_pitch.Models.News_item;
-
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class GetNews {
-
-    private String link;
-    RecyclerView rcvNews;
-    private List<News_item> list;
-
-    private NewsAdapter adapter;
-    private Context cxt;
+public class  GetNews {
 
     public interface NewsCallback {
-        void onSuccess(List<News_item> newsItems);
-
+        void onSuccess(ArrayList<New> newsItems);
         void onError(String errorMessage);
     }
-    public GetNews(RecyclerView rcvNews,String link, Context cxt){
-        this.rcvNews = rcvNews;
-        this.link= link;
-        this.cxt = cxt;
-    }
 
-    private ExecutorService executorService = Executors.newFixedThreadPool(4);
-
-    public void fetchNews(NewsCallback callback) {
-        executorService.submit(() -> {
-            List<News_item> list = new ArrayList<>();
+    public static void getNews(NewsCallback callback) {
+        new Thread(() -> {
+            ArrayList<New> newsItems = new ArrayList<>();
             try {
-                // Thực hiện các thao tác lấy dữ liệu từ RSS Feed ở đây
-                // Ví dụ:
-                URL url = new URL(link);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                InputStream is = connection.getInputStream();
-                list = MySaxParser_new.xmlParser(is);
-                // Xử lý dữ liệu RSS và tạo danh sách newsItems
-            } catch (Exception e) {
-                // Nếu có lỗi, trả về null
-                callback.onError("Failed to fetch news");
-                return;
-            }
-            callback.onSuccess(list);
-        });
-    }
+                Document doc = Jsoup.connect("https://vnexpress.net/rss/the-thao.rss").get();
+                Elements items = doc.select("item");
+                for (Element element : items) {
+                    String title = element.select("title").text();
+                    String link = element.select("link").text();
 
-    public void shutdown() {
-        executorService.shutdown();
+                    String description = element.select("description").toString();
+                    String regex = "\\<[^>]*>";
+                    Pattern pattern = Pattern.compile(regex);
+                    Matcher matcher = pattern.matcher(description);
+                    String cleanedDescription = matcher.replaceAll("");
+                    description = cleanedDescription;
+
+                    String enclosure = element.select("enclosure").toString();
+                    Document document = Jsoup.parse(enclosure, "", Parser.xmlParser());
+                    Element enclosureElement = document.select("enclosure").first();
+                    String imageUrl = null;
+                    if (enclosureElement != null) {
+                        imageUrl = enclosureElement.attr("url");
+                    } else {
+                        System.out.println("No enclosure element found.");
+                    }
+                    String pubDate = element.select("pubDate").text();
+                    New newsItem = new New(title, link, description, imageUrl, pubDate);
+                    newsItems.add(newsItem);
+                }
+                callback.onSuccess(newsItems);
+            } catch (IOException e) {
+                e.printStackTrace();
+                callback.onError("Failed to fetch news");
+            }
+        }).start();
     }
 }

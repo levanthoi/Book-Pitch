@@ -11,18 +11,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.book_pitch.Models.Notification;
+import com.example.book_pitch.Models.Notifi;
 import com.example.book_pitch.R;
 
 import java.util.List;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotiViewHolder> {
 
-    private final List<Notification> mListNoti;
+    private final List<Notifi> mListNoti;
 
     private Context ctx;
 
-    public NotificationAdapter(List<Notification> mListNoti) {
+    public NotificationAdapter(List<Notifi> mListNoti) {
         this.mListNoti = mListNoti;
     }
 
@@ -37,7 +37,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     @Override
     public void onBindViewHolder(@NonNull NotiViewHolder holder, int position) {
-        Notification noti = mListNoti.get(position);
+        Notifi noti = mListNoti.get(position);
         if(noti == null){
             return;
         }

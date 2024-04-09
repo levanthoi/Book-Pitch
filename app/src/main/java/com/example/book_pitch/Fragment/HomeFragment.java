@@ -1,34 +1,19 @@
 package com.example.book_pitch.Fragment;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowInsets;
-import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -38,26 +23,14 @@ import com.example.book_pitch.Activities.SearchActivity;
 import com.example.book_pitch.Adapters.PopularAdapter;
 import com.example.book_pitch.Adapters.WrapContentGridLayoutManager;
 import com.example.book_pitch.Adapters.WrapContentLinearLayoutManager;
-import com.example.book_pitch.Models.Location;
 import com.example.book_pitch.Models.Stadium;
 import com.example.book_pitch.R;
-import com.example.book_pitch.Services.StadiumService;
-import com.example.book_pitch.Utils.AndroidUtil;
-import com.example.book_pitch.Utils.FirebaseUtil;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class HomeFragment extends Fragment implements PopularAdapter.PopularAdapterOnClickHandler {
@@ -140,6 +113,8 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), NotificationActivity.class);
+                /*Calendar calendar = Calendar.getInstance();
+                calendar.se*/
                 startActivity(intent);
 
             }

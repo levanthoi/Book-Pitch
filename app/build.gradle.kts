@@ -51,6 +51,7 @@ dependencies {
         "dir" to "libs",
         "include" to listOf("*.aar", "*.jar"),
     )))
+    implementation("com.google.firebase:firebase-messaging:23.4.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -62,6 +63,9 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("me.leolin:ShortcutBadger:1.1.22@aar")
     implementation("com.facebook.android:facebook-android-sdk:latest.release")
-    
+    implementation ("org.jsoup:jsoup:1.14.3")
+
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+
 
 }
