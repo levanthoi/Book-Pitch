@@ -23,9 +23,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowInsets;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
@@ -196,7 +193,8 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
 
     private void handleLocation() {
         BottomSheetLocation bottomSheetLocation = new BottomSheetLocation();
-        bottomSheetLocation.show(getParentFragmentManager(), bottomSheetLocation.getTag());
+//        bottomSheetLocation.setCancelable(false);
+        bottomSheetLocation.show(getActivity().getSupportFragmentManager(), bottomSheetLocation.getTag());
     }
 
     @Override
