@@ -94,8 +94,7 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
         firestore = FirebaseFirestore.getInstance();
 
         init(view);
-//        handleToolbarAnimation(view);
-//        getData();
+        handleLocation();
         return view;
     }
 
@@ -193,6 +192,11 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
 //            AndroidUtil.showToast(getContext(), "HIIHIH");
 //            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 //        }
+    }
+
+    private void handleLocation() {
+        BottomSheetLocation bottomSheetLocation = new BottomSheetLocation();
+        bottomSheetLocation.show(getParentFragmentManager(), bottomSheetLocation.getTag());
     }
 
     @Override
