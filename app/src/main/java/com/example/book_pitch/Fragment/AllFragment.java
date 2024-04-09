@@ -21,6 +21,7 @@ import com.example.book_pitch.R;
 import com.example.book_pitch.Utils.AndroidUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -55,8 +56,9 @@ public class AllFragment extends Fragment implements PitchBookedAdapter.PitchBoo
         rcv_all_tab.setLayoutManager(new LinearLayoutManager(getContext()));
         pitchBookedAdapter = new PitchBookedAdapter(bills, this);
         rcv_all_tab.setAdapter(pitchBookedAdapter);
-    }
 
+        MaterialButton  btn_contact = view.findViewById(R.id.btn_contact);
+    }
     private void getAllBills() {
         firestore.collection("bills").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
