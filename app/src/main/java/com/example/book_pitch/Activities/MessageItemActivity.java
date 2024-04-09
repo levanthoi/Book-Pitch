@@ -138,14 +138,14 @@ public class MessageItemActivity extends AppCompatActivity {
 
     private void Data(){
         if(messageGroup!=null){
-            chatMessageRef .child("chat_message").orderByChild("id_group").equalTo(messageGroup.getId()).addValueEventListener(new ValueEventListener() {
+            chatMessageRef .orderByChild("id_group").equalTo(messageGroup.getId()).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     chat_messages.clear();
 
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         ChatMessage chat_message = snapshot.getValue(ChatMessage.class);
-                        chat_messages.add(chat_message);
+                            chat_messages.add(chat_message);
                     }
                     chatMessageAdapter.notifyDataSetChanged();
                 }
