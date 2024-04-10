@@ -19,6 +19,11 @@ import com.example.book_pitch.Models.Bill;
 import com.example.book_pitch.Models.Pitch;
 import com.example.book_pitch.Models.Stadium;
 import com.example.book_pitch.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,6 +106,7 @@ public class PitchBookedAdapter extends RecyclerView.Adapter<PitchBookedAdapter.
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(ctx, ReviewActivity.class);
+                    intent.putExtra("id", bill.getId());
                     ctx.startActivity(intent);
                 }
             });

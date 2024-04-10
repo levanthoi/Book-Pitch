@@ -170,7 +170,7 @@
                     android:layout_height="wrap_content"
                     android:stepSize="0.5"
                     android:numStars="5"
-                    android:rating="4.6"
+                    android:rating="5"
                     android:isIndicator="true"
                     android:progressTint="@color/yellow"
                     style="@style/Widget.AppCompat.RatingBar.Indicator"/>
