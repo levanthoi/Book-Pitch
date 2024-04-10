@@ -1,5 +1,6 @@
 package com.example.book_pitch.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,7 +16,11 @@ import com.example.book_pitch.R;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SettingActivity extends AppCompatActivity {
     Button logoutBtn;
@@ -57,7 +62,24 @@ public class SettingActivity extends AppCompatActivity {
         builder.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(SettingActivity.this, "Đã xác nhận", Toast.LENGTH_SHORT).show();
+                FirebaseUser mUser = mAuth.getCurrentUser();
+                if(mUser != null) {
+                    String userId = mUser.getUid();
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    db.collection("users").document(userId)
+                            .delete()
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Toast.makeText(SettingActivity.this, "Xoá tài khoản thành công!", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(SettingActivity.this, LoginPhoneNumberActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            });
+
+                }
+
             }
         });
         builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
