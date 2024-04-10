@@ -17,8 +17,6 @@ import com.example.book_pitch.Activities.NotificationActivity;
 import com.example.book_pitch.Models.Notifi;
 import com.example.book_pitch.R;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.messaging.FirebaseMessagingService;
-import com.google.firebase.messaging.RemoteMessage;
 
 public class NotiDataMessagingService extends BroadcastReceiver {
     private static int notificationId = 0;

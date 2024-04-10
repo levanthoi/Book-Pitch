@@ -1,5 +1,9 @@
 package com.example.book_pitch.Activities;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -14,12 +18,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import com.example.book_pitch.Models.Bill;
 import com.example.book_pitch.Models.Pitch;
 import com.example.book_pitch.Models.Price;
 import com.example.book_pitch.Models.Stadium;
 import com.example.book_pitch.R;
+import com.example.book_pitch.Services.NotiFirebaseMessagingService;
 import com.example.book_pitch.Utils.AndroidUtil;
 import com.example.book_pitch.Utils.FirebaseUtil;
 import com.example.book_pitch.Utils.Helper;
@@ -36,13 +42,17 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import vn.zalopay.sdk.Environment;
 import vn.zalopay.sdk.ZaloPayError;
@@ -59,6 +69,7 @@ public class PaymentActivity extends AppCompatActivity {
     Price price;
     FirebaseFirestore firestore;
     FirebaseAuth mauth;
+    AtomicInteger id = new AtomicInteger(0);
     static Bill bill = new Bill();
 
     @Override
@@ -238,6 +249,9 @@ public class PaymentActivity extends AppCompatActivity {
 
             saveOrderToFirestore(bill);
             AndroidUtil.showToast(PaymentActivity.this, "Thanh toán thành công");
+            sendNotification("Đặt sân"+stadium.getTitle()+"thành công","Sân "+ pitch.getPitch_size() + " - " + pitch.getLabel() +","+price.getFrom_time() + " - " + price.getTo_time()+","+price.getFrom_time());
+
+            addNotificationToFirestore("Đặt sân"+stadium.getTitle()+"thành công","Sân "+ pitch.getPitch_size() + " - " + pitch.getLabel() +","+price.getFrom_time() + " - " + price.getTo_time()+","+price.getFrom_time());
         }
 
         @Override
@@ -296,5 +310,40 @@ public class PaymentActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    private void sendNotification(String title, String content){
+        Intent intent = new Intent(this, NotificationActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_MUTABLE);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NotificationActivity.CHANNEL_ID)
+                .setContentTitle(title)
+                .setContentText(content)
+                .setSmallIcon(R.drawable.bell)
+                .setContentIntent(pendingIntent);
+
+        Notification notification = notificationBuilder.build();
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (notificationManager != null){
+            notificationManager.notify(1,notification);
+        }
+    }
+    private void addNotificationToFirestore(String title, String content) {
+        // Khởi tạo Firestore
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Map<String, Object> notifications = new HashMap<>();
+        notifications.put("title", title);
+        notifications.put("content", content);
+        notifications.put("notificationsType", "notificationPayment");
+        // Thêm dữ liệu vào Firestore
+        db.collection("notifications")
+                .document(String.valueOf(id.getAndIncrement()))
+                .set(notifications)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(PaymentActivity.this, "Thành công!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 }
