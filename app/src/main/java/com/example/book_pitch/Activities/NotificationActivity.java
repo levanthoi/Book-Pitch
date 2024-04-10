@@ -35,9 +35,9 @@ import java.util.List;
 public class NotificationActivity extends AppCompatActivity {
     RecyclerView rcvNoti_new, rcvNoti_old;
 
-    private List<Notifi> notificationList;
-
     NotificationAdapter noti_newAdapter, noti_oldAdapter;
+    private List<Notifi> notificationListNew;
+    private List<Notifi> notificationListOld;
 
 
     public static final String CHANNEL_ID = "push_notification";
@@ -51,59 +51,49 @@ public class NotificationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notification);
 
         fireStore = FirebaseFirestore.getInstance();
-        /*createNotification();*/
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Thông báo");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        notificationList = new ArrayList<>();
+        createNotification();
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(R.string.notification);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         rcvNoti_new = findViewById(R.id.rv_noti_new);
         rcvNoti_old = findViewById(R.id.rv_noti_old);
 
         rcvNoti_new.setLayoutManager(new LinearLayoutManager(this));
-        noti_newAdapter = new NotificationAdapter(notificationList);
+        notificationListNew = new ArrayList<>();
+        noti_newAdapter = new NotificationAdapter(notificationListNew);
         rcvNoti_new.setAdapter(noti_newAdapter);
 
         rcvNoti_old.setLayoutManager(new LinearLayoutManager(this));
-        noti_oldAdapter = new NotificationAdapter(notificationList);
+        notificationListOld = new ArrayList<>();
+        noti_oldAdapter = new NotificationAdapter(notificationListOld);
         rcvNoti_old.setAdapter(noti_oldAdapter);
-
-    /*    Intent intent = new Intent(this, NotiDataMessagingService.class);
-        startService(intent);*/
-        scheduleNotification();
 
         fetchDataFromFirestore();
     }
 
-    private void scheduleNotification() {
-        // Tạo một Intent để gửi thông báo
-        Intent notificationIntent = new Intent(this, NotiDataMessagingService.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_MUTABLE);
-
-        // Lên lịch gửi thông báo mỗi 24 giờ
-        long futureInMillis = SystemClock.elapsedRealtime() + AlarmManager.INTERVAL_DAY;
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        if (alarmManager != null) {
-            alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, AlarmManager.INTERVAL_DAY, pendingIntent);
-        }
-    }
-
         private void fetchDataFromFirestore () {
-            fireStore.collection("notification")
+            fireStore.collection("notifications")
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
+                                QueryDocumentSnapshot lastDocument = null;
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    lastDocument = document;
+                                }
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     // Lấy dữ liệu từ mỗi document và thêm vào danh sách
                                     String title = document.getString("title");
                                     String content = document.getString("content");
-                                    notificationList.add(new Notifi(title,content));
+                                    if(document.equals(lastDocument)) {
+                                        notificationListNew.add(new Notifi(title,content));
+                                    }
+                                    else {
+                                        notificationListOld.add(new Notifi(title,content));
+                                    }
                                     /*Notifi noti = document.toObject(Notifi.class);
                                     notificationList.add(noti);*/
                                 }
@@ -122,7 +112,7 @@ public class NotificationActivity extends AppCompatActivity {
 
 
 
-   /* private void createNotification(){
+    private void createNotification(){
         if(Build.VERSION.SDK_INT >=Build.VERSION_CODES.S) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "PushNotification",
                     NotificationManager.IMPORTANCE_DEFAULT);
@@ -130,7 +120,7 @@ public class NotificationActivity extends AppCompatActivity {
             manager.createNotificationChannel(channel);
 
         }
-    }*/
+    }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) { // Kiểm tra xem nút back đã được nhấn chưa

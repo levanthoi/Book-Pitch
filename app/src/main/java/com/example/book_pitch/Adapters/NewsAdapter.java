@@ -1,4 +1,3 @@
-
 package com.example.book_pitch.Adapters;
 
 import android.content.Context;

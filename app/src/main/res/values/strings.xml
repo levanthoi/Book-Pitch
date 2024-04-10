@@ -44,7 +44,7 @@
     <!-- Home   -->
     <string name="placeholder_search">Tìm sân bóng</string>
     <string name="tin_t_c">Tin Tức</string>
-    <string name="th_ng_b_o">Thông báo</string>
+    <string name="notification">Thông báo</string>
     <string name="_2h_tr_c">2h trước</string>
     <string name="default_web_client_id">919174305763-3b1somh2siahhdd65caji3t0kg6tcbmk.apps.googleusercontent.com</string>
 

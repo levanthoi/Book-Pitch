@@ -39,7 +39,7 @@
         <activity
             android:name=".Activities.NotificationActivity"
             android:exported="false"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:parentActivityName=".Activities.MainActivity"/>
         <activity
             android:name=".Activities.GoogleAuthActivity"
             android:exported="false"
@@ -79,20 +79,13 @@
             </intent-filter>
         </activity>
 
-        <!--<service
+        <service
             android:name=".Services.NotiFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </service>-->
-
-        <receiver android:name=".Services.NotiDataMessagingService"
-            android:exported="false">
-            <!--<intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>-->
-        </receiver>
+        </service>
 
         <activity
             android:name=".Activities.WelcomeActivity"

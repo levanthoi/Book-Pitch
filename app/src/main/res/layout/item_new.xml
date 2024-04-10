@@ -45,12 +45,11 @@
                     android:id="@+id/txtTitle_new"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Top 5 lịch sử thú vdị về Euro"
-                    android:textColor="@color/black">
-
-                </TextView>
-
+                    android:text="Top 5 lịch sử thú vị về Euro"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_lg"
+                    android:ellipsize="end"
+                    android:maxLines="2"/>
 
                 <TextView
                     android:id="@+id/txtDescription_new"
@@ -59,7 +58,6 @@
                     android:layout_marginBottom="0dp"
                     android:maxLines="1"
                     android:ellipsize="end"
-                    android:fontFamily="sans-serif-medium"
                     android:text="1.Sô bàn thắng nhiều nhất ghi được trong một trận đấu [...]"
                     android:textSize="@dimen/text_sm" />
 
@@ -69,10 +67,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="7dp"
                     android:layout_marginBottom="0dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Thể thao"
-                    android:textColor="@color/black"
-                    android:textSize="13sp" />
+                    android:text=""
+                    android:textSize="8sp" />
 
             </LinearLayout>
         </LinearLayout>

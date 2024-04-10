@@ -16,7 +16,7 @@ import com.example.book_pitch.R;
 
 import java.util.List;
 
-public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotiViewHolder> {
+public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
 
     private final List<Notifi> mListNoti;
 
@@ -28,53 +28,36 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     @NonNull
     @Override
-    public NotiViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public NotificationAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ctx = parent.getContext();
-        LayoutInflater layoutInflater = LayoutInflater.from(ctx);
-        View view = layoutInflater.inflate(R.layout.item_noti, parent, false);
-        return new NotiViewHolder(view);
+        View view = LayoutInflater.from(ctx).inflate(R.layout.item_noti, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NotiViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Notifi noti = mListNoti.get(position);
-        if(noti == null){
-            return;
-        }
         holder.txtTitle_noti.setText(noti.getTitle());
         holder.txtContent_noti.setText(noti.getContent());
-        holder.txtTime_noti.setText(noti.getTime());
-        holder.txtBacham_noti.setText("...");
-        Glide.with(ctx)
-                .load(noti.getImage())
-                .into(holder.image_noti);
+        holder.image.setBackgroundResource(R.drawable.logo);
     }
 
     @Override
     public int getItemCount() {
-        if(mListNoti != null){
-            return mListNoti.size();
-        }
-        return 0;
+        return mListNoti == null ? 0 : mListNoti.size();
     }
 
-    public static  class NotiViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView image_noti;
         private TextView txtTitle_noti;
         private TextView txtContent_noti;
-        private TextView txtTime_noti;
-        private TextView txtBacham_noti;
+        private ImageView image;
 
-        public NotiViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            image_noti = itemView.findViewById(R.id.image_noti);
             txtTitle_noti = itemView.findViewById(R.id.txtTitle_noti);
             txtContent_noti = itemView.findViewById(R.id.txtContent_noti);
-            txtTime_noti = itemView.findViewById(R.id.txtTime_noti);
-            txtBacham_noti = itemView.findViewById(R.id.txtBacham_noti);
-
-
+            image = itemView.findViewById(R.id.image);
         }
     }
 

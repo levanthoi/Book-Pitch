@@ -2,6 +2,7 @@
 package com.example.book_pitch.Fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -40,6 +41,7 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnNewsItemClic
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
+        getActivity().getWindow().setStatusBarColor(Color.parseColor("#198754"));
         rcvNews = view.findViewById(R.id.rv_blogs);
         rcvNews.setLayoutManager(new LinearLayoutManager(getContext()));
         news = new ArrayList<>();
