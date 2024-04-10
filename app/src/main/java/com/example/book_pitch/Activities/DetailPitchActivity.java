@@ -58,7 +58,7 @@ public class DetailPitchActivity extends AppCompatActivity {
     Button btn_booking, btn_contact, btn_direction;
     Toolbar toolbar;
     TextView title_toolabr;
-    ImageView share, heart, option;
+    ImageView share, heart;
     private Handler slideHandler = new Handler();
     List<String> slider = new ArrayList<>();
     Stadium stadium;
@@ -134,7 +134,7 @@ public class DetailPitchActivity extends AppCompatActivity {
         title_toolabr = (TextView) findViewById(R.id.title_toolbar);
         share = (ImageView) findViewById(R.id.share_toolbar);
         heart = (ImageView) findViewById(R.id.heart_toolbar);
-        option = (ImageView) findViewById(R.id.option_toolbar);
+//        option = (ImageView) findViewById(R.id.option_toolbar);
 
         btn_booking = findViewById(R.id.btn_booking);
         btn_contact = findViewById(R.id.btn_contact);

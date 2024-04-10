@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.book_pitch.Models.Stadium;
 import com.example.book_pitch.R;
 import com.example.book_pitch.Utils.AndroidUtil;
@@ -63,6 +64,8 @@ public class PopularAdapter extends FirestoreRecyclerAdapter<Stadium, PopularAda
         holder.tv_rating.setText(stadium.getAverage_rating());
         holder.openTime.setText(stadium.getOpening_time() + "-" + stadium.getClosing_time());
 
+        Glide.with(ctx).load(stadium.getAvatar()).into(holder.image);
+
         Log.d(TAG, "Stadium data at position " + position + ": " + stadium.toString());
     }
 
@@ -89,6 +92,7 @@ public class PopularAdapter extends FirestoreRecyclerAdapter<Stadium, PopularAda
             txtPhone = itemView.findViewById(R.id.txtPhone);
             openTime = itemView.findViewById(R.id.openTime);
             tv_rating = itemView.findViewById(R.id.rating);
+            image = itemView.findViewById(R.id.image);
 
             itemView.setOnClickListener(v -> {
                 int position = getBindingAdapterPosition();
