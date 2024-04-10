@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="test"
-            android:layout_weight="1.4"
+            android:layout_weight="1.5"
             android:textSize="@dimen/text_base"
             android:textColor="@color/white"/>
 
@@ -34,17 +34,17 @@
             android:id="@+id/heart_toolbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.2"
+            android:layout_weight="0.3"
             app:tint="@color/white"
             app:srcCompat="@drawable/heart_outline" />
 
-        <ImageView
-            android:id="@+id/option_toolbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.2"
-            app:tint="@color/white"
-            app:srcCompat="@drawable/ba_cham" />
+<!--        <ImageView-->
+<!--            android:id="@+id/option_toolbar"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="0.2"-->
+<!--            app:tint="@color/white"-->
+<!--            app:srcCompat="@drawable/ba_cham" />-->
     </LinearLayout>
 
 </com.google.android.material.appbar.MaterialToolbar>

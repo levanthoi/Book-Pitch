@@ -62,19 +62,19 @@
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp">
+<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="8dp">-->
 
-                    <ImageView
-                        android:id="@+id/imageView9"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/location"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+<!--                    <ImageView-->
+<!--                        android:id="@+id/imageView9"-->
+<!--                        android:layout_width="24dp"-->
+<!--                        android:layout_height="24dp"-->
+<!--                        android:src="@drawable/location"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent" />-->
 
                     <TextView
                         android:id="@+id/detail_pitch_address"
@@ -83,11 +83,9 @@
                         android:layout_marginStart="8dp"
                         android:text="Tay Son, Dong Da"
                         android:textSize="@dimen/text_base"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/imageView9"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:drawableStart="@drawable/location_icon"/>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"

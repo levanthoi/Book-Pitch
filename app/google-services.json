@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "919174305763-cnbcnfe24om8huqgl5n7j2loqiabl1fc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.book_pitch",
+            "certificate_hash": "501d7c0716ca8146cc593b627cabd8dfcb0daa9c"
+          }
+        },
+        {
           "client_id": "919174305763-3b1somh2siahhdd65caji3t0kg6tcbmk.apps.googleusercontent.com",
           "client_type": 3
         }
