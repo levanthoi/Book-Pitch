@@ -1,31 +1,33 @@
 package com.example.book_pitch.Adapters;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
-
+import com.example.book_pitch.Activities.ChatActivity;
 import com.example.book_pitch.Models.ChatMessage;
 import com.example.book_pitch.R;
-
+import com.example.book_pitch.Utils.FirebaseUtil;
+import java.text.SimpleDateFormat;
 import java.util.List;
-
 
 public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.MessageViewHolder> {
 
     private List<ChatMessage> messageList;
-    private Context context;
+    private Context mContext;
+
 
     public ChatMessageAdapter(Context context, List<ChatMessage> messageList) {
-        this.context = context;
+        this.mContext = context;
         this.messageList = messageList;
+
     }
-
-
 
     @NonNull
     @Override
@@ -37,21 +39,8 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         ChatMessage message = messageList.get(position);
-        if (message.isCurrentUser("1")) {
-            holder.leftChatTextView.setVisibility(View.GONE);
-            holder.rightChatTextView.setVisibility(View.VISIBLE);
-            holder.rightChatTextView.setText(message.getMessage());
-        } else {
-            holder.rightChatTextView.setVisibility(View.GONE);
-            holder.leftChatTextView.setVisibility(View.VISIBLE);
-            holder.leftChatTextView.setText(message.getMessage());
-        }
-        long currentTimeMillis = System.currentTimeMillis();
-        long timeInterval = 10 * 60 * 1000; // 10 phút
-        long fakeTimestamp = currentTimeMillis - timeInterval;
+        holder.bind(message, FirebaseUtil.currentUserId());
 
-        // Gán giá trị fake cho TextView hiển thị timestamp
-        holder.leftChatTextView.setText(String.valueOf(fakeTimestamp));
     }
 
     @Override
@@ -59,14 +48,40 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
         return messageList.size();
     }
 
-    public class MessageViewHolder extends RecyclerView.ViewHolder {
+    public static class MessageViewHolder extends RecyclerView.ViewHolder {
         TextView leftChatTextView;
+        LinearLayout rightChatLayout;
+        LinearLayout leftChatLayout;
         TextView rightChatTextView;
+        TextView timestampTextView;
 
         public MessageViewHolder(@NonNull View itemView) {
             super(itemView);
             leftChatTextView = itemView.findViewById(R.id.left_chat_textview);
             rightChatTextView = itemView.findViewById(R.id.right_chat_textview);
+            leftChatLayout = itemView.findViewById(R.id.left_chat_layout);
+            rightChatLayout = itemView.findViewById(R.id.right_chat_layout);
+            timestampTextView = itemView.findViewById(R.id.timestamp_textview);
+        }
+
+        public void bind(ChatMessage message, String currentUserId) {
+            if (message != null && currentUserId != null) {
+                if (message.isCurrentUser()) {
+                    rightChatTextView.setText(message.getContent());
+                    rightChatLayout.setVisibility(View.VISIBLE);
+                    leftChatLayout.setVisibility(View.GONE);
+                } else {
+                    leftChatTextView.setText(message.getContent());
+                    leftChatLayout.setVisibility(View.VISIBLE);
+                    rightChatLayout.setVisibility(View.GONE);
+                }
+//                // Hiển thị thời gian dưới dạng dd/MM/yyyy HH:mm:ss
+//                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+//                String formattedDate = sdf.format(message.getTimestamp());
+//                timestampTextView.setText(formattedDate);
+            }
         }
     }
 }
+
+

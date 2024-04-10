@@ -13,6 +13,9 @@ import androidx.recyclerview.widget.SnapHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -65,8 +68,7 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
         firestore = FirebaseFirestore.getInstance();
 
         init(view);
-//        handleToolbarAnimation(view);
-//        getData();
+        handleLocation();
         return view;
     }
 
@@ -119,7 +121,8 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
 
             }
         });
-
+        Animation shakeAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.shake_animation);
+        btn_noti.startAnimation(shakeAnimation);
         search_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -165,6 +168,12 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
 //            AndroidUtil.showToast(getContext(), "HIIHIH");
 //            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 //        }
+    }
+
+    private void handleLocation() {
+        BottomSheetLocation bottomSheetLocation = new BottomSheetLocation();
+//        bottomSheetLocation.setCancelable(false);
+        bottomSheetLocation.show(getActivity().getSupportFragmentManager(), bottomSheetLocation.getTag());
     }
 
     @Override

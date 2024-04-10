@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,10 +26,15 @@ import com.example.book_pitch.Utils.Helper;
 import com.example.book_pitch.Utils.Helpers.AppInfo;
 import com.example.book_pitch.Utils.Helpers.CreateOrder;
 import com.example.book_pitch.Utils.Helpers.Helpers;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 
@@ -103,14 +109,24 @@ public class PaymentActivity extends AppCompatActivity {
         tv_dateTime = (TextView) findViewById(R.id.tv_dateTime);
         current_name = (TextView) findViewById(R.id.current_name);
         current_phone = (TextView) findViewById(R.id.current_phone);
-
-        if(!mauth.getCurrentUser().getDisplayName().isEmpty()){
-            current_name.setText(mauth.getCurrentUser().getDisplayName());
+        FirebaseUser mUser = mauth.getCurrentUser();
+        if(mUser != null) {
+            String userId = mUser.getUid();
+            firestore.collection("users").document(userId)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                String displayName = document.getString("displayName");
+                                String phoneNumber = document.getString("phoneNumber");
+                                current_name.setText(displayName);
+                                current_phone.setText(phoneNumber);
+                            }
+                        }
+                    });
         }
-        if(!mauth.getCurrentUser().getPhoneNumber().isEmpty()){
-            current_phone.setText(mauth.getCurrentUser().getPhoneNumber());
-        }
-
         if(stadium != null && pitch != null && price != null) {
             tv_title.setText(stadium.getTitle());
             tv_address.setText(stadium.getAddress());
@@ -134,7 +150,27 @@ public class PaymentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(isValid()){
-                    handlePayment();
+                    if(mauth.getCurrentUser().getPhoneNumber().isEmpty()) {
+                        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Nhập số điện thoại trước khi thanh toán!", Snackbar.LENGTH_LONG);
+
+                        // Thêm một nút vào Snackbar
+                        snackbar.setAction("Thêm", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // Xử lý sự kiện khi người dùng chọn nút
+                                Intent intent = new Intent(PaymentActivity.this, EditProfileActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+
+                        // Thiết lập màu cho nút
+                        snackbar.setActionTextColor(getResources().getColor(R.color.darkGreen, null));
+
+                        // Hiển thị Snackbar
+                        snackbar.show();
+                    } else {
+                        handlePayment();
+                    }
                 }
             }
         });
@@ -207,7 +243,7 @@ public class PaymentActivity extends AppCompatActivity {
         @Override
         public void onPaymentCanceled(String s, String s1) {
             Log.d("test", "Cancel");
-            handlePaymentFailure(bill, "Thanh toán đã hùy");
+            handlePaymentFailure(bill, "Thanh toán đã hủy");
         }
 
         @Override

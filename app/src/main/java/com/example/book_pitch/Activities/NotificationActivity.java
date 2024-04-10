@@ -51,7 +51,7 @@ public class NotificationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notification);
 
         fireStore = FirebaseFirestore.getInstance();
-        createNotification();
+        /*createNotification();*/
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -122,7 +122,7 @@ public class NotificationActivity extends AppCompatActivity {
 
 
 
-    private void createNotification(){
+   /* private void createNotification(){
         if(Build.VERSION.SDK_INT >=Build.VERSION_CODES.S) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "PushNotification",
                     NotificationManager.IMPORTANCE_DEFAULT);
@@ -130,7 +130,7 @@ public class NotificationActivity extends AppCompatActivity {
             manager.createNotificationChannel(channel);
 
         }
-    }
+    }*/
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) { // Kiểm tra xem nút back đã được nhấn chưa

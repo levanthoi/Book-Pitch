@@ -193,7 +193,7 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:id="@+id/btn_contact"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:backgroundTint="@android:color/transparent"
                 android:text="Liên hệ ngay"
@@ -201,7 +201,7 @@
                 app:strokeColor="@color/darkGreen"
                 app:icon="@drawable/call_phone"
                 app:iconTint="@color/darkGreen"/>
-            <Space
+            <androidx.legacy.widget.Space
                 android:layout_width="12dp"
                 android:layout_height="match_parent"/>
 
@@ -209,11 +209,11 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_booking"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:backgroundTint="@color/darkGreen"
                 android:text="Đặt sân"
-                app:icon="@drawable/dolar"/>
+                app:icon="@drawable/dolar" />
         </LinearLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

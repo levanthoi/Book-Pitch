@@ -10,6 +10,7 @@ import java.util.List;
 
 public class Stadium {
     private String id;
+    private String user_id;
     private String title;
     private String slug;
     private String address;
@@ -43,6 +44,7 @@ public class Stadium {
     public Stadium() {
     }
 
+
     public Stadium(String id, String title, String opening_time, String closing_time, String average_rating, String phone, Location location, String avatar) {
         this.id = id;
         this.title = title;
@@ -54,8 +56,9 @@ public class Stadium {
         this.avatar = avatar;
     }
 
-    public Stadium(String id, String title, String slug, String address, String about_us, String opening_time, String closing_time, String average_rating, List<String> images, String phone, List<Pitch> pitches, int deleted) {
+    public Stadium(String id,String user_id, String title, String slug, String address, String about_us, String opening_time, String closing_time, String average_rating, List<String> images, String phone, List<Pitch> pitches, int deleted) {
         this.id = id;
+        this.user_id = user_id;
         this.title = title;
         this.slug = slug;
         this.address = address;
@@ -66,6 +69,15 @@ public class Stadium {
         this.images = images;
         this.phone = phone;
         this.deleted = deleted;
+    }
+
+    public Stadium(String id, String title, String average_rating, String phone, String address, String avatar) {
+        this.id = id;
+        this.title = title;
+        this.average_rating = average_rating;
+        this.phone = phone;
+        this.address = address;
+        this.avatar = avatar;
     }
 
     public String getId() {

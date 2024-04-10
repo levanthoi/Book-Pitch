@@ -48,7 +48,11 @@ public class  GetNews {
                     } else {
                         System.out.println("No enclosure element found.");
                     }
+
                     String pubDate = element.select("pubDate").text();
+                    int index = pubDate.lastIndexOf(" ");
+                    pubDate = pubDate.substring(0, index);
+
                     New newsItem = new New(title, link, description, imageUrl, pubDate);
                     newsItems.add(newsItem);
                 }

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="@drawable/background_white_bottom_sheet">
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chọn địa chỉ của bạn"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_lg"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_marginVertical="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_gray"
+        android:hint="'Hà Nội', 'Đà Nẵng' ..."
+        android:paddingVertical="14dp"
+        android:textSize="@dimen/text_base"/>
+
+    <TextView
+        android:id="@+id/use_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sử dụng địa chỉ hiện tại của bạn"
+        android:textColor="@color/darkGreen"
+        android:textAllCaps="true"
+        android:drawableStart="@drawable/location_solid"
+        android:drawablePadding="8dp"
+        android:layout_marginTop="8dp"
+        style="@style/TextAppearance.AppCompat.Subhead"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sử dụng địa chỉ này để tìm những sân bóng gần bạn"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"/>
+
+</LinearLayout>

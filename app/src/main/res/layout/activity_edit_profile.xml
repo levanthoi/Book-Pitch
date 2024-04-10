@@ -48,13 +48,6 @@
                     android:alpha="0.1"/>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="-5dp"
-                    android:background="@drawable/camera" />
-
-                <ImageView
                     android:id="@+id/userAvatar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -153,12 +146,13 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/saveBtn"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="60dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:backgroundTint="@color/darkGreen"
             android:text="Lưu"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:background="@drawable/border_circle"/>
     </LinearLayout>
 
 </FrameLayout>
