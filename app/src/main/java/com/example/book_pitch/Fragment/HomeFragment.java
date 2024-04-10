@@ -193,7 +193,7 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
 
     private void handleLocation() {
         BottomSheetLocation bottomSheetLocation = new BottomSheetLocation();
-//        bottomSheetLocation.setCancelable(false);
+        bottomSheetLocation.setCancelable(false);
         bottomSheetLocation.show(getActivity().getSupportFragmentManager(), bottomSheetLocation.getTag());
     }
 
