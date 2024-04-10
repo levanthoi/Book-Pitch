@@ -6,9 +6,12 @@
     tools:context=".Fragment.PendingFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:text="pending" />-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcl_pending_tab"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="pending" />
-
+        android:layout_height="wrap_content" />
 </FrameLayout>

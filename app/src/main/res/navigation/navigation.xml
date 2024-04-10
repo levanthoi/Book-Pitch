@@ -21,11 +21,6 @@
         android:label="fragment_message"
         tools:layout="@layout/fragment_message" />
     <fragment
-        android:id="@+id/listPitchFragment"
-        android:name="com.example.book_pitch.Fragment.ListPitchFragment"
-        android:label="fragment_list_pitch"
-        tools:layout="@layout/fragment_list_pitch" />
-    <fragment
         android:id="@+id/newsFragment"
         android:name="com.example.book_pitch.Fragment.NewsFragment"
         android:label="fragment_news"

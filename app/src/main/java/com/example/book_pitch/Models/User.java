@@ -8,6 +8,7 @@ public class User {
     private String address;
     private String gender;
     private String avatar;
+    private MLocation mLocation;
     public User() {
 
     }
@@ -19,6 +20,17 @@ public class User {
         this.address = address;
         this.gender = gender;
         this.avatar = avatar;
+    }
+
+    public User(String uid, String displayName, String email, String phoneNumber, String address, String gender, String avatar, MLocation mLocation) {
+        this.uid = uid;
+        this.displayName = displayName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.gender = gender;
+        this.avatar = avatar;
+        this.mLocation = mLocation;
     }
 
     // namleee
@@ -77,5 +89,11 @@ public class User {
         this.avatar = avatar;
     }
 
+    public MLocation getmLocation() {
+        return mLocation;
+    }
 
+    public void setmLocation(MLocation mLocation) {
+        this.mLocation = mLocation;
+    }
 }
