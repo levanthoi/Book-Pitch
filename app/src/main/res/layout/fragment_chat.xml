@@ -74,7 +74,7 @@
             android:layout_toLeftOf="@id/message_send_btn"
             android:background="@drawable/edit_text_rounded_corner"
             android:elevation="4dp"
-            android:hint="Write message here"
+            android:hint="Nhập tin nhắn"
             android:padding="10dp" />
 
         <ImageButton

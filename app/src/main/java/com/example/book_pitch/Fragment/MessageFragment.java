@@ -18,6 +18,7 @@ import com.example.book_pitch.Activities.MessageItemActivity;
 import com.example.book_pitch.Adapters.MessageGroupAdapter;
 import com.example.book_pitch.Models.MessageGroup;
 import com.example.book_pitch.R;
+import com.example.book_pitch.Utils.FirebaseUtil;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -59,7 +60,9 @@ public class MessageFragment extends Fragment implements MessageGroupAdapter.Mes
                 messageGroupAdapter.notifyDataSetChanged();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     MessageGroup message = snapshot.getValue(MessageGroup.class);
-                    messages.add(message);
+                    if (message.getMembers().contains(FirebaseUtil.currentUserId())) {
+                        messages.add(message);
+                    }
                 }
             }
             @Override
