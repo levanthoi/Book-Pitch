@@ -166,9 +166,29 @@ public class EditProfileActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
+            reGetDataFromFirestore();
             finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void reGetDataFromFirestore() {
+        FirebaseUser mUser = mAuth.getCurrentUser();
+        if(mUser != null) {
+            String userId = mUser.getUid();
+            db.collection("users").document(userId)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.isSuccessful()) {
+
+                            }
+                        }
+                    });
+        }
+
+    }
+
 }

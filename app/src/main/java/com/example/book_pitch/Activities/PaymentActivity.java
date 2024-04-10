@@ -37,6 +37,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -69,7 +70,6 @@ public class PaymentActivity extends AppCompatActivity {
     Price price;
     FirebaseFirestore firestore;
     FirebaseAuth mauth;
-    AtomicInteger id = new AtomicInteger(0);
     static Bill bill = new Bill();
 
     @Override
@@ -158,29 +158,43 @@ public class PaymentActivity extends AppCompatActivity {
         });
 
         btn_detail_booking.setOnClickListener(new View.OnClickListener() {
+            FirebaseUser mUser = mauth.getCurrentUser();
             @Override
             public void onClick(View v) {
                 if(isValid()){
-                    if(mauth.getCurrentUser().getPhoneNumber().isEmpty()) {
-                        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Nhập số điện thoại trước khi thanh toán!", Snackbar.LENGTH_LONG);
+                    if(mUser != null) {
+                        String userId = mUser.getUid();
+                        firestore.collection("users").document(userId)
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if(task.isSuccessful()) {
+                                            if(task.getResult().getString("phoneNumber").equals("+84")) {
+                                                Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Nhập số điện thoại trước khi thanh toán!", Snackbar.LENGTH_LONG);
 
-                        // Thêm một nút vào Snackbar
-                        snackbar.setAction("Thêm", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                // Xử lý sự kiện khi người dùng chọn nút
-                                Intent intent = new Intent(PaymentActivity.this, EditProfileActivity.class);
-                                startActivity(intent);
-                            }
-                        });
+                                                // Thêm một nút vào Snackbar
+                                                snackbar.setAction("Thêm", new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View v) {
+                                                        // Xử lý sự kiện khi người dùng chọn nút
+                                                        Intent intent = new Intent(PaymentActivity.this, EditProfileActivity.class);
+                                                        startActivity(intent);
+                                                    }
+                                                });
 
-                        // Thiết lập màu cho nút
-                        snackbar.setActionTextColor(getResources().getColor(R.color.darkGreen, null));
+                                                // Thiết lập màu cho nút
+                                                snackbar.setActionTextColor(getResources().getColor(R.color.darkGreen, null));
 
-                        // Hiển thị Snackbar
-                        snackbar.show();
-                    } else {
-                        handlePayment();
+                                                // Hiển thị Snackbar
+                                                snackbar.show();
+                                            } else {
+                                                handlePayment();
+                                            }
+                                        }
+                                    }
+                                });
+
                     }
                 }
             }
@@ -251,7 +265,7 @@ public class PaymentActivity extends AppCompatActivity {
             AndroidUtil.showToast(PaymentActivity.this, "Thanh toán thành công");
             sendNotification("Đặt sân"+stadium.getTitle()+"thành công","Sân "+ pitch.getPitch_size() + " - " + pitch.getLabel() +","+price.getFrom_time() + " - " + price.getTo_time()+","+price.getFrom_time());
 
-            addNotificationToFirestore("Đặt sân"+stadium.getTitle()+"thành công","Sân "+ pitch.getPitch_size() + " - " + pitch.getLabel() +","+price.getFrom_time() + " - " + price.getTo_time()+","+price.getFrom_time());
+            addNotificationToFirestore("Đặt sân "+stadium.getTitle()+" thành công","Sân "+ pitch.getPitch_size() + " - " + pitch.getLabel() +", "+price.getFrom_time() + " - " + price.getTo_time()+", "+price.getFrom_time());
         }
 
         @Override
@@ -329,13 +343,15 @@ public class PaymentActivity extends AppCompatActivity {
     private void addNotificationToFirestore(String title, String content) {
         // Khởi tạo Firestore
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Timestamp timestamp = Timestamp.now();
+        String documentId = String.valueOf(timestamp.getSeconds());
         Map<String, Object> notifications = new HashMap<>();
         notifications.put("title", title);
         notifications.put("content", content);
         notifications.put("notificationsType", "notificationPayment");
         // Thêm dữ liệu vào Firestore
         db.collection("notifications")
-                .document(String.valueOf(id.getAndIncrement()))
+                .document(documentId)
                 .set(notifications)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
