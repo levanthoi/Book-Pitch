@@ -48,14 +48,14 @@ public class FavouriteActivity extends AppCompatActivity implements FavouriteAda
         emptyLayout = findViewById(R.id.emptyLayout);
 
         rcl_favourite = findViewById(R.id.rcl_favourite);
-        rcl_favourite.setLayoutManager(new GridLayoutManager(this, 2));
-
         favouriteList = new ArrayList<>();
         FavouriteAdapter = new FavouriteAdapter(favouriteList, this);
-        rcl_favourite.setAdapter(FavouriteAdapter);
 
+            rcl_favourite.setLayoutManager(new GridLayoutManager(this, 1));
+        rcl_favourite.setAdapter(FavouriteAdapter);
         db = FirebaseFirestore.getInstance();
         loadDataFromFirestore();
+
     }
 
     private void loadDataFromFirestore() {

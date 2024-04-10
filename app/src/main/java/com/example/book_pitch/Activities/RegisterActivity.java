@@ -63,6 +63,8 @@ public class RegisterActivity extends Activity {
         checkBox = findViewById(R.id.checkBox);
         fireStore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
+
+
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,6 +103,8 @@ public class RegisterActivity extends Activity {
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
                                     if (task.getResult().isEmpty()) {
+                                        mAuth.getFirebaseAuthSettings()
+                                                .setAppVerificationDisabledForTesting(true);
                                         onClickSendOtpCode(phoneNumber, displayName, address);
                                     } else {
                                         progressBar.setVisibility(View.GONE);
