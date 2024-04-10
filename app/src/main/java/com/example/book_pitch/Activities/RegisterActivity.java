@@ -103,8 +103,6 @@ public class RegisterActivity extends Activity {
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
                                     if (task.getResult().isEmpty()) {
-                                        mAuth.getFirebaseAuthSettings()
-                                                .setAppVerificationDisabledForTesting(true);
                                         onClickSendOtpCode(phoneNumber, displayName, address);
                                     } else {
                                         progressBar.setVisibility(View.GONE);
