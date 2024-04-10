@@ -70,11 +70,6 @@ public class NotificationActivity extends AppCompatActivity {
         noti_oldAdapter = new NotificationAdapter(notificationListOld);
         rcvNoti_old.setAdapter(noti_oldAdapter);
 
-
-
-    /*    Intent intent = new Intent(this, NotiDataMessagingService.class);
-        startService(intent);*/
-
         fetchDataFromFirestore();
     }
 
