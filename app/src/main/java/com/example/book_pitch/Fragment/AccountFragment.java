@@ -149,6 +149,7 @@ public class AccountFragment extends Fragment {
         });
     }
     public static String getFirstLetter(String displayName) {
+        if(displayName == null) return "SM";
         String[] words = displayName.split(" ");
         StringBuilder result = new StringBuilder();
 

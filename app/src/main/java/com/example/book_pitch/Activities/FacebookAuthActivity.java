@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.book_pitch.R;
+import com.example.book_pitch.Utils.UserUtil;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -180,5 +181,6 @@ public class FacebookAuthActivity extends LoginPhoneNumberActivity {
     private void gotoMainActivity() {
         Intent intent = new Intent(FacebookAuthActivity.this, MainActivity.class);
         startActivity(intent);
+        // UserUtil.storeUser(FacebookAuthActivity.this);
     }
 }
