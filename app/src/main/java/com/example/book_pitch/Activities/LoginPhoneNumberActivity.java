@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.example.book_pitch.Fragment.AccountFragment;
 import com.example.book_pitch.R;
+import com.example.book_pitch.Utils.UserUtil;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -226,6 +227,8 @@ public class LoginPhoneNumberActivity extends AppCompatActivity {
     private void gotoMainActivity() {
         Intent intent = new Intent(LoginPhoneNumberActivity.this, MainActivity.class);
         startActivity(intent);
+        UserUtil.storeUser(LoginPhoneNumberActivity.this);
+        finish();
     }
 
     private void gotoVerifyOTPActivity(String phoneNumber, String verificationId) {

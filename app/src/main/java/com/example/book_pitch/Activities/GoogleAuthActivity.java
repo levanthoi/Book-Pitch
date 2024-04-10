@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.book_pitch.R;
+import com.example.book_pitch.Utils.UserUtil;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -150,6 +151,7 @@ public class GoogleAuthActivity extends LoginPhoneNumberActivity {
     private void gotoMainActivity() {
         Intent intent = new Intent(GoogleAuthActivity.this, MainActivity.class);
         startActivity(intent);
+//        UserUtil.storeUser(getApplicationContext());
         finish();
     }
 }

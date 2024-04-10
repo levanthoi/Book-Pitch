@@ -22,8 +22,12 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.book_pitch.Models.MLocation;
+import com.example.book_pitch.Models.User;
 import com.example.book_pitch.R;
 import com.example.book_pitch.Utils.AndroidUtil;
+import com.example.book_pitch.Utils.FirebaseUtil;
+import com.example.book_pitch.Utils.UserUtil;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationAvailability;
 import com.google.android.gms.location.LocationCallback;
@@ -31,11 +35,14 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -43,12 +50,14 @@ public class BottomSheetLocation extends BottomSheetDialogFragment{
     private String latitude, longitude;
     private static final int REQUEST_LOCATION = 101;
     FusedLocationProviderClient fusedLocationProviderClient;
+    private FirebaseFirestore firestore;
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         BottomSheetDialog bottomSheetDialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
         View view = LayoutInflater.from(getContext()).inflate(R.layout.bottom_sheet_location, null);
 
+        firestore = FirebaseFirestore.getInstance();
         bottomSheetDialog.setContentView(view);
         init(view);
         return bottomSheetDialog;
@@ -82,7 +91,7 @@ public class BottomSheetLocation extends BottomSheetDialogFragment{
             public void onSuccess(Location location) {
                 if(location != null) {
                     Log.d("test", "co location");
-
+                    handleLocation(location);
                 }else requestLocation();
             }
         });
@@ -91,16 +100,38 @@ public class BottomSheetLocation extends BottomSheetDialogFragment{
     }
 
     private void handleLocation(Location location) {
-        Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+        Geocoder geocoder = new Geocoder(requireContext(), Locale.getDefault());
         try{
             List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
             latitude = String.valueOf(addresses.get(0).getLatitude());
             longitude = String.valueOf(addresses.get(0).getLongitude());
 
+            MLocation mLocation = new MLocation();
+            mLocation.setId(String.valueOf(new Date()));
+            mLocation.setLatitude(latitude);
+            mLocation.setLongitude(longitude);
+
+            firestore.collection("users").document(FirebaseUtil.currentUserId()).update("mLocation", mLocation).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    User muser = UserUtil.getUser(requireContext());
+                    muser.setmLocation(mLocation);
+                    UserUtil.setUser(requireContext(), muser);
+                    setCancelable(true);
+                    dismiss();
+                    AndroidUtil.showToast(getContext(), "Thành công");
+                }
+            })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            AndroidUtil.showToast(getContext(), "Không thể kết nối");
+                        }
+                    });
+
             Log.d("test", latitude);
             Log.d("test", longitude);
-            dismiss();
-            setCancelable(true);
+
         }catch(IOException e){
             Log.d("test", "catch roi");
             e.printStackTrace();
@@ -126,11 +157,14 @@ public class BottomSheetLocation extends BottomSheetDialogFragment{
         LocationCallback locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(@NonNull LocationResult locationResult) {
+                Log.d("test", "dayy ne");
                 Location location = locationResult.getLastLocation();
+                handleLocation(location);
                 super.onLocationResult(locationResult);
             }
         };
         Log.d("test", "cuoi cugggg");
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
     }
 
     private void askPermission() {
@@ -146,6 +180,7 @@ public class BottomSheetLocation extends BottomSheetDialogFragment{
     @SuppressWarnings("deprecation")
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         Log.d("test", "result");
         if(requestCode == REQUEST_LOCATION) {
             Log.d("test", grantResults.toString());
@@ -153,6 +188,5 @@ public class BottomSheetLocation extends BottomSheetDialogFragment{
                 getMyLocation();
             }
         }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }
