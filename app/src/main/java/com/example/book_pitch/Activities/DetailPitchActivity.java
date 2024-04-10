@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.WindowCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
@@ -24,10 +25,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.book_pitch.Adapters.DetailPitchAdapter;
+import com.example.book_pitch.Adapters.NotificationAdapter;
 import com.example.book_pitch.Adapters.SliderAdapter;
 import com.example.book_pitch.Fragment.BottomSheetFragment;
 import com.example.book_pitch.Fragment.BottomSheetHotline;
 import com.example.book_pitch.Models.Pitch;
+import com.example.book_pitch.Models.Review;
 import com.example.book_pitch.Models.Stadium;
 import com.example.book_pitch.R;
 import com.example.book_pitch.Services.PitchService;
@@ -54,6 +58,13 @@ import java.util.List;
 import java.util.Map;
 
 public class DetailPitchActivity extends AppCompatActivity {
+    String TAG ="DetailPitchActivity";
+    RecyclerView rcvDetail;
+
+    DetailPitchAdapter pitchAdapter;
+
+    List<Review> reviewList;
+
     private ViewPager2 sliderPitch;
     Button btn_booking, btn_contact, btn_direction;
     Toolbar toolbar;
@@ -70,12 +81,19 @@ public class DetailPitchActivity extends AppCompatActivity {
 
         getWindow().setStatusBarColor(Color.parseColor("#198754"));
 
+        rcvDetail = findViewById(R.id.rclReviews);
+        rcvDetail.setLayoutManager(new LinearLayoutManager(this));
+        reviewList = new ArrayList<>();
+        pitchAdapter = new DetailPitchAdapter(reviewList);
+        rcvDetail.setAdapter(pitchAdapter);
+
         handleIntent(getIntent());
         db = FirebaseFirestore.getInstance();
         initView();
         getData();
         render();
         renderPitch();
+        fetchData();
     }
 
     private void handleIntent(Intent intent) {
@@ -85,6 +103,33 @@ public class DetailPitchActivity extends AppCompatActivity {
             Gson gson = new Gson();
             stadium = gson.fromJson(stadium_str, Stadium.class);
         }
+    }
+    private void fetchData() {
+        // Thực hiện truy vấn Firestore để lấy dữ liệu
+        db.collection("review")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            // Xóa dữ liệu cũ trong ArrayList
+                            reviewList.clear();
+
+                            // Lặp qua các tài liệu Firestore và thêm vào ArrayList
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                // Tạo một đối tượng MyModel từ dữ liệu đọc được
+                                Review rv = document.toObject(Review.class);
+
+                                // Thêm đối tượng vào ArrayList
+                                reviewList.add(rv);
+                            }
+                            // Cập nhật RecyclerView bằng cách thông báo cho adapter
+                            pitchAdapter.notifyDataSetChanged();
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 
     private void openBottomSheetContact() {

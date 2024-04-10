@@ -6,8 +6,8 @@ public class Review {
     private String stadium_id;
     private String pitch_id;
     private String comment;
-    private int rating;
-    private int status;
+    private String rating;
+    private String status;
     private int deleted;
     private String created_at;
     private String updated_at;
@@ -15,7 +15,7 @@ public class Review {
     public Review() {
     }
 
-    public Review(String id, String user_id, String stadium_id, String pitch_id, String comment, int rating, int status, int deleted, String created_at, String updated_at) {
+    public Review(String id, String user_id, String stadium_id, String pitch_id, String comment, String rating, String status, int deleted, String created_at, String updated_at) {
         this.id = id;
         this.user_id = user_id;
         this.stadium_id = stadium_id;
@@ -68,19 +68,19 @@ public class Review {
         this.comment = comment;
     }
 
-    public int getRating() {
+    public String getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(String rating) {
         this.rating = rating;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
