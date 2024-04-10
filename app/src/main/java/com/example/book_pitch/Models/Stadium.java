@@ -23,6 +23,7 @@ public class Stadium {
 //    private Location location;
     private int deleted;
     private String avatar;
+    private int status;
 //    private boolean created_at_human;
 //    private int ball_available;
 //    private int bibs_available;
@@ -45,7 +46,7 @@ public class Stadium {
     }
 
 
-    public Stadium(String id,String user_id, String title, String slug, String address, String about_us, String opening_time, String closing_time, String average_rating, List<String> images, String phone, List<Pitch> pitches, int deleted) {
+    public Stadium(String id,String user_id, String title, String slug, String address, String about_us, String opening_time, String closing_time, String average_rating, List<String> images, String phone, int status, int deleted) {
         this.id = id;
         this.user_id = user_id;
         this.title = title;
@@ -58,6 +59,7 @@ public class Stadium {
         this.images = images;
         this.phone = phone;
         this.deleted = deleted;
+        this.status = status;
     }
 
     public Stadium(String id, String title, String average_rating, String phone, String address, String avatar) {
@@ -173,5 +175,21 @@ public class Stadium {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

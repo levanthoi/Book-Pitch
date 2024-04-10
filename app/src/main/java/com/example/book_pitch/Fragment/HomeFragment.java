@@ -45,7 +45,7 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
 
     ImageView btn_noti;
     TextView search_home;
-    PopularAdapter popularAdapter;
+    PopularAdapter popularAdapter, nearMeAdapter;
     FirebaseFirestore firestore;
 
     public HomeFragment() {
@@ -68,11 +68,11 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
         firestore = FirebaseFirestore.getInstance();
 
         init(view);
-        User user = UserUtil.getUser(getContext());
-        if(user!=null){
-            if(user.getmLocation() == null && user.getAddress().isEmpty())
-                handleLocation();
-        }
+//        User user = UserUtil.getUser(getContext());
+//        if(user!=null){
+//            if(user.getmLocation() == null && user.getAddress().isEmpty())
+//                handleLocation();
+//        }
 
         return view;
     }
@@ -83,37 +83,34 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
         btn_noti = view.findViewById(R.id.btn_noti);
         search_home = view.findViewById(R.id.search_home);
 
-//        loading1 = view.findViewById(R.id.loading1);
-//        loading2 = view.findViewById(R.id.loading2);
-
-
-
-//        loading1.setVisibility(View.GONE);
-//        loading2.setVisibility(View.GONE);
-
-
-        recyclerPopular.setLayoutManager(new WrapContentLinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerPopular.setLayoutManager(new WrapContentGridLayoutManager(getActivity(), 2));
         rclNearMe.setLayoutManager(new WrapContentGridLayoutManager(getActivity(), 2));
 
 //        recyclerPopular.setHasFixedSize(true);
         // Khởi tạo FirestoreRecyclerOptions
-        Query query = firestore.collection("stadiums");
-        FirestoreRecyclerOptions<Stadium> options = new FirestoreRecyclerOptions.Builder<Stadium>()
-                .setQuery(query, Stadium.class)
+        Query query_popular = firestore.collection("stadiums").whereEqualTo("status", 1);
+        FirestoreRecyclerOptions<Stadium> options_popular = new FirestoreRecyclerOptions.Builder<Stadium>()
+                .setQuery(query_popular, Stadium.class)
                 .build();
 
         SnapHelper helper = new LinearSnapHelper();
         helper.attachToRecyclerView(recyclerPopular);
         helper.attachToRecyclerView(rclNearMe);
 
-        popularAdapter = new PopularAdapter(options, this);
+        popularAdapter = new PopularAdapter(options_popular, this);
         popularAdapter.notifyDataSetChanged();
         recyclerPopular.setAdapter(popularAdapter);
 
 
-//        rclNearMe.setHasFixedSize(true);
+        Query query_nearme = firestore.collection("stadiums").whereEqualTo("status", 2);
+        FirestoreRecyclerOptions<Stadium> options_nearme = new FirestoreRecyclerOptions.Builder<Stadium>()
+                .setQuery(query_nearme, Stadium.class)
+                .build();
+        nearMeAdapter = new PopularAdapter(options_nearme, this);
 
-        rclNearMe.setAdapter(popularAdapter);
+        nearMeAdapter.notifyDataSetChanged();
+        nearMeAdapter.startListening();
+        rclNearMe.setAdapter(nearMeAdapter);
         rclNearMe.setNestedScrollingEnabled(false);
 
         btn_noti.setOnClickListener(new View.OnClickListener() {
@@ -153,6 +150,7 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
         super.onStart();
         // Bắt đầu lắng nghe sự kiện từ Firestore khi Fragment được hiển thị
         popularAdapter.startListening();
+        nearMeAdapter.startListening();
     }
 
     @Override
@@ -160,6 +158,7 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
         super.onStop();
         // Dừng lắng nghe sự kiện từ Firestore khi Fragment bị ẩn
         popularAdapter.stopListening();
+        nearMeAdapter.stopListening();
     }
 
     private void handleToolbarAnimation(View v) {
