@@ -1,17 +1,20 @@
 package com.example.book_pitch.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Rating;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.book_pitch.Activities.ReviewActivity;
 import com.example.book_pitch.Models.Bill;
 import com.example.book_pitch.Models.Pitch;
 import com.example.book_pitch.Models.Stadium;
@@ -56,6 +59,7 @@ public class PitchBookedAdapter extends RecyclerView.Adapter<PitchBookedAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvTitle, tvAddress, tvNamePitch, tvBeginTime;
         private RatingBar rating_tab;
+        private Button btn_primary;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -64,6 +68,7 @@ public class PitchBookedAdapter extends RecyclerView.Adapter<PitchBookedAdapter.
             tvNamePitch = itemView.findViewById(R.id.tvNamePitch);
             tvBeginTime = itemView.findViewById(R.id.tvBeginTime);
             rating_tab = itemView.findViewById(R.id.rating_tab);
+            btn_primary = itemView.findViewById(R.id.btn_primary);
 
 
             itemView.setOnClickListener(v -> {
@@ -89,6 +94,14 @@ public class PitchBookedAdapter extends RecyclerView.Adapter<PitchBookedAdapter.
                 @Override
                 public void onPitchFetch(Pitch pitch) {
                     tvNamePitch.setText("Sân " + pitch.getPitch_size() + " - " + "1");
+                }
+            });
+
+            btn_primary.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ctx, ReviewActivity.class);
+                    ctx.startActivity(intent);
                 }
             });
 

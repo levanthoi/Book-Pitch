@@ -131,6 +131,7 @@
                         android:layout_weight="1" />
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_primary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/darkGreen"

@@ -82,7 +82,7 @@ public class BottomSheetLocation extends BottomSheetDialogFragment{
             public void onSuccess(Location location) {
                 if(location != null) {
                     Log.d("test", "co location");
-
+                    handleLocation(location);
                 }else requestLocation();
             }
         });
@@ -91,7 +91,7 @@ public class BottomSheetLocation extends BottomSheetDialogFragment{
     }
 
     private void handleLocation(Location location) {
-        Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
         try{
             List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
             latitude = String.valueOf(addresses.get(0).getLatitude());
@@ -126,11 +126,14 @@ public class BottomSheetLocation extends BottomSheetDialogFragment{
         LocationCallback locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(@NonNull LocationResult locationResult) {
+                Log.d("test", "dayy ne");
                 Location location = locationResult.getLastLocation();
+                handleLocation(location);
                 super.onLocationResult(locationResult);
             }
         };
         Log.d("test", "cuoi cugggg");
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
     }
 
     private void askPermission() {
@@ -146,6 +149,7 @@ public class BottomSheetLocation extends BottomSheetDialogFragment{
     @SuppressWarnings("deprecation")
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         Log.d("test", "result");
         if(requestCode == REQUEST_LOCATION) {
             Log.d("test", grantResults.toString());
@@ -153,6 +157,5 @@ public class BottomSheetLocation extends BottomSheetDialogFragment{
                 getMyLocation();
             }
         }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }
