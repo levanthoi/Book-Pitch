@@ -53,7 +53,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         this.News = filteredList;
         notifyDataSetChanged();
     }
-
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         New newsItem = News.get(position);

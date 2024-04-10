@@ -37,8 +37,9 @@
             android:name=".Activities.ReviewActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.Detail_newActivity"
-            android:exported="false" />
+            android:name=".Activities.NotificationActivity"
+            android:exported="false"
+            android:parentActivityName=".Activities.MainActivity"/>
         <activity
             android:name=".Activities.GoogleAuthActivity"
             android:exported="false"
@@ -68,10 +69,6 @@
             android:exported="false"
             android:parentActivityName=".Activities.ProfileActivity" />
         <activity
-            android:name=".Activities.NotificationActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".Activities.SplashScreenActivity"
             android:exported="true"
             android:theme="@style/Theme.App.Starting">
@@ -81,6 +78,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".Services.NotiFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".Activities.WelcomeActivity"
             android:exported="false" /> <!-- Profile -->

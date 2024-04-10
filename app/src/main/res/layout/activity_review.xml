@@ -107,12 +107,20 @@
             android:textColor="@color/gray30"
             android:textSize="@dimen/text_sm" />
 
-        <RadioButton
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
             android:id="@+id/incognito"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
             android:text="Đánh giá ẩn danh" />
+
+        </RadioGroup>
     </LinearLayout>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

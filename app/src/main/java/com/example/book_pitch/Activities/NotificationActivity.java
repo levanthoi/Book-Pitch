@@ -6,12 +6,28 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.os.SystemClock;
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.book_pitch.Adapters.NotificationAdapter;
-import com.example.book_pitch.Models.Notification;
+import com.example.book_pitch.Models.Notifi;
 import com.example.book_pitch.R;
+import com.example.book_pitch.Services.NotiDataMessagingService;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,29 +35,91 @@ import java.util.List;
 public class NotificationActivity extends AppCompatActivity {
     RecyclerView rcvNoti_new, rcvNoti_old;
 
+    NotificationAdapter noti_newAdapter, noti_oldAdapter;
+    private List<Notifi> notificationListNew;
+    private List<Notifi> notificationListOld;
+
+
+    public static final String CHANNEL_ID = "push_notification";
+
+    private FirebaseFirestore fireStore;
+    private FirebaseMessaging fireMessaging;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setTitle("Thông báo");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        fireStore = FirebaseFirestore.getInstance();
+        createNotification();
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(R.string.notification);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         rcvNoti_new = findViewById(R.id.rv_noti_new);
         rcvNoti_old = findViewById(R.id.rv_noti_old);
 
         rcvNoti_new.setLayoutManager(new LinearLayoutManager(this));
-        NotificationAdapter noti_newAdapter = new NotificationAdapter(getNotiList());
+        notificationListNew = new ArrayList<>();
+        noti_newAdapter = new NotificationAdapter(notificationListNew);
         rcvNoti_new.setAdapter(noti_newAdapter);
 
         rcvNoti_old.setLayoutManager(new LinearLayoutManager(this));
-        NotificationAdapter noti_oldAdapter = new NotificationAdapter(getNotiList1());
+        notificationListOld = new ArrayList<>();
+        noti_oldAdapter = new NotificationAdapter(notificationListOld);
         rcvNoti_old.setAdapter(noti_oldAdapter);
 
+        fetchDataFromFirestore();
+    }
+
+        private void fetchDataFromFirestore () {
+            fireStore.collection("notifications")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                QueryDocumentSnapshot lastDocument = null;
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    lastDocument = document;
+                                }
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    // Lấy dữ liệu từ mỗi document và thêm vào danh sách
+                                    String title = document.getString("title");
+                                    String content = document.getString("content");
+                                    if(document.equals(lastDocument)) {
+                                        notificationListNew.add(new Notifi(title,content));
+                                    }
+                                    else {
+                                        notificationListOld.add(new Notifi(title,content));
+                                    }
+                                    /*Notifi noti = document.toObject(Notifi.class);
+                                    notificationList.add(noti);*/
+                                }
+                                // Cập nhật Adapter khi đã lấy được dữ liệu mới
+                                noti_newAdapter.notifyDataSetChanged();
+                                noti_oldAdapter.notifyDataSetChanged();
+
+                            } else {
+                                Log.d("MainActivity", "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+        }
+
+
+
+
+
+    private void createNotification(){
+        if(Build.VERSION.SDK_INT >=Build.VERSION_CODES.S) {
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "PushNotification",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+
+        }
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -52,7 +130,8 @@ public class NotificationActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private List<Notification> getNotiList() {
+
+/*    private List<Notification> getNotiList() {
         List<Notification> list = new ArrayList<>();
 
         for (int i = 1; i <= 7; i++) {
@@ -71,5 +150,6 @@ public class NotificationActivity extends AppCompatActivity {
             list1.add(noti1);
         }
         return list1;
-    }
+    }*/
+
 }

@@ -24,7 +24,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/background_gradient_green_home"
-                    android:paddingVertical="20dp">
+                    android:paddingVertical="24dp">
 
                     <LinearLayout
                         android:id="@+id/relativeLayout"

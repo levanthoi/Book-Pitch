@@ -113,7 +113,7 @@ public class GoogleAuthActivity extends LoginPhoneNumberActivity {
                                                             user.put("displayName", account.getDisplayName());
                                                             user.put("address", "");
                                                             user.put("avatar", "");
-                                                            user.put("phoneNumber", "");
+                                                            user.put("phoneNumber", "+84" + "");
                                                             user.put("gender", "");
                                                             user.put("loginOption","google");
                                                             // Thêm dữ liệu vào Firestore

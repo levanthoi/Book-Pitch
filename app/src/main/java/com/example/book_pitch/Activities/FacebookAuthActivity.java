@@ -126,7 +126,7 @@ public class FacebookAuthActivity extends LoginPhoneNumberActivity {
             user.put("displayName", displayName);
             user.put("address", "");
             user.put("avatar", "");
-            user.put("phoneNumber", "");
+            user.put("phoneNumber", "+84" + "");
             user.put("gender", "");
             user.put("loginOption","facebook");
 

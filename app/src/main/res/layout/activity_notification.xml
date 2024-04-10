@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,90 +7,45 @@
     android:orientation="vertical"
     tools:context=".Activities.NotificationActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <LinearLayout
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/darkGreen"
-        android:elevation="4dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
 
-        />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="1dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Mới nhất"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_noti_new"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView2"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="14dp"
+            android:layout_marginBottom="14dp" />
 
-    <Button
-        android:id="@+id/bt1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="3dp"
-        android:backgroundTint="@color/black"
-        android:text="Tất cả"
-        android:textColor="@color/white" />
-
-    <Button
-        android:id="@+id/bt2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="138dp"
-        android:backgroundTint="@color/white"
-        android:text="Dành cho bạn"
-        android:textColor="@color/black" />
-
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchview1"
-        android:layout_width="400dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/bt1"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="15dp"
-        android:background="@color/gray"
-        android:backgroundTint="@color/white"
-        app:iconifiedByDefault="false"
-        app:queryBackground="@android:color/transparent"
-        app:queryHint="Search">
-
-    </androidx.appcompat.widget.SearchView>
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/searchview1"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="1dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="Mới"
-        android:textColor="@color/black"
-        android:textSize="20sp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_noti_new"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textView2"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="14dp"
-        android:layout_marginBottom="14dp"
-         />
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="1dp"
-        android:layout_below="@id/rv_noti_new"
-        android:fontFamily="sans-serif-medium"
-        android:text="Trước đó"
-        android:textColor="@color/black"
-        android:textSize="20sp" />
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rv_noti_new"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="1dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Trước đó"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_noti_old"
@@ -100,7 +55,8 @@
             android:layout_marginStart="14dp"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="14dp"
-            android:layout_marginBottom="14dp"
-             />
+            android:layout_marginBottom="14dp" />
+    </LinearLayout>
 
-</RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

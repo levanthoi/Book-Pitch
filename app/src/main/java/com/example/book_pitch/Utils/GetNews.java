@@ -1,3 +1,4 @@
+
 package com.example.book_pitch.Utils;
 
 import com.example.book_pitch.Models.New;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class GetNews {
+public class  GetNews {
 
     public interface NewsCallback {
         void onSuccess(ArrayList<New> newsItems);

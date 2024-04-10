@@ -117,6 +117,8 @@ public class HomeFragment extends Fragment implements PopularAdapter.PopularAdap
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), NotificationActivity.class);
+                /*Calendar calendar = Calendar.getInstance();
+                calendar.se*/
                 startActivity(intent);
 
             }
