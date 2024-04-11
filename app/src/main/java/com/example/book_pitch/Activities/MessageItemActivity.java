@@ -36,6 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MessageItemActivity extends AppCompatActivity {
@@ -46,7 +47,7 @@ public class MessageItemActivity extends AppCompatActivity {
 
     private ChatMessage chatMessage;
     private List<ChatMessage> chat_messages;
-
+    private ImageButton btnSearch;
     private EditText messageInput;
     private RecyclerView chat_recycler_view;
     private ImageButton back_btn;
@@ -65,6 +66,7 @@ public class MessageItemActivity extends AppCompatActivity {
         chatMessageRef  = FirebaseDatabase.getInstance().getReference().child("chat_message");
         chat_recycler_view = findViewById(R.id.chat_recycler_view);
         sendButton = findViewById(R.id.message_send_btn);
+
         getKeyUnderMessageGroup();
 
         messageInput = findViewById(R.id.chat_message_input);
@@ -87,8 +89,15 @@ public class MessageItemActivity extends AppCompatActivity {
             String messageGroupJson = intent.getStringExtra("messageGroup");
             Gson gson = new Gson();
             messageGroup = gson.fromJson(messageGroupJson, MessageGroup.class);
+
         }
     }
+
+
+
+
+
+
     private void handleClick(){
         back_btn = findViewById(R.id.back_btn);
         back_btn.setOnClickListener(new View.OnClickListener() {
@@ -162,22 +171,19 @@ public class MessageItemActivity extends AppCompatActivity {
     }
 
     private void sendMessage(String messageContent) {
-        String messageId ;
-        if (chatMessageRef != null && (messageId = chatMessageRef.push().getKey()) != null) {
             long timestamp = System.currentTimeMillis();
-            Bundle args = getIntent().getExtras();
-            if (args != null) {
+
+            if (messageGroup != null) {
                 String groupId = messageGroup.getId();
+                String id = String.valueOf(timestamp);
                 String toId = getToId(messageGroup, FirebaseUtil.currentUserId());
-                ChatMessage message = new ChatMessage(messageGroup.getId(), groupId, FirebaseUtil.currentUserId(), toId, messageContent, String.valueOf(timestamp));
-                chatMessageRef.child(messageId).setValue(message).addOnCompleteListener(new OnCompleteListener<Void>() {
+                ChatMessage message = new ChatMessage(id, groupId, FirebaseUtil.currentUserId(), toId, messageContent, String.valueOf(timestamp));
+                chatMessageRef.child(id).setValue(message).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Log.d("Firebase", "Message sent successfully.");
-                            // Sau khi gửi tin nhắn thành công, cập nhật RecyclerView
-                            chat_messages.add(message);
-                            chatMessageAdapter.notifyDataSetChanged();
+                            Data();
                             // Scroll đến vị trí cuối cùng để hiển thị tin nhắn mới
                             chat_recycler_view.scrollToPosition(chat_messages.size() - 1);
                         } else {
@@ -189,6 +195,6 @@ public class MessageItemActivity extends AppCompatActivity {
             } else {
                 Log.e("ChatFragment", "Bundle args is null");
             }
-        }
+
     }
 }

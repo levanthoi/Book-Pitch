@@ -111,6 +111,11 @@
             android:name=".Activities.RegisterActivity"
             android:exported="false" />
         <activity
+            android:name=".Activities.SearchUserActivity"
+            android:exported="false"
+            android:parentActivityName=".Activities.MessageItemActivity"
+            />
+        <activity
             android:name=".Activities.LoginPhoneNumberActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar" />

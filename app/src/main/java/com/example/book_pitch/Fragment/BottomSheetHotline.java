@@ -21,10 +21,26 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.book_pitch.Activities.MessageItemActivity;
+import com.example.book_pitch.Models.MessageGroup;
 import com.example.book_pitch.Models.Stadium;
 import com.example.book_pitch.R;
+import com.example.book_pitch.Utils.FirebaseUtil;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.gson.Gson;
+
+import org.w3c.dom.Document;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BottomSheetHotline extends BottomSheetDialogFragment {
     private static final int REQUEST_CALL_PHONE = 1;
@@ -103,9 +119,67 @@ public class BottomSheetHotline extends BottomSheetDialogFragment {
     }
 
     private void openMessageItemActivity() {
+        if (stadium != null) {
+            DatabaseReference messageGroupRef = FirebaseDatabase.getInstance().getReference().child("message_group");
+            String currentUserId = FirebaseUtil.currentUserId();
+            String stadiumOwnerId = stadium.getUser_id();
+
+            // Kiểm tra xem có message group nào chứa cả 2 id khong
+            messageGroupRef.orderByChild("members").equalTo(currentUserId + "_" + stadiumOwnerId).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            goToMessageItemActivity(snapshot.getValue(MessageGroup.class));
+                            return;
+                        }
+                    } else {
+                        createAndGoToMessageItemActivity();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(requireContext(), "Failed to check message group.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(requireContext(), "Stadium information is not available", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void createAndGoToMessageItemActivity() {
+        DatabaseReference messageGroupRef = FirebaseDatabase.getInstance().getReference().child("message_group");
+        String currentUserId = FirebaseUtil.currentUserId();
+        String toId = stadium.getUser_id();
+        String groupId = messageGroupRef.push().getKey();
+        List<String>members = new ArrayList<>();
+        members.add(currentUserId);
+        members.add(toId);
+
+        MessageGroup messageGroup = new MessageGroup(groupId, "", members, stadium.getTitle());
+
+        messageGroupRef.child(groupId).setValue(messageGroup).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+
+                    goToMessageItemActivity(messageGroup);
+                } else {
+                    Toast.makeText(requireContext(), "Failed to create message group.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void goToMessageItemActivity(MessageGroup messageGroup) {
         Intent intent = new Intent(getContext(), MessageItemActivity.class);
+        Gson gson = new Gson();
+        intent.putExtra("messageGroup", gson.toJson(messageGroup));
         startActivity(intent);
     }
+
+
 
     private void makePhoneCall() {
         if(ContextCompat.checkSelfPermission(requireContext(),Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED){

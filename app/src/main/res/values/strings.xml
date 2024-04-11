@@ -53,4 +53,6 @@
     <string name="fb_login_protocol_scheme">fb436003159111667</string>
     <string name="facebook_client_token">8366ffc3868ede24239ae6c571ac57f1</string>
 
+    <string name="search_user">Tìm kiếm người dùng</string>
+
 </resources>

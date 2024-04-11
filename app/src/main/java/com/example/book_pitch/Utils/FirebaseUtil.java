@@ -32,6 +32,10 @@ public class FirebaseUtil {
         return fstore.collection("stadiums");
     }
 
+    public static CollectionReference allUserCollectionReference() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        return db.collection("users");
+    }
     public interface OnDataLoadedListener<T> {
         void onDataLoaded(List<T> data);
 
@@ -46,6 +50,7 @@ public class FirebaseUtil {
                     List<Object> dataList = new ArrayList<>();
                     for(QueryDocumentSnapshot document : task.getResult()) {
                         Object data = document.toObject(dataClass);
+                        dataList.add(data);
                     }
                     onDataLoadedListener.onDataLoaded(dataList);
                 }else {
