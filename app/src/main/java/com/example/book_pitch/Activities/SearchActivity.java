@@ -134,7 +134,6 @@ public class SearchActivity extends AppCompatActivity implements PopularAdapter.
         }
 
 
-
         FirestoreRecyclerOptions<Stadium> options = new FirestoreRecyclerOptions.Builder<Stadium>()
                 .setQuery(query, Stadium.class)
                 .build();

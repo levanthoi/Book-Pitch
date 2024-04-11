@@ -2,11 +2,12 @@ package com.example.book_pitch.Models;
 
 public class Review {
     private String id;
+    private String bill_id;
     private String user_id;
     private String stadium_id;
     private String pitch_id;
     private String comment;
-    private int rating;
+    private String rating;
     private int status;
     private int deleted;
     private String created_at;
@@ -15,8 +16,22 @@ public class Review {
     public Review() {
     }
 
-    public Review(String id, String user_id, String stadium_id, String pitch_id, String comment, int rating, int status, int deleted, String created_at, String updated_at) {
+    public Review(String id, String user_id, String stadium_id, String pitch_id, String comment, String rating, int status, int deleted, String created_at, String updated_at) {
         this.id = id;
+        this.user_id = user_id;
+        this.stadium_id = stadium_id;
+        this.pitch_id = pitch_id;
+        this.comment = comment;
+        this.rating = rating;
+        this.status = status;
+        this.deleted = deleted;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
+
+    public Review(String id, String bill_id, String user_id, String stadium_id, String pitch_id, String comment, String rating, int status, int deleted, String created_at, String updated_at) {
+        this.id = id;
+        this.bill_id = bill_id;
         this.user_id = user_id;
         this.stadium_id = stadium_id;
         this.pitch_id = pitch_id;
@@ -68,11 +83,11 @@ public class Review {
         this.comment = comment;
     }
 
-    public int getRating() {
+    public String getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(String rating) {
         this.rating = rating;
     }
 
@@ -106,5 +121,13 @@ public class Review {
 
     public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
+    }
+
+    public String getBill_id() {
+        return bill_id;
+    }
+
+    public void setBill_id(String bill_id) {
+        this.bill_id = bill_id;
     }
 }

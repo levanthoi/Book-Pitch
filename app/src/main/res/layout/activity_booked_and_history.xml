@@ -20,26 +20,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Tất cả"/>
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tab_pending"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Chưa thanh toán"/>
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tab_confirm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Đã đặt cọc"/>
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tab_completed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Hoàn tất"/>
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tab_failed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Đã hủy"/>
+<!--        <com.google.android.material.tabs.TabItem-->
+<!--            android:id="@+id/tab_pending"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Chờ xác nhận"/>-->
+<!--        <com.google.android.material.tabs.TabItem-->
+<!--            android:id="@+id/tab_confirm"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Đã đặt cọc"/>-->
+<!--        <com.google.android.material.tabs.TabItem-->
+<!--            android:id="@+id/tab_completed"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Hoàn tất"/>-->
+<!--        <com.google.android.material.tabs.TabItem-->
+<!--            android:id="@+id/tab_failed"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Đã hủy"/>-->
         
     </com.google.android.material.tabs.TabLayout>
 

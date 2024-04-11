@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +20,7 @@ import com.example.book_pitch.Models.Bill;
 import com.example.book_pitch.Models.Stadium;
 import com.example.book_pitch.R;
 import com.example.book_pitch.Utils.AndroidUtil;
+import com.example.book_pitch.Utils.FirebaseUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
@@ -36,6 +38,7 @@ public class AllFragment extends Fragment implements PitchBookedAdapter.PitchBoo
     private PitchBookedAdapter pitchBookedAdapter;
     private List<Bill> bills;
     private FirebaseFirestore firestore;
+    ConstraintLayout empty;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class AllFragment extends Fragment implements PitchBookedAdapter.PitchBoo
         View view = inflater.inflate(R.layout.fragment_all, container, false);
 
         firestore = FirebaseFirestore.getInstance();
+        bills = new ArrayList<>();
 
         getAllBills();
         init(view);
@@ -51,8 +55,9 @@ public class AllFragment extends Fragment implements PitchBookedAdapter.PitchBoo
 
     private void init(View view) {
         RecyclerView rcv_all_tab = view.findViewById(R.id.rcv_all_tab);
+        empty = view.findViewById(R.id.emptyLayout);
 
-        bills = new ArrayList<>();
+        if(bills.size() == 0) empty.setVisibility(View.VISIBLE);
         rcv_all_tab.setLayoutManager(new LinearLayoutManager(getContext()));
         pitchBookedAdapter = new PitchBookedAdapter(bills, this);
         rcv_all_tab.setAdapter(pitchBookedAdapter);
@@ -60,7 +65,7 @@ public class AllFragment extends Fragment implements PitchBookedAdapter.PitchBoo
         MaterialButton  btn_contact = view.findViewById(R.id.btn_contact);
     }
     private void getAllBills() {
-        firestore.collection("bills").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        firestore.collection("bills").whereEqualTo("user_id", FirebaseUtil.currentUserId()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()) {

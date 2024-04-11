@@ -58,7 +58,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements La
     private String date;
     private Stadium stadium;
     private Price newPrice = new Price();
-    private List<Price> results;
+//    private List<Price> results;
 
     public BottomSheetFragment() {
     }
@@ -94,7 +94,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements La
             }
         });
 
-        results = new ArrayList<>();
+//        results = new ArrayList<>();
         rcl_show_pitch = view.findViewById(R.id.rcl_show_pitch);
         rcl_show_pitch.setLayoutManager(new GridLayoutManager(getContext(), 3));
         return bottomSheetDialog;
@@ -107,8 +107,8 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements La
                 month += 1;
                 date = makeDateString(dayOfMonth, month, year);
                 btnDate.setText(date);
-                newPrice.setFrom_date(date);
-                newPrice.setTo_date(date);
+//                newPrice.setFrom_date(date);
+//                newPrice.setTo_date(date);
             }
         };
 
@@ -159,25 +159,27 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements La
         rcl_durations.setAdapter(new DurationAdapter(pitch.getDurations(), this::onClickDuration));
 
         // set lại giá trị cho duration_selected khi không chọn
-        duration_selected = 0;
-        btnBooking.setVisibility(View.GONE);
+//        duration_selected = 0;
+//        btnBooking.setVisibility(View.GONE);
 
         // list giá các khung giờ
-        if(results.size()>0) {
-            results.clear();
-            rcl_show_pitch.getAdapter().notifyDataSetChanged();
-        }
+//        if(results.size()>0) {
+//            results.clear();
+//            rcl_show_pitch.getAdapter().notifyDataSetChanged();
+//        }
 
     }
 
     @Override
     public void onClickDuration(int duration) {
         duration_selected = duration;
+        List<Price> results = new ArrayList<>();
         if(pitch_selected != null && date != null)
             for (Price price : pitch_selected.getPrices()) {
                 if ((price.getDuration() == duration) && inDate(price)) {
                     int limit = TimeUtil.convertTimeToInt(price.getTo_time());
                     for(int i = TimeUtil.convertTimeToInt(price.getFrom_time()); i<=limit; i+=duration) {
+                        Price newPrice = new Price();
                         newPrice.setId(price.getId());
                         newPrice.setDuration(price.getDuration());
                         newPrice.setFrom_date(date);
@@ -191,6 +193,8 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements La
                     }
                 }
         }
+
+//        Log.d("test", results.toString());
 
         rcl_show_pitch.setAdapter(new ShowPitchAdapter(results, this::onClickShowPitch));
     }
@@ -217,6 +221,8 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements La
                     }else{
                         Intent intent = new Intent(getActivity(), PaymentActivity.class);
                         if(pitch_selected != null && stadium != null) {
+                            price.setFrom_date(date);
+                            price.setTo_date(date);
                             Gson gson = new Gson();
                             intent.putExtra("stadium", gson.toJson(stadium));
                             intent.putExtra("pitch", gson.toJson(pitch_selected));

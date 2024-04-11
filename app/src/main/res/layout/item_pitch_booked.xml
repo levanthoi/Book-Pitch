@@ -27,6 +27,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/avatar_stadium"
                         android:layout_width="100dp"
                         android:layout_height="80dp"
                         android:scaleType="centerCrop"
@@ -117,21 +118,21 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <com.google.android.material.button.MaterialButton
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        android:id="@+id/btn_contact"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="@android:color/transparent"
-                        android:text="Liên hệ ngay"
-                        android:textColor="@color/darkGreen"
-                        app:strokeColor="@color/darkGreen"
-                        app:icon="@drawable/call_phone"
-                        app:iconTint="@color/darkGreen"/>
-                    <Space
-                        android:layout_width="10dp"
-                        android:layout_height="match_parent" />
+<!--                    <com.google.android.material.button.MaterialButton-->
+<!--                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--                        android:id="@+id/btn_contact"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:backgroundTint="@android:color/transparent"-->
+<!--                        android:text="Liên hệ ngay"-->
+<!--                        android:textColor="@color/darkGreen"-->
+<!--                        app:strokeColor="@color/darkGreen"-->
+<!--                        app:icon="@drawable/call_phone"-->
+<!--                        app:iconTint="@color/darkGreen"/>-->
+<!--                    <Space-->
+<!--                        android:layout_width="10dp"-->
+<!--                        android:layout_height="match_parent" />-->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_primary"
                         android:layout_width="0dp"
