@@ -8,7 +8,7 @@ public class Review {
     private String pitch_id;
     private String comment;
     private String rating;
-    private int status;
+    private String status;
     private int deleted;
     private String created_at;
     private String updated_at;
@@ -16,7 +16,7 @@ public class Review {
     public Review() {
     }
 
-    public Review(String id, String user_id, String stadium_id, String pitch_id, String comment, String rating, int status, int deleted, String created_at, String updated_at) {
+    public Review(String id, String user_id, String stadium_id, String pitch_id, String comment, String rating, String status, int deleted, String created_at, String updated_at) {
         this.id = id;
         this.user_id = user_id;
         this.stadium_id = stadium_id;
@@ -29,7 +29,7 @@ public class Review {
         this.updated_at = updated_at;
     }
 
-    public Review(String id, String bill_id, String user_id, String stadium_id, String pitch_id, String comment, String rating, int status, int deleted, String created_at, String updated_at) {
+    public Review(String id, String bill_id, String user_id, String stadium_id, String pitch_id, String comment, String rating, String status, int deleted, String created_at, String updated_at) {
         this.id = id;
         this.bill_id = bill_id;
         this.user_id = user_id;

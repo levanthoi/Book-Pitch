@@ -24,6 +24,8 @@ public class Stadium {
     private int deleted;
     private String avatar;
     private int status;
+    private Double latitude;
+    private Double longitude;
 //    private boolean created_at_human;
 //    private int ball_available;
 //    private int bibs_available;
@@ -69,6 +71,25 @@ public class Stadium {
         this.phone = phone;
         this.address = address;
         this.avatar = avatar;
+    }
+
+    public Stadium(String id, String user_id, String title, String slug, String address, String about_us, String opening_time, String closing_time, String average_rating, List<String> images, String phone, int deleted, String avatar, int status, Double latitude, Double longitude) {
+        this.id = id;
+        this.user_id = user_id;
+        this.title = title;
+        this.slug = slug;
+        this.address = address;
+        this.about_us = about_us;
+        this.opening_time = opening_time;
+        this.closing_time = closing_time;
+        this.average_rating = average_rating;
+        this.images = images;
+        this.phone = phone;
+        this.deleted = deleted;
+        this.avatar = avatar;
+        this.status = status;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public String getId() {
@@ -191,5 +212,21 @@ public class Stadium {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 }

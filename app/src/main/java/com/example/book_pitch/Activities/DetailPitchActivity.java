@@ -256,7 +256,9 @@ public class DetailPitchActivity extends AppCompatActivity {
         btn_direction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openGoogleMap("32.323", "73.2342");
+                if(stadium!=null && stadium.getLatitude() != null && stadium.getLongitude() !=null){
+                    openGoogleMap(String.valueOf(stadium.getLatitude()), String.valueOf(stadium.getLongitude()));
+                }
             }
         });
 
@@ -363,12 +365,12 @@ public class DetailPitchActivity extends AppCompatActivity {
     private void renderPitch() {
         TextView title = findViewById(R.id.detail_pitch_title);
         TextView address = findViewById(R.id.detail_pitch_address);
-        TextView rating = findViewById(R.id.detail_pitch_rating);
+//        TextView rating = findViewById(R.id.detail_pitch_rating);
 
         if(stadium != null){
             title.setText(stadium.getTitle());
             address.setText(stadium.getAddress());
-            rating.setText(stadium.getAverage_rating());
+//            rating.setText(stadium.getAverage_rating());
         }
 
     }
