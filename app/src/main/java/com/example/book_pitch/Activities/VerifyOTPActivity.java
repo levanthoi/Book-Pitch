@@ -199,7 +199,6 @@ public class VerifyOTPActivity extends Activity {
                             @Override
                             public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
                                 Log.d(TAG, "onVerificationCompleted:" + credential);
-
                                 signInWithPhoneAuthCredential(credential);
                             }
                             @Override
@@ -227,6 +226,7 @@ public class VerifyOTPActivity extends Activity {
                         .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
+
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {

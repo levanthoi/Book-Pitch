@@ -63,6 +63,8 @@ public class RegisterActivity extends Activity {
         checkBox = findViewById(R.id.checkBox);
         fireStore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
+
+
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
