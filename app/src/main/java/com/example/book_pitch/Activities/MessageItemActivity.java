@@ -172,8 +172,8 @@ public class MessageItemActivity extends AppCompatActivity {
 
     private void sendMessage(String messageContent) {
             long timestamp = System.currentTimeMillis();
-            Bundle args = getIntent().getExtras();
-            if (args != null) {
+
+            if (messageGroup != null) {
                 String groupId = messageGroup.getId();
                 String id = String.valueOf(timestamp);
                 String toId = getToId(messageGroup, FirebaseUtil.currentUserId());

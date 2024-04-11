@@ -34,7 +34,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.gson.Gson;
+
+import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,22 +121,19 @@ public class BottomSheetHotline extends BottomSheetDialogFragment {
     private void openMessageItemActivity() {
         if (stadium != null) {
             DatabaseReference messageGroupRef = FirebaseDatabase.getInstance().getReference().child("message_group");
-            String currentUserId = FirebaseUtil.currentUserId(); // Thay YOUR_USER_ID bằng ID của người dùng của bạn
-            String stadiumOwnerId = stadium.; // Thay STADIUM_OWNER_ID bằng ID của chủ sân vận động (nếu có)
+            String currentUserId = FirebaseUtil.currentUserId();
+            String stadiumOwnerId = stadium.getUser_id();
 
-            // Kiểm tra xem có message group nào chứa cả ID của bạn và ID của chủ sân vận động không
+            // Kiểm tra xem có message group nào chứa cả 2 id khong
             messageGroupRef.orderByChild("members").equalTo(currentUserId + "_" + stadiumOwnerId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
-                        // Nếu có, lấy ID của message group đầu tiên tìm được và chuyển sang MessageItemActivity
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            String groupId = snapshot.getKey();
-                            goToMessageItemActivity(groupId);
+                            goToMessageItemActivity(snapshot.getValue(MessageGroup.class));
                             return;
                         }
                     } else {
-                        // Nếu không, tạo message group mới và chuyển sang MessageItemActivity
                         createAndGoToMessageItemActivity();
                     }
                 }
@@ -150,17 +150,21 @@ public class BottomSheetHotline extends BottomSheetDialogFragment {
 
     private void createAndGoToMessageItemActivity() {
         DatabaseReference messageGroupRef = FirebaseDatabase.getInstance().getReference().child("message_group");
-        String currentUserId = "YOUR_USER_ID"; // Thay YOUR_USER_ID bằng ID của người dùng của bạn
-        String stadiumOwnerId = "STADIUM_OWNER_ID"; // Thay STADIUM_OWNER_ID bằng ID của chủ sân vận động (nếu có)
+        String currentUserId = FirebaseUtil.currentUserId();
+        String toId = stadium.getUser_id();
         String groupId = messageGroupRef.push().getKey();
-        MessageGroup messageGroup = new MessageGroup(groupId, "", new ArrayList<>(), stadium.getTitle());
-        messageGroup.getMembers().add(currentUserId);
-        messageGroup.getMembers().add(stadiumOwnerId);
+        List<String>members = new ArrayList<>();
+        members.add(currentUserId);
+        members.add(toId);
+
+        MessageGroup messageGroup = new MessageGroup(groupId, "", members, stadium.getTitle());
+
         messageGroupRef.child(groupId).setValue(messageGroup).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    goToMessageItemActivity(groupId);
+
+                    goToMessageItemActivity(messageGroup);
                 } else {
                     Toast.makeText(requireContext(), "Failed to create message group.", Toast.LENGTH_SHORT).show();
                 }
@@ -168,15 +172,13 @@ public class BottomSheetHotline extends BottomSheetDialogFragment {
         });
     }
 
-    private void goToMessageItemActivity(String groupId) {
+    private void goToMessageItemActivity(MessageGroup messageGroup) {
         Intent intent = new Intent(getContext(), MessageItemActivity.class);
-        // Chuyển đối tượng MessageGroup thành chuỗi JSON và gửi qua MessageItemActivity
         Gson gson = new Gson();
-        MessageGroup messageGroup = new MessageGroup(groupId, "", new ArrayList<>(), stadium.getTitle());
-        String messageGroupJson = gson.toJson(messageGroup);
-        intent.putExtra("messageGroup", messageGroupJson);
+        intent.putExtra("messageGroup", gson.toJson(messageGroup));
         startActivity(intent);
     }
+
 
 
     private void makePhoneCall() {
